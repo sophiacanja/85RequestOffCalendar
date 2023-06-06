@@ -85,6 +85,7 @@ usersRouter.put("/updateUser", async (req, res) => {
     }
 });
 
+// http:localhost:4000/users/deleteUser?employeeID=<ID>
 usersRouter.delete("/deleteUser", async (req,res) => {
     try {
         const userInfo = req.body

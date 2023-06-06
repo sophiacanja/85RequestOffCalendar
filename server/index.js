@@ -8,12 +8,12 @@ app.use(cors({
 }));
 
 const { usersRouter } = require("./routes/usersRouter.js");
-// const { calendarRequestsRouter } = require("TODO");
+const { calendarRequestsRouter } = require("./routes/CalendarRequestsRouter.js");
 
 
 app.use(express.json());   
 app.use('/users', usersRouter);
-// app.use('/calendar', calendarRequestsRouter);
+app.use('/calendar', calendarRequestsRouter);
 
 
 mongoose.connect('mongodb://localhost:27017/85RequestOffCalendarDatabase').then(() => console.log("connected to 85RequestOffCalendar Database")).catch((err) => console.error(err));
@@ -21,4 +21,3 @@ mongoose.connect('mongodb://localhost:27017/85RequestOffCalendarDatabase').then(
 app.listen(4000, () => {
     console.log("server online!");
 });
-
