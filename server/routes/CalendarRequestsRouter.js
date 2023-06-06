@@ -23,10 +23,10 @@ calendarRequestsRouter.post("/createRequest", async (req, res) => {
         if( await IncorrectDate(dates)){        //throws error if this is date entered 123-1-2023
             message = "Please check the format of your date request"
         }
-        if( await DateAlreadyExists(dates)){
-            message = "Date already requested"
+        if( await DateAlreadyExists(dates,empID)){
+            message = "One or more dates already requested"
         }
-        if(dates.length === 0 || await IncorrectDate(dates) || await DateAlreadyExists(dates)){
+        if(message){
             return res.status(400).send({
                 success : false,
                 message : message
@@ -92,11 +92,47 @@ calendarRequestsRouter.delete("/deleteRequest", async (req, res) => {
 
 
 
-calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //invalid date, no date, multiple requests  
-    const date = new Date(req.query.date)
+calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //invalid date, no date, multiple requests 
+        try{ 
+            const date = new Date(req.query.date)
+            const checkDate = [req.query.date]
+            let message;
 
-    //check if invalid date or 
+            //check edge cases: no date given, invalid date 
+            if(!req.query.date){
+                message = "No date was entered"
+            }
+            if(await IncorrectDate(checkDate)){         //TODO: Fix error thrown by incorrectdate()
+                message = "Please check the format of your date request"
+            }
+            if(message){
+                return res.status(400).send({
+                    success : false,
+                    message : message
+                })
+            }
 
+            // finds all requests made for the date 
+            const requestsForDate = await CalendarRequestsModel.find({date: date})
+
+            if(requestsForDate.length === 0) {
+                return res.status(400).send({
+                    success: false,
+                    message: "There are no requests for that date"
+                })
+            }
+
+            return res.status(200).send({
+                success: true, 
+                message: "Successfully returned all requests for given date"
+            })
+
+
+        } catch (err) {
+            return res.status(500).send({ 
+                error: err 
+            });
+        }
 
 });
 
@@ -104,25 +140,31 @@ calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //in
 
 //helper function for createRequest that returns true if dates[] passed in has an incorrect format 
 const IncorrectDate = async (dates) => {
-    // regex format mm-dd-yyyy
-    const dateRegex = /^(0[1-9]|1[0-2])-(0[1-9]|1\d|2\d|3[01])-(\d{4})$/;
+    // regex format mm/dd/yyyy
+    const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(\d{4})$/;
     for(const date of dates){
 
         //checks if correct format or date exists in database
         if(!dateRegex.test(date)){
+            console.log(dateRegex)
             return true
         }
     }
     return false
 };
 
-//helper function for createRequest that returns true if dates[] passed in have already been requested
-const DateAlreadyExists = async (dates) => {
-    for (const date of dates) {
-        //checks if date is already in the database
-        const dateExistsForUser = await CalendarRequestsModel.findOne({ date: date })
-        if(dateExistsForUser){
-            return true
+//helper function for createRequest that returns true if dates[] passed in have already been requested by given employee
+//!PENDINGDATES NEED TO BE PASSED IN "MM/DD/YYYY" due to comparison. Dates stored in database has "MM/DD/YYYY" format
+const DateAlreadyExists = async (pendingDates,empID) => {
+    //finds all requests made by the given employee ID
+    const requestsForEmployee = await CalendarRequestsModel.find({ employeeID: empID })
+
+    //goes through all requests in database and returns true if the pendingDate is already within database
+    for (const request of requestsForEmployee) {
+        for(const pendingDate of pendingDates){
+            if(request.date === pendingDate){
+                return true
+            }
         }
     }
     return false
