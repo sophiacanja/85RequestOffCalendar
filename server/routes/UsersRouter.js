@@ -57,14 +57,14 @@ usersRouter.post("/createUser", async (req, res) => {
     }
 });
 
-
+// http://localhost:4000/users/updateUser?employeeID=<ID>
 usersRouter.put("/updateUser", async (req, res) => {
     try {
         const updatedUserInfo = req.body;
-        const objID = req.query.employeeID      //TODO: find a way to identify user through employee ID 
-        const updateUser = await UserModel.findByIdAndUpdate(objID, updatedUserInfo, {new:true})
+        const ID = req.query.employeeID    
+        const updateUser = await UserModel.findOneAndUpdate({employeeID: ID}, updatedUserInfo, {new:true})
       
-        if(!updateUser){
+        if(!updateUser){S
             return res.status(400).send({
             success: false,
             message: "Update unsucessful" 
@@ -76,6 +76,32 @@ usersRouter.put("/updateUser", async (req, res) => {
             success: true,
             message: "User successfully updated",
             data: updatedUserInfo
+        })
+
+    } catch (err){
+        return res.status(500).send({ 
+            error: err 
+        });
+    }
+});
+
+usersRouter.delete("/deleteUser", async (req,res) => {
+    try {
+        const userInfo = req.body
+        const ID = req.query.employeeID
+        const deletedUser = await UserModel.findOneAndDelete({employeeID: ID});
+
+        if(!deletedUser){
+                return res.status(400).send({
+                success: false,
+                message: "Unable to delete user"
+            })
+        }
+
+        //delete user is successful
+        return res.status(200).send({
+            success: true,
+            message: "User successfully deleted"
         })
 
     } catch (err){
