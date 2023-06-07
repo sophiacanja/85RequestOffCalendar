@@ -4,29 +4,79 @@ const CalendarRequestsModel =  require("../models/CalendarRequests.js");
 // const bcrypt = require("bcrypt"); //! for salt and hashing
 
 //! Calendar Requests API Calls
-//createRequest, changeRequest, deleteRequest
+//createRequest, deleteRequest, getAllRequestsForDate
 
+/**
+ * Calendar Request API Calls
+ * **************************************************** 
+ * 
+ * Create Calendar Request(s)
+ * @URL http://localhost:4000/calendar/createRequest
+ * 
+ * @params_and_body
+ * - no query variables
+ * - body consists of the following:
+ * {
+ *      firstName: "string",
+ *      lastName: "string",
+ *      empID: 123,
+ *      dates: ["MM/DD/YYYY", "MM/DD/YYYY", ...]
+ * }
+ * 
+ * **************************************************** 
+ * 
+ * Delete Calendar Request(s)
+ * @URL http://localhost:4000/calendar/deleteRequest?date=<date (MM/DD/YYYY)>
+ * - date query variable definition should follow format MM/DD/YYYY
+ * 
+ * @params_and_body
+ * - date query variable (as mentioned in URL section)
+ * - no body needed
+ * 
+ * *************************************************** 
+ * 
+ * Get all requests for specific date
+ * @URL http://localhost:4000/calendar/getAllRequestsForDate?date=<date (mm/dd/yyyy)>
+ * - date query variable definition should follow format MM/DD/YYYY
+ * 
+ * @params_and_body
+ * 
+ * **************************************************** 
+ */
+
+
+// http://localhost:4000/calendar/createRequest
 calendarRequestsRouter.post("/createRequest", async (req, res) => { 
-    //TODO: make smtp request 
+    //TODO: make smtp request - sends update noti to admin(s)
     
+/*
+    body consists of the following:
+    {
+        firstName : "string",
+        lastName : "string",
+        empID : 123,
+        dates : ["MM/DD/YYYY", "MM/DD/YYYY", ...]
+    }
+*/
     try {
-        const dates = req.body.dates
         const firstName = req.body.firstName
         const lastName = req.body.lastName
         const empID = req.body.employeeID
-        let message
-        
+        const dates = req.body.dates
+
+        let message = "";
+
         //handling edge cases: empty array, wrong format, already there
         if(dates.length === 0){ 
             message = "No date was entered"
         }
-        if( await IncorrectDate(dates)){        //throws error if this is date entered 123-1-2023
+        if(await IncorrectDate(dates)){        //throws error if this is date entered 123-1-2023
             message = "Please check the format of your date request"
         }
-        if( await DateAlreadyExists(dates,empID)){
+        if( await DateAlreadyExists(dates, empID)){
             message = "One or more dates already requested"
         }
-        if(message){
+        if(message.length > 0){
             return res.status(400).send({
                 success : false,
                 message : message
@@ -34,23 +84,21 @@ calendarRequestsRouter.post("/createRequest", async (req, res) => {
         }
         
 
-
         //create and save a new calendar request for each date 
         for(const date of dates){   
-            const calendarRequest = new CalendarRequestsModel({
-                employeeID: empID, 
+            const calendarRequest = new CalendarRequestsModel({ 
                 firstName: firstName,
                 lastName: lastName,
+                employeeID: empID,
                 date: date
             })
-            await calendarRequest.save(); 
+            await calendarRequest.save();
         }
 
         //sends success message
         return res.status(200).send({
             success: true,
             message: "Requests successfully created"
-           
         });
 
     } catch (err) {
@@ -61,8 +109,9 @@ calendarRequestsRouter.post("/createRequest", async (req, res) => {
 });
 
 
+// http://localhost:4000/calendar/deleteRequest?empID=<ID>&date=<date (mm/dd/yyyy)>
 calendarRequestsRouter.delete("/deleteRequest", async (req, res) => { 
-    //TODO: make smtp request 
+    //TODO: make smtp request (don't necessarily need????)
     
     try {
         const date = new Date(req.query.date)
@@ -91,7 +140,7 @@ calendarRequestsRouter.delete("/deleteRequest", async (req, res) => {
 });
 
 
-
+//http://localhost:4000/calendar/getAllRequestsForDate?date=<date (mm/dd/yyyy)>
 calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //invalid date, no date, multiple requests 
         try{ 
             const date = new Date(req.query.date)
@@ -102,7 +151,7 @@ calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //in
             if(!req.query.date){
                 message = "No date was entered"
             }
-            if(await IncorrectDate(checkDate)){         //TODO: Fix error thrown by incorrectdate()
+            if(await IncorrectDate(checkDate)){         //TODO: Fix error thrown by incorrectdate() (fixed...? wasn't broken to begin with; have no context for what threw errors)
                 message = "Please check the format of your date request"
             }
             if(message){
@@ -116,15 +165,17 @@ calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //in
             const requestsForDate = await CalendarRequestsModel.find({date: date})
 
             if(requestsForDate.length === 0) {
-                return res.status(400).send({
-                    success: false,
-                    message: "There are no requests for that date"
+                return res.status(200).send({
+                    success: true,
+                    message: "There are no requests for that date",
+                    data: []
                 })
             }
 
             return res.status(200).send({
                 success: true, 
-                message: "Successfully returned all requests for given date"
+                message: "Successfully returned all requests for given date",
+                data: requestsForDate
             })
 
 
@@ -146,16 +197,15 @@ const IncorrectDate = async (dates) => {
 
         //checks if correct format or date exists in database
         if(!dateRegex.test(date)){
-            console.log(dateRegex)
-            return true
+            return true;
         }
     }
-    return false
+    return false;
 };
 
 //helper function for createRequest that returns true if dates[] passed in have already been requested by given employee
 //!PENDINGDATES NEED TO BE PASSED IN "MM/DD/YYYY" due to comparison. Dates stored in database has "MM/DD/YYYY" format
-const DateAlreadyExists = async (pendingDates,empID) => {
+const DateAlreadyExists = async (pendingDates, empID) => {
     //finds all requests made by the given employee ID
     const requestsForEmployee = await CalendarRequestsModel.find({ employeeID: empID })
 
@@ -163,17 +213,12 @@ const DateAlreadyExists = async (pendingDates,empID) => {
     for (const request of requestsForEmployee) {
         for(const pendingDate of pendingDates){
             if(request.date === pendingDate){
-                return true
+                return true;
             }
         }
     }
-    return false
+    return false;
 }
-
-
-
-
-
 
 
 module.exports = {

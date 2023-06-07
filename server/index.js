@@ -7,7 +7,7 @@ app.use(cors({
     origin: "http://localhost:3000"
 }));
 
-const { usersRouter } = require("./routes/usersRouter.js");
+const { usersRouter } = require("./routes/UsersRouter.js");
 const { calendarRequestsRouter } = require("./routes/CalendarRequestsRouter.js");
 
 

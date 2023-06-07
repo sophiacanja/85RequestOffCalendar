@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema({
       },
     password: { type: String, required: true },
     admin: { type: String, required: true, default: "false" }
-
 });
 
 const UserModel = mongoose.model("users", UserSchema); // name of collection, name of model/schema
