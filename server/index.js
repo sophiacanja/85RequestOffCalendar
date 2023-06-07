@@ -7,14 +7,13 @@ app.use(cors({
     origin: "http://localhost:3000"
 }));
 
-// const { UsersRouter } = require("./routes/UsersRouter.js");
-// const { CalendarRequestsRouter } = require("./routes/CalendarRequestsRouter.js");
-// const { AdminRouter } = require("./routes/AdminRouter.js")
+const { usersRouter } = require("./routes/UsersRouter.js");
+const { calendarRequestsRouter } = require("./routes/CalendarRequestsRouter.js");
 
-app.use(express.json());
-// app.use('/users', UsersRouter);
-// app.use('/calendar', CalendarRequestsRouter);
-// app.use('/admin', AdminRouter);
+
+app.use(express.json());   
+app.use('/users', usersRouter);
+app.use('/calendar', calendarRequestsRouter);
 
 
 mongoose.connect('mongodb://localhost:27017/85RequestOffCalendarDatabase').then(() => console.log("connected to 85RequestOffCalendar Database")).catch((err) => console.error(err));
@@ -22,4 +21,3 @@ mongoose.connect('mongodb://localhost:27017/85RequestOffCalendarDatabase').then(
 app.listen(4000, () => {
     console.log("server online!");
 });
-
