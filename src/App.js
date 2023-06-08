@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+
+// components for pages
+import Home from './components/Home';
+import Login from "./components/Login";
+import Logout from './components/Logout';
+import UpdateAccount from './components/UpdateAccount';
+import AdminHome from './components/Admin/AdminHome';
+import AdminLogin from './components/Admin/AdminLogin';
+import AdminManagement from './components/Admin/AdminManagement';
+import UnknownPage from './components/UnknownPage';
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+//TODO: navbar
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        {/* <Navbar /> */}
+        <Routes>
+          <Route path='/' exact element={<Home />} />
+
+          <Route path='/login' element={<Login />} />
+
+          <Route path='/logout' element={<Logout />} />
+
+          <Route path='/updateAccount' element={<UpdateAccount />} />
+
+          <Route path='/adminHome' element={<AdminHome />} />
+
+          <Route path='/adminLogin' element={<AdminLogin />} />
+
+          <Route path='/adminManagement' element={<AdminManagement />} />
+      
+          <Route path='*' element={<UnknownPage />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
