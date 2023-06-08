@@ -4,9 +4,7 @@ const UserModel =  require("../models/Users.js");
 // const bcrypt = require("bcrypt"); //! for salt and hashing
 
 /**
- * User API Calls
  * **************************************************** 
- * 
  * Login
  * @URL http://localhost:4000/users/login?empID=<ID>&pw=<password>
  * - empID: the employee ID
@@ -15,53 +13,8 @@ const UserModel =  require("../models/Users.js");
  * @params_and_body
  * - query variables (mentioned in URL section)
  * - no body included
- * 
  * **************************************************** 
- *  
- * Create User
- * @URL http://localhost:4000/users/createUser
- * 
- * @params_and_body
- * - no query variables
- * - body consists of the following: 
- *     {
- *       firstName: "string",
- *       lastName: "string",
- *       employeeID: 1234,
- *       email : "string",
- *       password : "string"
- *     }
- * 
- * **************************************************** 
- *  
- * Update User Info
- * @URL http://localhost:4000/users/updateUser?employeeID=<ID>
- * - employee ID query variable
- * 
- * @params_and_body
- * - one query variable (employee ID)
- * - body consists of the following: 
- *     {
- *       firstName: "string",
- *       lastName: "string",
- *       employeeID: 1234,
- *       email : "string",
- *       password : "string"
- *     }
- * 
- * **************************************************** 
- * 
- * Delete User
- * @URL http://localhost:4000/users/deleteUser?employeeID=<employee ID>
- * - employee ID query variable
- * 
- * @params_and_body
- * - one query variable (employee ID)
- * - no body needed
- * 
- * ****************************************************  
  */
-
 // http://localhost:4000/users/login?empID=<ID>&pw=<password given>
 usersRouter.get("/login", async(req, res) => {
     try {
@@ -89,18 +42,26 @@ usersRouter.get("/login", async(req, res) => {
 });
 
 
+/**
+ * ****************************************************
+ * Create User
+ * @URL http://localhost:4000/users/createUser
+ * 
+ * @params_and_body
+ * - no query variables
+ * - body consists of the following: 
+ *     {
+ *       firstName: "string",
+ *       lastName: "string",
+ *       employeeID: 1234,
+ *       email : "string",
+ *       password : "string"
+ *     }
+ * **************************************************** 
+ */
 // http://localhost:4000/users/createUser
 usersRouter.post("/createUser", async (req, res) => {
-/* 
-    body consists of the following:
-    {
-        firstName: "string",
-        lastName: "string",
-        employeeID: 1234,
-        email : "string",
-        password : "string"
-    }
-*/
+
     try {
         const userInfo = req.body;
         const userExists = await UserModel.findOne({ employeeID: userInfo.employeeID });
@@ -135,6 +96,25 @@ usersRouter.post("/createUser", async (req, res) => {
     }
 });
 
+
+/**
+ * ****************************************************   
+ * Update User Info
+ * @URL http://localhost:4000/users/updateUser?employeeID=<ID>
+ * - employee ID query variable
+ * 
+ * @params_and_body
+ * - one query variable (employee ID)
+ * - body consists of the following: 
+ *     {
+ *       firstName: "string",
+ *       lastName: "string",
+ *       employeeID: 1234,
+ *       email : "string",
+ *       password : "string"
+ *     }
+ * **************************************************** 
+ */
 // http://localhost:4000/users/updateUser?employeeID=<ID>
 usersRouter.put("/updateUser", async (req, res) => {
 /*
@@ -183,6 +163,17 @@ usersRouter.put("/updateUser", async (req, res) => {
     }
 });
 
+/**
+ * **************************************************** 
+ * * Delete User
+ * @URL http://localhost:4000/users/deleteUser?employeeID=<employee ID>
+ * - employee ID query variable
+ * 
+ * @params_and_body
+ * - one query variable (employee ID)
+ * - no body needed
+ * ****************************************************  
+ */
 
 // http:localhost:4000/users/deleteUser?employeeID=<ID>
 usersRouter.delete("/deleteUser", async (req, res) => {

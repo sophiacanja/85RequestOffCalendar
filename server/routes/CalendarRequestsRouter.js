@@ -4,12 +4,9 @@ const CalendarRequestsModel =  require("../models/CalendarRequests.js");
 // const bcrypt = require("bcrypt"); //! for salt and hashing
 
 //! Calendar Requests API Calls
-//createRequest, deleteRequest, getAllRequestsForDate
 
 /**
- * Calendar Request API Calls
- * **************************************************** 
- * 
+ * ***************************************************
  * Create Calendar Request(s)
  * @URL http://localhost:4000/calendar/createRequest
  * 
@@ -22,42 +19,12 @@ const CalendarRequestsModel =  require("../models/CalendarRequests.js");
  *      empID: 123,
  *      dates: ["MM/DD/YYYY", "MM/DD/YYYY", ...]
  * }
- * 
- * **************************************************** 
- * 
- * Delete Calendar Request(s)
- * @URL http://localhost:4000/calendar/deleteRequest?date=<date (MM/DD/YYYY)>
- * - date query variable definition should follow format MM/DD/YYYY
- * 
- * @params_and_body
- * - date query variable (as mentioned in URL section)
- * - no body needed
- * 
- * *************************************************** 
- * 
- * Get all requests for specific date
- * @URL http://localhost:4000/calendar/getAllRequestsForDate?date=<date (mm/dd/yyyy)>
- * - date query variable definition should follow format MM/DD/YYYY
- * 
- * @params_and_body
- * 
  * **************************************************** 
  */
-
 
 // http://localhost:4000/calendar/createRequest
 calendarRequestsRouter.post("/createRequest", async (req, res) => { 
     //TODO: make smtp request - sends update noti to admin(s)
-    
-/*
-    body consists of the following:
-    {
-        firstName : "string",
-        lastName : "string",
-        empID : 123,
-        dates : ["MM/DD/YYYY", "MM/DD/YYYY", ...]
-    }
-*/
     try {
         const firstName = req.body.firstName
         const lastName = req.body.lastName
@@ -109,6 +76,18 @@ calendarRequestsRouter.post("/createRequest", async (req, res) => {
 });
 
 
+/**
+ * ****************************************************
+ * Delete Calendar Request(s)
+ * @URL http://localhost:4000/calendar/deleteRequest?date=<date (MM/DD/YYYY)>
+ * - date query variable definition should follow format MM/DD/YYYY
+ * 
+ * @params_and_body
+ * - date query variable (as mentioned in URL section)
+ * - no body needed
+ * ****************************************************
+ */
+
 // http://localhost:4000/calendar/deleteRequest?empID=<ID>&date=<date (mm/dd/yyyy)>
 calendarRequestsRouter.delete("/deleteRequest", async (req, res) => { 
     //TODO: make smtp request (don't necessarily need????)
@@ -140,6 +119,16 @@ calendarRequestsRouter.delete("/deleteRequest", async (req, res) => {
 });
 
 
+ /** *************************************************** 
+ * Get all requests for specific date
+ * @URL http://localhost:4000/calendar/getAllRequestsForDate?date=<date (mm/dd/yyyy)>
+ * - date query variable definition should follow format MM/DD/YYYY
+ * 
+ * @params_and_body
+ * - date query variable (as mentioned in URL section)
+ * - no body needed
+ * ***************************************************
+ */
 //http://localhost:4000/calendar/getAllRequestsForDate?date=<date (mm/dd/yyyy)>
 calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //invalid date, no date, multiple requests 
         try{ 
@@ -151,7 +140,7 @@ calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //in
             if(!req.query.date){
                 message = "No date was entered"
             }
-            if(await IncorrectDate(checkDate)){         //TODO: Fix error thrown by incorrectdate() (fixed...? wasn't broken to begin with; have no context for what threw errors)
+            if(await IncorrectDate(checkDate)){        
                 message = "Please check the format of your date request"
             }
             if(message){
@@ -188,6 +177,49 @@ calendarRequestsRouter.get("/getAllRequestsForDate", async (req, res) => {  //in
 });
 
 
+
+
+/**
+ * **************************************************** 
+ * Get all request(s) for specific user
+ * @URL http://localhost:4000/calendar/getAllRequestsForOneUser?employeeID=<empID>
+ * -employee ID query variable 
+ * 
+ * @params_and_body
+ * - employee ID query variable (mentioned above)
+ * - no body needed
+ * ****************************************************
+ */
+//http://localhost:4000/calendar/getAllRequestsForOneUser?employeeID=<empID>
+calendarRequestsRouter.get("/getAllRequestsForOneUser", async (req, res) => { 
+    try{
+        const empID = req.query.employeeID 
+        
+        //error check if empID is valid
+        if(!empID){
+            return res.status(400).send({
+                success: false,
+                message: "Invalid employee ID",
+                data: null
+            })
+        }
+
+        //finds all requests made by given employee ID
+        const userRequests = await CalendarRequestsModel.find({employeeID : empID})
+
+        return res.status(200).send({
+            success: true,
+            message: "Successfully retreived all requests",
+            data: userRequests
+        })
+
+
+    } catch (err) {
+        return res.status(500).send({ 
+            error: err 
+        });
+    }
+});
 
 //helper function for createRequest that returns true if dates[] passed in has an incorrect format 
 const IncorrectDate = async (dates) => {
