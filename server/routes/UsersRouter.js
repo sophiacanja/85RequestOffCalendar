@@ -165,7 +165,7 @@ usersRouter.put("/updateUser", async (req, res) => {
 
 /**
  * **************************************************** 
- * * Delete User
+ * Delete User
  * @URL http://localhost:4000/users/deleteUser?employeeID=<employee ID>
  * - employee ID query variable
  * 
@@ -202,6 +202,50 @@ usersRouter.delete("/deleteUser", async (req, res) => {
     }
 });
 
+
+
+/**
+ * **************************************************** 
+ * Checks if user is admin or not
+ * @URL http://localhost:4000/users/userIsAdmin?employeeID=<emp ID>
+ * - employee ID query variable
+ * 
+ * @params_and_body
+ * - one query variable (employee ID)
+ * - no body needed
+ * ****************************************************  
+ */
+usersRouter.get("/userIsAdmin", async (req, res) => {
+    try {
+        const empID = req.query.employeeID;
+
+        const adminStatus = await UserModel.findOne({employeeID: empID});
+        if(!adminStatus){
+            return res.status(400).send({
+                success: false,
+                message: "Not a valid employee ID"
+            })
+        }
+
+        if(adminStatus.admin === "true"){
+            return res.status(200).send({
+                success: true,
+                message: "Successfully found admin status",
+                data: "true"
+            });
+        }
+
+        return res.status(200).send({
+            success: true,
+            message: "Successfully found admin status",
+            data: "false"
+        })
+    } catch (err){
+        return res.status(500).send({
+            error: err
+        });
+    }
+});
 
 /**
  * Validates user information using regular expressions.
