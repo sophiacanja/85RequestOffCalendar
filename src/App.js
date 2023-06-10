@@ -1,6 +1,7 @@
 import React from 'react';
 
 // components for pages
+import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from "./components/Login";
 import Logout from './components/Logout';
@@ -18,7 +19,7 @@ function App() {
   return (
     <>
       <Router>
-        {/* <Navbar /> */}
+        <Navbar />
         <Routes>
           <Route path='/' exact element={<Home />} />
 
