@@ -2,6 +2,7 @@ const express = require("express");
 const usersRouter = express.Router();
 const UserModel =  require("../models/Users.js");
 const { useRef } = require("react");
+const jwt = require('jsonwebtoken');
 // const bcrypt = require("bcrypt"); //! for salt and hashing
 
 /**
@@ -22,29 +23,51 @@ usersRouter.get("/login", async(req, res) => {
         const ID = req.query.empID;  //req.query.empID "empID" must match key value on postman 
         const pw = req.query.pw;
 
-        if(validateLogin(ID,pw) === true){   //checks if user is invalid   
-            const user = await UserModel.findOne({ employeeID: empID });  // request layout = {userSchema : queryID} 
+        const {success, user} = await validateLogin(ID,pw)
+        if(success){   //checks if user is invalid   
             return res.status(200).send({
-                success: true,
                 message: "successfully logged in!",
                 data: user
             })
 
         }
         return res.status(400).send({
-            success: false,
             message: "Invalid ID or password",
             data: null
         });
 
 
     } catch (err) {
+        console.error(err)
         return res.status(500).send({ error: err });
     }
 });
 
-usersRouter.post("token", (req, res) => {
-    const { empID, password} = req.body
+usersRouter.post("/token", async (req, res) => {
+    try{
+        const ID = req.body.empID
+        const pw = req.body.pw
+        //TODO store key as an environment var
+
+        const {success, user} = await validateLogin(ID,pw)
+        if(success) {
+            const id = user.id
+            const token = jwt.sign({ id }, "51c1fd9fa709c4c4bbbd6ef2d21c68e0ccb4090b3fb1f827b85bed56920778e9", {
+                expiresIn: 300, //five minutes before token expires
+            })
+            return res.send({token})
+    
+
+        }
+
+        return res.send({message: "invalid login credentials"})
+        
+        
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({ message: "Error occured" });
+    }
+
 
 })
 
@@ -152,7 +175,7 @@ usersRouter.put("/updateUser", async (req, res) => {
         if(!updateUser){
             return res.status(400).send({
                 success: false,
-                message: "Update unsucessful" 
+                message: "Update unsuccessful" 
             })
         }
 
@@ -328,13 +351,15 @@ const RegexValidation = async (userInfo) => {
 const validateLogin = async (empID, password)  => {
     try {
         const user = await UserModel.findOne({ employeeID: empID });  // request layout = {userSchema : queryID}
-        if(!user || user.password != password){
-            return false
+        if(!user || user.password !== password){
+            // console.log("F")
+            return {success: false, user: null}
         }
-        return true
+        // console.log("T")
+        return {success: true, user}
 
     } catch (err) {
-        return res.status(500).send({ error: err });
+        throw new Error("Login validation failed");
     }
 };
 
