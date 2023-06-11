@@ -1,6 +1,7 @@
 const express = require("express");
 const usersRouter = express.Router();
 const UserModel =  require("../models/Users.js");
+const { useRef } = require("react");
 // const bcrypt = require("bcrypt"); //! for salt and hashing
 
 /**
@@ -21,25 +22,31 @@ usersRouter.get("/login", async(req, res) => {
         const ID = req.query.empID;  //req.query.empID "empID" must match key value on postman 
         const pw = req.query.pw;
 
-        const user = await UserModel.findOne({ employeeID: ID });  // request layout = {userSchema : queryID}
-        if(!user || user.password != pw){
-            return res.status(404).send({
-                success: false,
-                message: "invalid ID and/or password",
-                data: null
+        if(validateLogin(ID,pw) === true){   //checks if user is invalid   
+            const user = await UserModel.findOne({ employeeID: empID });  // request layout = {userSchema : queryID} 
+            return res.status(200).send({
+                success: true,
+                message: "successfully logged in!",
+                data: user
             })
-        }
 
-        return res.status(200).send({
-            success: true,
-            message: "Successfully logged in!",
-            data: user
+        }
+        return res.status(400).send({
+            success: false,
+            message: "Invalid ID or password",
+            data: null
         });
+
 
     } catch (err) {
         return res.status(500).send({ error: err });
     }
 });
+
+usersRouter.post("token", (req, res) => {
+    const { empID, password} = req.body
+
+})
 
 
 /**
@@ -309,6 +316,26 @@ const RegexValidation = async (userInfo) => {
         success: true,
         message: "successful"
     };
+};
+
+/** 
+ * Checks databse if employee ID is in database and if the password is correct 
+ * @param 
+ *  -empID {Number} - employee ID of user
+ *  -password {String} - password entered by user
+ * @returns {boolean} returns true if the inputted employee ID is found in the database with the correct password
+ *  */ 
+const validateLogin = async (empID, password)  => {
+    try {
+        const user = await UserModel.findOne({ employeeID: empID });  // request layout = {userSchema : queryID}
+        if(!user || user.password != password){
+            return false
+        }
+        return true
+
+    } catch (err) {
+        return res.status(500).send({ error: err });
+    }
 };
 
 module.exports = {
