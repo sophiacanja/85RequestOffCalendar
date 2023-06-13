@@ -6,7 +6,7 @@
   } */
 
 
-  .container {
+  /* .container {
     display: flex;
     height: 100vh;
   }
@@ -23,5 +23,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  } */
+  
+
+  .container {
+    display: flex;
   }
   
+  .section {
+    flex: 0 0 33%;
+  }
+  
+  .calendarSection {
+    flex: 0 0 33%;
+    zoom: 1.7;
+  }
