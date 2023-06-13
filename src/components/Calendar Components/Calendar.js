@@ -5,7 +5,7 @@ import { DateCalendar } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import './Calendar.css';
 import Axios from 'axios';
-
+import SelectedDateCard from './SelectedDateCard';
 
 import SavedDateCard from './SavedDateCard';
 
@@ -15,55 +15,75 @@ const Calendar = () => {
   // const [datesRequestStatus, setDatesRequestedStatus] = useState(false); //TODO maybe use this for saying "Loading" when retrieving data...?
   const [savedDatesRequested, setSavedDatesRequested] = useState([]);
 
+
   const handleDateChange = (date) => {
-    // setSelectedDate(date);
     const month = date.toString().slice(8, 11);
-    let newDate = "";
+    // console.log(date.toString().slice(0,4));
+    let presentableDate = "";
+    let formattedDate = ""
 
     switch (month) {
       case "Jan":
-        newDate = `January ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `January ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `01/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Feb":
-        newDate = `February ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `February ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `02/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Mar":
-        newDate = `March ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `March ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `03/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Apr":
-        newDate = `April ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `April ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `04/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "May":
-        newDate = `May ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `May ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `05/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Jun":
-        newDate = `June ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `June ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `06/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Jul":
-        newDate = `July ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `July ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `07/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Aug":
-        newDate = `August ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `August ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `08/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Sep":
-        newDate = `September ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `September ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `09/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Oct":
-        newDate = `October ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `October ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `10/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Nov":
-        newDate = `November ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `November ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `11/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       case "Dec":
-        newDate = `December ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        presentableDate = `December ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `12/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
         break;
       default:
-        newDate = '';
+        presentableDate = '';
+        formattedDate = '';
         break;
     }
 
-    setSelectedDates([newDate, ...selectedDates]);
+    if (presentableDate.length !== 0 && formattedDate.length !== 0) {
+      setSelectedDates([[presentableDate, formattedDate, date], ...selectedDates]);
+      // console.log('added date');
+      // console.log(selectedDates);
+    }
   };
+
 
   useEffect(() => {
     // fetching all dates requested stored in DB
@@ -121,7 +141,7 @@ const Calendar = () => {
             default:
               newDate = '';
           }
-          return [newDate, `${date.date.toString().slice(5, 7)}/${date.date.toString().slice(8, 10)}/${date.date.toString().slice(0,4)}`];
+          return [newDate, `${date.date.toString().slice(5, 7)}/${date.date.toString().slice(8, 10)}/${date.date.toString().slice(0, 4)}`];
         });
         console.log(formattedDates);
         setSavedDatesRequested(formattedDates);
@@ -135,6 +155,7 @@ const Calendar = () => {
   }, []);
 
 
+  // disables all dates from the same week in MUI calendar (DateCalendar component)
   const shouldDisableDate = (date) => {
     // Get the current week's start and end dates
     const currentWeekStart = dayjs().startOf('week');
@@ -145,31 +166,56 @@ const Calendar = () => {
   };
 
 
+  // finds the date within selectedDates and removes it
+  const handleDeleteSelectedDate = (date) => {
+    // console.log(`${date[0]}\n${date[1]}\n${date[2]}`);
+    setSelectedDates(selectedDates.filter((prevDate) => (
+      prevDate[0] !== date[0] ||
+      prevDate[1] !== date[1] ||
+      prevDate[2] !== date[2]
+    )));
+  }
+
+
+  
+  const handleSubmitSelectedDates = () => {
+    console.log("button clicked");
+  }
+
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="container">
         <div className="section" id="dates-requested">
           <h1 style={{ textAlign: 'center' }}>Dates Requested</h1>
-          {savedDatesRequested.map((date, index) => {
-            // return <p className='' key={index}>{date}</p>
-            return <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
-          })}
+          {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
+          {/* ternary operator used in the case where the user does not have any requested days off */}
+          {savedDatesRequested.length === 0 ? (
+            <p style={{ textAlign: "center" }}>You do not have any requested days off</p>
+          ) : (
+            savedDatesRequested.map((date, index) => (
+              <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
+            ))
+          )}
+
         </div>
         {/* passes in shouldDisableDate functgion() into DateCalendar component for dynamic rendering of each date on the calendar; determines what should be enabled and disabled */}
-        <div className="section" style={{ zoom: '1.5' }} id="calendar-part">
+        <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
           <DateCalendar disablePast={'false'} onChange={handleDateChange} shouldDisableDate={shouldDisableDate} />
           <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
         </div>
 
-
         <div className="section" id="selected-dates">
-          Selected Dates
-          {/* another component with trash icon to remove */}
+          <h1 style={{ textAlign: 'center' }}>Selected Dates</h1>
+
           <div>
             {selectedDates.map((date, index) => (
-              <div key={index}>{date}</div>
+              <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
             ))}
           </div>
+          <button className="submit-button" onClick={handleSubmitSelectedDates}>
+            Submit
+          </button>
         </div>
       </div>
     </LocalizationProvider>

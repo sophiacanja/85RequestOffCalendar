@@ -108,7 +108,8 @@ calendarRequestsRouter.delete("/deleteRequest", async (req, res) => {
         //sends success message
         return res.status(200).send({
             success: true,
-            message: "Request successfully deleted"
+            message: "Request successfully deleted",
+            data: deletedRequest
         })
 
     } catch (err) {

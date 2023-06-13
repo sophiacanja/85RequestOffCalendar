@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import './DateCard.css';
 import lottie from 'lottie-web';
 import trashJSON from '../../assets/gifs/trash icon.json';
-import Axios from 'axios';
-import './DateCard.css';
 
-
-const SavedDateCard = ({ date, formattedDate }) => {
+const SelectedDateCard = ({ presentableDate, formattedDate, rawDate, deleteCard }) => {
   const animationContainerRef = useRef(null);
   const animationInstanceRef = useRef(null);
-  const [deletionSuccessful, setDeletionSuccessful] = useState(false);
-  const [errorOccurred, setErrorOccurred] = useState(false);
+
   useEffect(() => {
     const animationContainer = animationContainerRef.current;
 
@@ -48,42 +45,16 @@ const SavedDateCard = ({ date, formattedDate }) => {
     }
   };
 
-  //http://localhost:4000/calendar/deleteRequest?empID=<ID>&date=<date (mm/dd/yyyy)>
-  const handleDeleteButtonClick = async () => {
-    try {
-      //TODO change empID for current user instead (currently is set for specific user)
-      await Axios.delete(`http://localhost:4000/calendar/deleteRequest?empID=77&date=${formattedDate}`);
-      setDeletionSuccessful(true);
-      setErrorOccurred(false);
-    } catch (err) {
-      // console.log(err);
-      setErrorOccurred(true);
-      console.log('failed');
-    }
-  }
 
-
-  if (deletionSuccessful && !errorOccurred) {
-    return (
-      <div className="card" style={{ marginLeft: '30px', display: 'flex', alignItems: 'center' }}>
-        <span className="date">Successfully deleted request for: {date}</span>
-      </div>
-    )
-  }
-
-  if (!deletionSuccessful && errorOccurred) {
-    return (
-      <div className="card" style={{ marginLeft: '30px', display: 'flex', alignItems: 'center' }}>
-        <span className="date">Error occurred for deleting request for date: {date}{date}</span>
-      </div>
-    )
+  const handleDeleteButtonClick = () => {
+    deleteCard([presentableDate, formattedDate, rawDate]);
   }
 
 
   return (
     <>
       <div className="card" style={{ marginLeft: '30px', display: 'flex', alignItems: 'center' }}>
-        <span className="date">{date}</span>
+        <span className="date">{presentableDate}</span>
         <button
           className="trash-button"
           onMouseEnter={handleMouseEnter}
@@ -94,7 +65,7 @@ const SavedDateCard = ({ date, formattedDate }) => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SavedDateCard;
+export default SelectedDateCard;
