@@ -11,7 +11,6 @@ import SavedDateCard from './SavedDateCard';
 
 const Calendar = () => {
   const [submitStatus, setSubmitStatus] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDates, setSelectedDates] = useState([]);
   const [loadedAllSavedDates, setLoadedAllSavedDates] = useState(false);
   // const [datesRequestStatus, setDatesRequestedStatus] = useState(false); //TODO maybe use this for saying "Loading" when retrieving data...?
@@ -160,9 +159,8 @@ const Calendar = () => {
 
 
   // disables all dates from the same week in MUI calendar (DateCalendar component)
-  // disables all dates from the same week in MUI calendar (DateCalendar component)
   const shouldDisableDate = (date) => {
-    if(!loadedAllSavedDates){
+    if(!loadedAllSavedDates){ // start with calendar disabled to prevent any bugs when choosing dates
       return true;
     }
 
@@ -247,7 +245,6 @@ const Calendar = () => {
         <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
           <DateCalendar disablePast={'false'} onChange={handleDateChange} shouldDisableDate={shouldDisableDate} />
           <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
-          <p style={{ textAlign: 'center' }}>{selectedDate}</p>
 
         </div>
 
