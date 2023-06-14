@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useAsyncError, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -10,45 +10,22 @@ import "./Login.css";
 const Login = () => {
   const [employeeID, setEmployeeID] = useState("");
   const [password, setPassword] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(null);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const navigate = useNavigate();
 
-  function timeout(delay) {
-    return new Promise(res => setTimeout(res, delay));
-  }
 
   //function that checks that email and passowrd isn't blank
   function validateForm() {
     return employeeID.length > 0 && password.length > 0;
   }
 
-  const validateLogin = async () => {
-    try {
-      console.log(employeeID);
-
-      const response = await Axios.get(`http://localhost:4000/users/login?empID=${employeeID}&pw=${await encodePassword()}`);
-      setLoginSuccess(true);
-      console.log(response)
-      localStorage.currentUserID = response.data.data._id; //TODO replace with JSON Web Tokens (JWT)
-      localStorage.userIsLoggedIn = "true";
-
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-
-    } catch (err) {
-      console.log(err);
-      setLoginSuccess(false);
-      localStorage.userIsLoggedIn = "false";
-    }
-    await timeout(1000)
-  }
-
+//function that returns a phrase in the frontend if the login was successful or not
   const showLoginStatus = () => {
+    //checks if bool value loginSuccess was already set to true
     if (loginSuccess === true) {
       return (
         <div className="login-status success">
-          <p>Loading...</p>
+          <p>Loading...Success</p>
         </div>
       )
     } else if (loginSuccess === false) {
@@ -62,30 +39,44 @@ const Login = () => {
     }
   }
 
+  //login: Calls the login api request to verify credentials and creates a JWT. Frontend stores the token into localStorage and sets setLoginSuccess to true*
+  const login = async () => {
+    try{
+      //api call to check credentials and create token, using the body empoyeeID and password
+      const response = await Axios.post("http://localhost:4000/users/loginAndCreateToken", { employeeID: employeeID, password: password })
+      // console.log(response)
+      //checks if the login credentials were invalid 
+      if(!response.data.auth){
+        setLoginSuccess(false);
+      } else {
+        // console.log(response.data);
+        //stores token in localStorage if api request was valid
+        localStorage.setItem("token", response.data.token)  //stores jwt in local storage
+        setLoginSuccess(true);
+      }
 
-  //encodes password for properly passing as query parameter 
-  const encodePassword = async () => {
-    const encodedPassword = password
-      .replace(/ /g, '%20')
-      .replace(/"/g, '%22')
-      .replace(/'/g, '%27')
-      .replace(/</g, '%3C')
-      .replace(/>/g, '%3E')
-      .replace(/&/g, '%26')
-      .replace(/\+/g, '%2B')
-      .replace(/,/g, '%2C')
-      .replace(/\//g, '%2F')
-      .replace(/:/g, '%3A')
-      .replace(/;/g, '%3B')
-      .replace(/=/g, '%3D')
-      .replace(/\?/g, '%3F')
-      .replace(/@/g, '%40')
-      .replace(/#/g, '%23');
-    return encodedPassword;
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  //userAuthenticated: Calls the isUserAuth api request
+  //note: use "response.data" to access data: {auth, admin, message, user} 
+  const userAuthenticated = async () => {   //TODO export function for future use 
+      try{
+        //api request call to verify jwt access 
+        const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token")}}) 
+        if(!response){
+          console.log("User is not authenticated")
+        }
+      } catch (err) {
+        console.log(err)
+      }
   }
 
 
-  const resetPassword = async () => { //TODO create the function for when user wants to reset pw
+
+  const resetPassword = async () => { //TODO create the function for when user wants to reset pw smtp 
     console.log("function resetPassword is reached")
   }
   return (
@@ -109,7 +100,7 @@ const Login = () => {
           />
         </Form.Group>
         <div className="d-flex justify-content-between align-items-center">
-          <Button block="true" onClick={() => { validateLogin() }} disabled={!validateForm()} style={{ margin: "20px" }} >
+          <Button block="true" onClick={() => { login() }} disabled={!validateForm()} style={{ margin: "20px" }} >
             Login
           </Button>
           <Button variant="secondary" onClick={() => navigate('/create-account')} style={{ margin: "20px" }}>
@@ -120,7 +111,8 @@ const Login = () => {
           </Button>
         </div>
       </Form>
-      {showLoginStatus()}
+      {/* {showLoginStatus()} */}
+       <button onClick= {userAuthenticated}> Check if Authenticated </button>
     </div>
   )
 };

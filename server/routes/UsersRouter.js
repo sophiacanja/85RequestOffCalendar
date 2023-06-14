@@ -5,76 +5,94 @@ const { useRef } = require("react");
 const jwt = require('jsonwebtoken');
 // const bcrypt = require("bcrypt"); //! for salt and hashing
 
-/**
+
+/** 
  * **************************************************** 
- * Login
- * @URL http://localhost:4000/users/login?empID=<ID>&pw=<password>
- * - empID: the employee ID
- * - password: password provided by user
+ * isUserAuth: Verifies the user's JWT, this is needed for all api requests that access sensitive info
+ * @URL http://localhost:4000/users/isUserAuth
  * 
  * @params_and_body
- * - query variables (mentioned in URL section)
- * - no body included
+ * - query variable: "x-access-token"
+ * 
  * **************************************************** 
  */
-// http://localhost:4000/users/login?empID=<ID>&pw=<password given>
-usersRouter.get("/login", async(req, res) => {
-    try {
-        const ID = req.query.empID;  //req.query.empID "empID" must match key value on postman 
-        const pw = req.query.pw;
 
-        const {success, user} = await validateLogin(ID,pw)
-        if(success){   //checks if user is invalid   
-            return res.status(200).send({
-                message: "successfully logged in!",
-                data: user
-            })
-
-        }
-        return res.status(400).send({
-            message: "Invalid ID or password",
-            data: null
-        });
-
-
-    } catch (err) {
-        console.error(err)
-        return res.status(500).send({ error: err });
-    }
-});
-
-usersRouter.post("/token", async (req, res) => {
+usersRouter.get("/isUserAuth", async (req, res) => {
     try{
-        const ID = req.body.empID
-        const pw = req.body.pw
-        //TODO store key as an environment var
+        const token = req.headers["x-access-token"]
+        let objID = null
+        //checks if token is passed in
+        if(!token){
+            res.send("We need a token")
+        } else{
+            //decodes token using the secret key 
+            const decoded = await jwt.verify(token, "51c1fd9fa709c4c4bbbd6ef2d21c68e0ccb4090b3fb1f827b85bed56920778e9") 
+            //if token is valid, it stores the obj id
+            objID = decoded.id 
+            const user = await UserModel.findById(objID)
+            return res.json({auth: true, message: "CONGRATS", admin: user.admin, user: user})
+        }
+    } catch (err) {
+        if (err instanceof jwt.TokenExpiredError) {
+            // Token has expired
+            return res.send({auth: false, message: "Token expired"})
 
+          } else if (err instanceof jwt.JsonWebTokenError) {
+            // Invalid token or signature
+            return res.send({auth: false, message: "Invalid token"})
+
+          } else {
+            // Other verification error
+            return res.status(500).send({error: err})
+          }
+    }
+})
+
+/**
+ * ****************************************************
+ * LoginAndCreateToken: Verifies username and password and generate a jwt token
+ * @URL http://localhost:4000/users/token
+ * 
+ * @params_and_body
+ * - no query variables
+ * - body consists of the following: 
+ * {
+ *      "employeeID" : 1234
+ *      "password"  : "string"
+ * }
+ * **************************************************** 
+ */
+usersRouter.post("/loginAndCreateToken", async (req, res) => {
+    try{
+        const ID = req.body.employeeID
+        const pw = req.body.password
         const {success, user} = await validateLogin(ID,pw)
+        
+        //if credentials are valid 
         if(success) {
             const id = user.id
-            const token = jwt.sign({ id }, "51c1fd9fa709c4c4bbbd6ef2d21c68e0ccb4090b3fb1f827b85bed56920778e9", {
-                expiresIn: 300, //five minutes before token expires
+            //creates jwt using user.id and the secret key
+            const token = await jwt.sign({ id }, "51c1fd9fa709c4c4bbbd6ef2d21c68e0ccb4090b3fb1f827b85bed56920778e9", {
+                expiresIn: 600, //ten minutes before token expires
             })
-            return res.send({token})
-    
+            //return user information
+            return res.json({auth: true,  token: token, user: user, admin: user.admin})
 
+        } else {
+            //return error message if employeeID and password are invalid
+            return res.json({auth: false, message: "invalid login credentials"})
         }
 
-        return res.send({message: "invalid login credentials"})
-        
-        
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: "Error occured" });
     }
-
-
 })
 
 
 /**
  * ****************************************************
- * Create User
+ * createUser: Creates a new entry within the database
  * @URL http://localhost:4000/users/createUser
  * 
  * @params_and_body
@@ -89,7 +107,6 @@ usersRouter.post("/token", async (req, res) => {
  *     }
  * **************************************************** 
  */
-// http://localhost:4000/users/createUser
 usersRouter.post("/createUser", async (req, res) => {
 
     try {
@@ -129,7 +146,7 @@ usersRouter.post("/createUser", async (req, res) => {
 
 /**
  * ****************************************************   
- * Update User Info
+ * updateUser: Updates the infromation in the database of the given employeeID 
  * @URL http://localhost:4000/users/updateUser?employeeID=<ID>
  * - employee ID query variable
  * 
@@ -145,18 +162,7 @@ usersRouter.post("/createUser", async (req, res) => {
  *     }
  * **************************************************** 
  */
-// http://localhost:4000/users/updateUser?employeeID=<ID>
 usersRouter.put("/updateUser", async (req, res) => {
-/*
-    body consists of the following:
-    {
-        firstName: "string",
-        lastName: "string",
-        email: "string",
-        password: "string"
-    }
-
-*/
     try {
         const updatedUserInfo = req.body;
         const ID = req.query.employeeID   
@@ -195,7 +201,7 @@ usersRouter.put("/updateUser", async (req, res) => {
 
 /**
  * **************************************************** 
- * Delete User
+ * Delete User: Deletes the entry in the database with the given employeeID
  * @URL http://localhost:4000/users/deleteUser?employeeID=<employee ID>
  * - employee ID query variable
  * 
@@ -204,8 +210,6 @@ usersRouter.put("/updateUser", async (req, res) => {
  * - no body needed
  * ****************************************************  
  */
-
-// http:localhost:4000/users/deleteUser?employeeID=<ID>
 usersRouter.delete("/deleteUser", async (req, res) => {
     try {
         const ID = req.query.employeeID
@@ -232,11 +236,9 @@ usersRouter.delete("/deleteUser", async (req, res) => {
     }
 });
 
-
-
 /**
  * **************************************************** 
- * Checks if user is admin or not
+ * userIsAdmin: Checks if user is admin or not
  * @URL http://localhost:4000/users/userIsAdmin?employeeID=<emp ID>
  * - employee ID query variable
  * 
@@ -278,7 +280,7 @@ usersRouter.get("/userIsAdmin", async (req, res) => {
 });
 
 /**
- * Validates user information using regular expressions.
+ * RegexValidation: Validates user information using regular expressions.
  *
  * @param {Object} userInfo - User information object containing the following properties:
  *   - firstName {string} - First name of the user.
@@ -342,7 +344,7 @@ const RegexValidation = async (userInfo) => {
 };
 
 /** 
- * Checks databse if employee ID is in database and if the password is correct 
+ * validateLogin: Checks databse if employee ID is in database and if the password is correct 
  * @param 
  *  -empID {Number} - employee ID of user
  *  -password {String} - password entered by user
@@ -350,18 +352,23 @@ const RegexValidation = async (userInfo) => {
  *  */ 
 const validateLogin = async (empID, password)  => {
     try {
+        //find specific employee in database using employeeID
         const user = await UserModel.findOne({ employeeID: empID });  // request layout = {userSchema : queryID}
+        //checks if database has the user and its correct password
         if(!user || user.password !== password){
-            // console.log("F")
             return {success: false, user: null}
         }
-        // console.log("T")
-        return {success: true, user}
+        else{
+            //return true if user is valid
+            return {success: true, user: user}
+        }  
 
     } catch (err) {
-        throw new Error("Login validation failed");
+        return res.status(500).send({message:"INVALID LOGIN"})
     }
 };
+
+
 
 module.exports = {
     usersRouter
