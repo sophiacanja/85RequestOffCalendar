@@ -9,7 +9,7 @@ app.use(cors({
 
 const { usersRouter } = require("./routes/UsersRouter.js");
 const { calendarRequestsRouter } = require("./routes/CalendarRequestsRouter.js");
-
+const jwt = require('jsonwebtoken')
 
 app.use(express.json());   
 app.use('/users', usersRouter);
