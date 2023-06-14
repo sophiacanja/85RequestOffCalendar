@@ -68,6 +68,9 @@ const Login = () => {
         const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token")}}) 
         if(!response){
           console.log("User is not authenticated")
+        } else {
+          //if api call went through console log the response that was given back
+          console.log(response)
         }
       } catch (err) {
         console.log(err)
