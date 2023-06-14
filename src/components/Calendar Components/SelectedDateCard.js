@@ -45,7 +45,8 @@ const SelectedDateCard = ({ presentableDate, formattedDate, rawDate, deleteCard 
     }
   };
 
-
+  
+  // deletes card using passed in prop function
   const handleDeleteButtonClick = () => {
     deleteCard([presentableDate, formattedDate, rawDate]);
   }

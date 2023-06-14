@@ -10,8 +10,10 @@ import SelectedDateCard from './SelectedDateCard';
 import SavedDateCard from './SavedDateCard';
 
 const Calendar = () => {
-  // const [selectedDate, setSelectedDate] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDates, setSelectedDates] = useState([]);
+  const [loadedAllSavedDates, setLoadedAllSavedDates] = useState(false);
   // const [datesRequestStatus, setDatesRequestedStatus] = useState(false); //TODO maybe use this for saying "Loading" when retrieving data...?
   const [savedDatesRequested, setSavedDatesRequested] = useState([]);
 
@@ -141,10 +143,12 @@ const Calendar = () => {
             default:
               newDate = '';
           }
-          return [newDate, `${date.date.toString().slice(5, 7)}/${date.date.toString().slice(8, 10)}/${date.date.toString().slice(0, 4)}`];
+          // presentableDate, formattedDate, rawDate
+          return [newDate, `${date.date.toString().slice(5, 7)}/${date.date.toString().slice(8, 10)}/${date.date.toString().slice(0, 4)}`, date];
         });
-        console.log(formattedDates);
+        // console.log(formattedDates);
         setSavedDatesRequested(formattedDates);
+        setLoadedAllSavedDates(true);
       } catch (err) {
         console.log('Error fetching flavors: ', err);
       }
@@ -156,14 +160,33 @@ const Calendar = () => {
 
 
   // disables all dates from the same week in MUI calendar (DateCalendar component)
+  // disables all dates from the same week in MUI calendar (DateCalendar component)
   const shouldDisableDate = (date) => {
+    if(!loadedAllSavedDates){
+      return true;
+    }
+
     // Get the current week's start and end dates
     const currentWeekStart = dayjs().startOf('week');
     const currentWeekEnd = dayjs().endOf('week');
+  
+    // Filter the arrays and check if the date is within the current week or matches a previous date
+    const filteredSelectedDates = selectedDates.filter((selectedDate) => selectedDate[2]);
+    const filteredSavedDatesRequested = savedDatesRequested.filter((savedDate) => {
+      const formattedDate = savedDate[1]; // MM/DD/YYYY
+      const [month, day, year] = formattedDate.split('/').map(Number);
+      const dateObj = new Date(year, month - 1, day); // Subtract 1 from the month since it is zero-based in JavaScript Date
 
-    // Check if the date is within the current week
-    return date.isAfter(currentWeekStart) && date.isBefore(currentWeekEnd);
+      return dateObj.toDateString() === date.toDate().toDateString();
+    });
+  
+    return (
+      (date.isAfter(currentWeekStart) && date.isBefore(currentWeekEnd)) ||
+      filteredSelectedDates.some((prevDate) => date.isSame(prevDate[2], 'day')) ||
+      filteredSavedDatesRequested.length > 0
+    );
   };
+  
 
 
   // finds the date within selectedDates and removes it
@@ -177,9 +200,30 @@ const Calendar = () => {
   }
 
 
-  
-  const handleSubmitSelectedDates = () => {
-    console.log("button clicked");
+  // for submitting all selected dates to MongoDB database
+  const handleSubmitSelectedDates = async () => {
+    try {
+      const body = {
+        firstName: "Sovi",
+        lastName: "Sonz",
+        employeeID: 77,
+        dates: selectedDates.map((date) => date[1])
+      }
+      console.log(body);
+
+      await Axios.post(`http://localhost:4000/calendar/createRequest`, body);
+
+      setSubmitStatus("Successful! Reloading page...");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+
+    } catch (err) {
+      // console.log(err);
+      setSubmitStatus(err);
+      console.log("oops");
+    }
   }
 
 
@@ -203,6 +247,8 @@ const Calendar = () => {
         <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
           <DateCalendar disablePast={'false'} onChange={handleDateChange} shouldDisableDate={shouldDisableDate} />
           <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
+          <p style={{ textAlign: 'center' }}>{selectedDate}</p>
+
         </div>
 
         <div className="section" id="selected-dates">
@@ -216,6 +262,7 @@ const Calendar = () => {
           <button className="submit-button" onClick={handleSubmitSelectedDates}>
             Submit
           </button>
+          <p style={{ textAlign: "center" }}>{submitStatus}</p>
         </div>
       </div>
     </LocalizationProvider>
