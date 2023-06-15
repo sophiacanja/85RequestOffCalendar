@@ -7,13 +7,11 @@ import Login from "./components/Login";
 import Logout from './components/Logout';
 import UpdateAccount from './components/UpdateAccount';
 import AdminHome from './components/Admin/AdminHome';
-import AdminLogin from './components/Admin/AdminLogin';
 import AdminManagement from './components/Admin/AdminManagement';
 import UnknownPage from './components/UnknownPage';
+import PrivateRouterUser from './components/PrivateRouterUser'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-//TODO: navbar
 
 function App() {
   return (
@@ -21,20 +19,44 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' exact element={<Home />} />
+          <Route path='/' exact element={
+            <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
+              <Home />
+            </PrivateRouterUser>
+          } />
 
-          <Route path='/login' element={<Login />} />
+          <Route path="/login" element={
+            <PrivateRouterUser loginNecessary={false} adminNecessary={false}>
+              <Login />
+            </PrivateRouterUser>
+          } />
 
-          <Route path='/logout' element={<Logout />} />
 
-          <Route path='/updateAccount' element={<UpdateAccount />} />
+          <Route path='/logout' element={
+            <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
+              <Logout />
+            </PrivateRouterUser>
+          } />
 
-          <Route path='/adminHome' element={<AdminHome />} />
+          <Route path='/updateAccount' element={
+            <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
+              <UpdateAccount />
+            </PrivateRouterUser>
+          } />
 
-          <Route path='/adminLogin' element={<AdminLogin />} />
+          <Route path='/adminHome' element={
 
-          <Route path='/adminManagement' element={<AdminManagement />} />
-      
+            <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
+              <AdminHome />
+            </PrivateRouterUser>
+          } />
+
+          <Route path='/adminManagement' element={
+            <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
+              <AdminManagement />
+            </PrivateRouterUser>
+          } />
+
           <Route path='*' element={<UnknownPage />} />
         </Routes>
       </Router>
