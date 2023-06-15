@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-// import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 
 const UpdateAccount = () => {
   const [firstName, setFirstName] = useState("");
@@ -10,27 +11,29 @@ const UpdateAccount = () => {
   const [originalLastName, setOriginalLastName] = useState("");
   const [originalEmail, setOriginalEmail] = useState("");
   const [originalPassword, setOriginalPassword] = useState("");
+  const [employeeID, setEmployeeID] = useState(null);
+
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
     const FetchOriginalUserData = async () => {
       try {
-        // const response = await Axios.get(`http://localhost:4000/users/login?empID=77&pw=${await encodePassword()}`);
-        const response = {
-          firstName: "sovi",
-          lastName: "sonz",
-          email: "s@gmail.com",
-          password: "strinG@123"
-        }
+
+        const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
+
         console.log(response.data);
-        setOriginalEmail(response.data.data.email);
-        setEmail(response.data.data.email);
-        setOriginalPassword(response.data.data.password);
-        setPassword(response.data.data.password);
-        setOriginalFirstName(response.data.data.firstName);
-        setFirstName(response.data.data.firstName);
-        setOriginalLastName(response.data.data.lastName);
-        setLastName(response.data.data.lastName);
+        setOriginalEmail(response.data.user.email);
+        setEmail(response.data.user.email);
+        setOriginalPassword(response.data.user.password);
+        setPassword(response.data.user.password);
+        setOriginalFirstName(response.data.user.firstName);
+        setFirstName(response.data.user.firstName);
+        setOriginalLastName(response.data.user.lastName);
+        setLastName(response.data.user.lastName);
+        setEmployeeID(response.data.user.employeeID);
 
       } catch (err) {
         console.log(err);
@@ -45,7 +48,7 @@ const UpdateAccount = () => {
     // It can be used to clean up any resources, event listeners, etc.
     return () => {
       // Perform cleanup here if needed
-      
+
     };
   }, []); // Dependency array: Leave empty if the effect should only run once (on mount)
 
@@ -77,8 +80,35 @@ const UpdateAccount = () => {
 
 
   const handleSubmit = async () => {
-    console.log("submit button clicked");
-    //TODO finish submit button functionality
+
+    try {
+      const body = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        employeeID: employeeID
+      }
+      const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
+      console.log(response.data.auth === false);
+      if(response.data.auth === false){
+        const message = "Session timed out, please re-login";
+        console.log("here");
+        navigate('/login', { state: { message } });
+        return;
+        
+      }
+      await Axios.put(`http://localhost:4000/users/updateUser?employeeID=${employeeID}`, body);
+
+      setSubmitMessage("Your information has been updated, resetting page!");
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 1500);
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 
@@ -159,6 +189,8 @@ const UpdateAccount = () => {
       >
         Revert
       </button>
+
+      <h1 style={{ textAlign: 'center' }}>{submitMessage}</h1>
     </div>
 
 

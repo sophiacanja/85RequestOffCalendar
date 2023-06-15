@@ -23,7 +23,7 @@ usersRouter.get("/isUserAuth", async (req, res) => {
         let objID = null
         //checks if token is passed in
         if(!token){
-            res.send("We need a token")
+            return res.json({auth: false, message: "We need a token"})
         } else{
             //decodes token using the secret key 
             const decoded = await jwt.verify(token, "51c1fd9fa709c4c4bbbd6ef2d21c68e0ccb4090b3fb1f827b85bed56920778e9") 

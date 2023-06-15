@@ -5,12 +5,11 @@ import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
+import { CheckIfLoggedIn, CheckForAdminAccess } from './PrivateRouterUser';
 // import * as IoIcons from 'react-icons/io';
-import { CheckForAdminAccess } from './PrivateRouterUser';
 
-function Navbar() {
+const Navbar = () => {
   const [sidebar, setSidebar] = useState(false);
-
 
   const showSidebar = () => {
     setSidebar(!sidebar);
@@ -18,6 +17,8 @@ function Navbar() {
   };
 
 
+  //TODO use useEffect hook to get adminStatus and loggedInStatus and assign to state variables
+  
   return (
     <>
       <IconContext.Provider value={{ color: 'black' }}>
@@ -43,7 +44,7 @@ function Navbar() {
 
             {/* if admin is logged in, then render admin options only. if it's a regular user logged in, then render user options. if not logged in, render login and create account */}
             {(() => {
-              if (localStorage.userIsLoggedIn === "true" && localStorage.admin === "true" && CheckForAdminAccess(localStorage.employeeID)) {
+              if (CheckIfLoggedIn() && CheckForAdminAccess()) {
                 return (
                   <>
                     <li className='nav-text'>
@@ -67,7 +68,7 @@ function Navbar() {
                   </>
                 )
                 // if user is logged in and is a regular admin
-              } else if (localStorage.userIsLoggedIn === "true") {
+              } else if (CheckIfLoggedIn()) {
                 return (
                   SidebarData.map((item, index) => {
                     return (
