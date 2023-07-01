@@ -9,6 +9,27 @@ import SelectedDateCard from './SelectedDateCard';
 
 import SavedDateCard from './SavedDateCard';
 
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+
+//TODO NEWWWWW
+const theme = createTheme({
+  components: {
+    MuiDateCalendar: {
+      styleOverrides: {
+        root: {
+          "& .MuiButtonBase-root.Mui-disabled": {
+            color: "white",
+            backgroundColor: "rgb(252, 150, 152)",
+          },
+        },
+      },
+    },
+  },
+});
+
+
+
 const Calendar = () => {
   const [submitStatus, setSubmitStatus] = useState("");
   const [selectedDates, setSelectedDates] = useState([]);
@@ -160,14 +181,14 @@ const Calendar = () => {
 
   // disables all dates from the same week in MUI calendar (DateCalendar component)
   const shouldDisableDate = (date) => {
-    if(!loadedAllSavedDates){ // start with calendar disabled to prevent any bugs when choosing dates
+    if (!loadedAllSavedDates) { // start with calendar disabled to prevent any bugs when choosing dates
       return true;
     }
 
     // Get the current week's start and end dates
     const currentWeekStart = dayjs().startOf('week');
     const currentWeekEnd = dayjs().endOf('week');
-  
+
     // Filter the arrays and check if the date is within the current week or matches a previous date
     const filteredSelectedDates = selectedDates.filter((selectedDate) => selectedDate[2]);
     const filteredSavedDatesRequested = savedDatesRequested.filter((savedDate) => {
@@ -177,14 +198,14 @@ const Calendar = () => {
 
       return dateObj.toDateString() === date.toDate().toDateString();
     });
-  
+
     return (
       (date.isAfter(currentWeekStart) && date.isBefore(currentWeekEnd)) ||
       filteredSelectedDates.some((prevDate) => date.isSame(prevDate[2], 'day')) ||
       filteredSavedDatesRequested.length > 0
     );
   };
-  
+
 
 
   // finds the date within selectedDates and removes it
@@ -223,7 +244,7 @@ const Calendar = () => {
       console.log("oops");
     }
   }
-
+  
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -243,7 +264,10 @@ const Calendar = () => {
         </div>
         {/* passes in shouldDisableDate functgion() into DateCalendar component for dynamic rendering of each date on the calendar; determines what should be enabled and disabled */}
         <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
-          <DateCalendar disablePast={'false'} onChange={handleDateChange} shouldDisableDate={shouldDisableDate} />
+          <ThemeProvider theme={theme}>
+            <DateCalendar disablePast={'false'} onChange={handleDateChange} shouldDisableDate={shouldDisableDate} />
+          </ThemeProvider>
+
           <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
 
         </div>
