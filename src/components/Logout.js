@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import {CheckIfLoggedIn} from "./PrivateRouterUser.js";
 // import "./Logout.css";
 
 const Logout = () => {
@@ -11,7 +12,7 @@ const Logout = () => {
   //updates the isLoggedIn field 
   const logout = async () => {
     try {
-      if(localStorage.userIsLoggedIn === true){
+      if(CheckIfLoggedIn === true){
         console.log("User is logged in, logging out now")
         const status = localStorage.getItem("userIsLoggedIn")
         localStorage.setItem(false, status)
