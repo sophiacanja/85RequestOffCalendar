@@ -1,11 +1,15 @@
-import React from 'react';
+import Button from "react-bootstrap/Button";
 
 const Logout = () => {
-  // Component logic and state
+
+  const checkoutUser = async () => {
+    localStorage.token = null; 
+    window.location.reload();
+  }
 
   return (
-    <div>
-        Logout
+    <div className="Logout verification"> Are you sure you want to log out?
+      <Button block="true" onClick={checkoutUser}> Logout </Button>
     </div>
   );
 };
