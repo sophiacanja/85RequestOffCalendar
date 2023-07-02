@@ -18,7 +18,7 @@ export const CheckForAdminAccess = async () => {
   try {
     const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
 
-    return response.data.admin;
+    return true ? response.data.admin === "true" : false; // want to return boolean instead of string (response.data.admin is string)
 
   } catch (err) {
     console.log("ERROR: could not check if user is logged in");
@@ -48,12 +48,22 @@ const PrivateRouterUser = ({ children, loginNecessary, adminNecessary }) => {
   }, []);
 
 
-  if(!dataLoaded){
-    return <h1 style={{textAlign: 'center'}}>Loading...</h1>
+  if (!dataLoaded) {
+    return (
+      <>
+        <img src={require('../assets/gifs/loading.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Loading gif" />
+      </>
+    )
   }
 
-  if(errorPresent){
-    return <h1 style={{textAlign: 'center'}}>Error: website under construction. Please try again later. Thanks!</h1>
+  if (errorPresent) {
+    return (
+      <>
+        <h2 style={{ textAlign: 'center' }}>Website is currently under construction, please try again later.</h2>
+        <h3 style={{ textAlign: 'center' }}>Thank you for your patience!</h3>
+        <img src={require('../assets/gifs/wrench.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Under construction gif" />
+      </>
+    )
   }
 
 
