@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect,useAlert } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import Axios from 'axios';
 import { Form } from "react-bootstrap";
@@ -55,8 +55,18 @@ const Login = () => {
         // console.log(response.data);
         //stores token in localStorage if api request was valid
         localStorage.setItem("token", response.data.token)  //stores jwt in local storage
-        // setLoginSuccess(true);
+
+        //TODO: create status login and redirection
+        //generates confirmation message 
+        //waits 5 seconds
+        //reloads page which gets directed to home page 
+    
       }
+
+      
+    
+
+      
 
     } catch (err) {
       console.log(err)
@@ -65,7 +75,7 @@ const Login = () => {
 
   //userAuthenticated: Calls the isUserAuth api request
   //note: use "response.data" to access data: {auth, admin, message, user} 
-  const userAuthenticated = async () => {   //TODO export function for future use 
+  const userAuthenticated = async () => {    
     try {
       //api request call to verify jwt access 
       const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } })
