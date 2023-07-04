@@ -57,6 +57,8 @@ function App() {
             </PrivateRouterUser>
           } />
 
+          //TODO create own route component for forgot password
+
           <Route path='*' element={<UnknownPage />} />
         </Routes>
       </Router>

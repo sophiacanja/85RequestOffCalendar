@@ -4,13 +4,14 @@ import Axios from 'axios';
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
+// import { replaceOne } from "../../server/models/Users";
 
 
 
 const Login = () => {
   const [employeeID, setEmployeeID] = useState("");
   const [password, setPassword] = useState("");
-  const [authenticationStatus, setAuthenticationStatus] = useState("");
+  const [authenticationStatus, setAuthenticationStatus] = useState(null);
 
   // const [loginSuccess, setLoginSuccess] = useState(false);
   const navigate = useNavigate();
@@ -51,22 +52,22 @@ const Login = () => {
       console.log(response);
       if (!response.data.auth) {
         // setLoginSuccess(false);
+        setAuthenticationStatus(false);
+    
       } else {
         // console.log(response.data);
         //stores token in localStorage if api request was valid
         localStorage.setItem("token", response.data.token)  //stores jwt in local storage
+        setAuthenticationStatus(true); 
 
-        //TODO: create status login and redirection
-        //generates confirmation message 
-        //waits 5 seconds
-        //reloads page which gets directed to home page 
+        //waits 1.5 seconds and will navigate to the home page
+        setTimeout(() => {
+          }, 1500);
+        window.location.reload()
+      
+      
     
       }
-
-      
-    
-
-      
 
     } catch (err) {
       console.log(err)
@@ -84,6 +85,7 @@ const Login = () => {
       } else {
         //if api call went through console log the response that was given back
         console.log(response)
+        
       }
     } catch (err) {
       console.log(err)
@@ -129,9 +131,11 @@ const Login = () => {
           />
         </Form.Group>
         <div className="d-flex justify-content-between align-items-center">
-          <Button block="true" onClick={() => { login() }} disabled={!validateForm()} style={{ margin: "20px" }} >
+          <Button block="true" onClick={login} disabled={!validateForm()} style={{ margin: "20px" }} >
             Login
           </Button>
+          {authenticationStatus === true && <div> Success! Redirecting to Home Page</div>}
+          {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
           <Button variant="secondary" onClick={() => navigate('/create-account')} style={{ margin: "20px" }}>
             Create Account
           </Button>
