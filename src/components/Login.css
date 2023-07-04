@@ -1,5 +1,5 @@
 .submit-button{
-    width : 90% ; 
+    width : 80% ; 
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
@@ -20,7 +20,7 @@
   .Login {
     max-width: 400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 200px;
     background-color: #f7f7f7;
     border-radius: 5px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
@@ -35,7 +35,7 @@
   }
   
   .Login input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     font-size: 16px;
     margin-bottom: 10px;
@@ -43,16 +43,6 @@
     border: 1px solid #ccc;
   }
   
-  /* .Login button {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-  } */
   
   .Login .error {
     color: red;
@@ -64,9 +54,10 @@
     margin-bottom: 10px;
   }
   
-  .Login .reset-password {
+  .Login .forgot-password {
     margin-top: 20px;
     text-align: center;
+   
   }
   
   /* .Login .reset-password button {
@@ -77,8 +68,18 @@
     cursor: pointer;
   } */
   
-  .Login .reset-password button:focus {
+  .Login .forgot-password:hover {
     outline: none;
+    color: #c71f16;
+  }
+
+  .Title {
+    text-align: center; /* Horizontally center the text */
   }
   
+  .gif {
+  
+    max-width: 100%;
+    margin-left: 20px;
+  }
   

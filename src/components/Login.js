@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Form } from "react-bootstrap";
 import Axios from 'axios';
 import Button from "react-bootstrap/Button";
+import catLogo from '../assets/gifs/catLoading.gif';
 import "./Login.css";
 
 
@@ -64,6 +65,7 @@ const Login = () => {
 
   return (
     <div className="Login">
+      <h1  className= "Title"> 85c Employee Request Off Calendar </h1>
       <Form>
         <Form.Group style={{ marginBottom: "40px", fontSize: 30 }} size="lg" controlId="employeeID">
           <Form.Label>Employee ID </Form.Label>
@@ -89,13 +91,17 @@ const Login = () => {
           {authenticationStatus === true && <div> Success! Redirecting to Home Page</div>}
           {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
         </div>
-        <div className="reset-password">
+        <div className="forgot-password">
           {/* TODO put in correct /path for href */}
-        <a href="/login" onClick={resetPassword}>Forgot Password?</a>
+        <a className= "forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
       </div>
       </Form>
-      <h2>Status: {authenticationStatus}</h2>
+      <h2 className="Title">Status: {authenticationStatus}</h2>
+      <div className="gif">
+        <img src={catLogo} alt='loading...'/>
+      </div>
     </div>
+    
   )
 };
 
