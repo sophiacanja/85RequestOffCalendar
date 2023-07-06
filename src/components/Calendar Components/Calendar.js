@@ -9,24 +9,8 @@ import SelectedDateCard from './SelectedDateCard';
 
 import SavedDateCard from './SavedDateCard';
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-
-//TODO NEWWWWW
-const theme = createTheme({
-  components: {
-    MuiDateCalendar: {
-      styleOverrides: {
-        root: {
-          "& .MuiButtonBase-root.Mui-disabled": {
-            color: "white",
-            backgroundColor: "rgb(252, 150, 152)",
-          },
-        },
-      },
-    },
-  },
-});
+import { PickersDay } from '@mui/x-date-pickers/PickersDay';
+import { styled } from '@mui/material/styles';
 
 
 
@@ -36,75 +20,7 @@ const Calendar = () => {
   const [loadedAllSavedDates, setLoadedAllSavedDates] = useState(false);
   // const [datesRequestStatus, setDatesRequestedStatus] = useState(false); //TODO maybe use this for saying "Loading" when retrieving data...?
   const [savedDatesRequested, setSavedDatesRequested] = useState([]);
-
-
-  const handleDateChange = (date) => {
-    const month = date.toString().slice(8, 11);
-    // console.log(date.toString().slice(0,4));
-    let presentableDate = "";
-    let formattedDate = ""
-
-    switch (month) {
-      case "Jan":
-        presentableDate = `January ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `01/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Feb":
-        presentableDate = `February ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `02/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Mar":
-        presentableDate = `March ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `03/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Apr":
-        presentableDate = `April ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `04/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "May":
-        presentableDate = `May ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `05/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Jun":
-        presentableDate = `June ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `06/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Jul":
-        presentableDate = `July ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `07/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Aug":
-        presentableDate = `August ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `08/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Sep":
-        presentableDate = `September ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `09/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Oct":
-        presentableDate = `October ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `10/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Nov":
-        presentableDate = `November ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `11/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      case "Dec":
-        presentableDate = `December ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
-        formattedDate = `12/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
-        break;
-      default:
-        presentableDate = '';
-        formattedDate = '';
-        break;
-    }
-
-    if (presentableDate.length !== 0 && formattedDate.length !== 0) {
-      setSelectedDates([[presentableDate, formattedDate, date], ...selectedDates]);
-      // console.log('added date');
-      // console.log(selectedDates);
-    }
-  };
+  const [value, setValue] = useState((dayjs('2023-07-14')));
 
 
   useEffect(() => {
@@ -179,6 +95,77 @@ const Calendar = () => {
   }, []);
 
 
+  const handleDateChange = (date) => {
+    setValue(date);
+
+    const month = date.toString().slice(8, 11);
+    // console.log(date.toString().slice(0,4));
+    let presentableDate = "";
+    let formattedDate = ""
+
+    switch (month) {
+      case "Jan":
+        presentableDate = `January ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `01/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Feb":
+        presentableDate = `February ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `02/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Mar":
+        presentableDate = `March ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `03/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Apr":
+        presentableDate = `April ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `04/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "May":
+        presentableDate = `May ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `05/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Jun":
+        presentableDate = `June ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `06/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Jul":
+        presentableDate = `July ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `07/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Aug":
+        presentableDate = `August ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `08/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Sep":
+        presentableDate = `September ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `09/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Oct":
+        presentableDate = `October ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `10/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Nov":
+        presentableDate = `November ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `11/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Dec":
+        presentableDate = `December ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `12/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      default:
+        presentableDate = '';
+        formattedDate = '';
+        break;
+    }
+
+    if (presentableDate.length !== 0 && formattedDate.length !== 0) {
+      setSelectedDates([[presentableDate, formattedDate, date], ...selectedDates]);
+      // console.log('added date');
+      // console.log(selectedDates);
+    }
+  };
+
+
   // disables all dates from the same week in MUI calendar (DateCalendar component)
   const shouldDisableDate = (date) => {
     if (!loadedAllSavedDates) { // start with calendar disabled to prevent any bugs when choosing dates
@@ -244,7 +231,65 @@ const Calendar = () => {
       console.log("oops");
     }
   }
-  
+
+
+  // used for changing backgroundColor of specific dates
+  const CustomPickersDay = styled(PickersDay)(() => ({
+  }));
+
+  const Day = (props) => {
+    const { day, selectedDay, ...other } = props;
+    const formattedDay = day.format(`MM/DD/YYYY`);
+
+    const inSavedDatesRequested = savedDatesRequested.some((date) => date[1] === formattedDay);
+    const inSelectedDates = selectedDates.some((date) => date[1] === formattedDay);
+    // const isChosenDate = selectedDay;
+
+    // if(isChosenDate){
+    //   return (
+    //     <CustomPickersDay
+    //       day={day}
+    //       {...other}
+    //       sx={{
+    //         backgroundColor: 'yellow',
+    //         color: 'black',
+    //       }}
+    //     />
+    //   );
+    // }
+    if (!inSavedDatesRequested && !inSelectedDates) {
+      return <CustomPickersDay day={day} {...other} />;
+    }
+
+    // Render it red
+    if (inSavedDatesRequested) {
+      return (
+        <CustomPickersDay
+          day={day}
+          {...other}
+          sx={{
+            backgroundColor: 'rgb(252, 150, 152)',
+            color: 'red',
+          }}
+        />
+      );
+    }
+
+    // Render it yellow
+    if (inSelectedDates) {
+      return (
+        <CustomPickersDay
+          day={day}
+          {...other}
+          sx={{
+            backgroundColor: 'yellow',
+            color: 'red',
+          }}
+        />
+      );
+    }
+  };
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -264,9 +309,19 @@ const Calendar = () => {
         </div>
         {/* passes in shouldDisableDate functgion() into DateCalendar component for dynamic rendering of each date on the calendar; determines what should be enabled and disabled */}
         <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
-          <ThemeProvider theme={theme}>
-            <DateCalendar disablePast={'false'} onChange={handleDateChange} shouldDisableDate={shouldDisableDate} />
-          </ThemeProvider>
+          {/* <ThemeProvider theme={theme}> */}
+          <DateCalendar
+            disablePast={'false'}
+            onChange={handleDateChange}
+            shouldDisableDate={shouldDisableDate}
+            slots={{ day: Day }}
+            slotProps={{
+              day: {
+                selectedDay: value
+              }
+            }}
+          />
+          {/* </ThemeProvider> */}
 
           <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
 
