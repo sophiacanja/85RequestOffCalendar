@@ -12,7 +12,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [authenticationStatus, setAuthenticationStatus] = useState(null);
 
-  const navigate = useNavigate();
   const location = useLocation();
 
   //function that checks that email and passowrd isn't blank
