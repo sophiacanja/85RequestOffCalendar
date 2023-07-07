@@ -280,6 +280,46 @@ usersRouter.get("/userIsAdmin", async (req, res) => {
 });
 
 /**
+ * **************************************************** 
+ * getAllUsers: Returns the first name, last name, employee ID, and email of all users in database
+ * @URL http://localhost:4000/users/getAllUsers
+ * 
+ * @params_and_body
+ * - no body needed
+ * ****************************************************  
+ */
+usersRouter.get("/getAllUsers", async (req, res) => {
+    try{
+        //accesses all the information from users database
+        const userInfo = await UserModel.find({}, 'firstName lastName email employeeID'); 
+
+        //if database is empty then return error message
+        if(userInfo.length === 0){
+            return res.status(400).send({
+                success: false,
+                message: "Employee database is empty, no users found",
+                data: null
+            })
+        }
+        else{
+            //returns: firstName, lastName, employeeID, email, password, admin status of all users 
+            return res.status(200).send({
+                    success: true,
+                    message: "Successfully returned all user info",
+                    data: userInfo
+                });
+            }
+
+    }catch (err) {
+        return res.status(500).send({
+            error: err
+        });
+    }
+});
+
+
+
+/**
  * RegexValidation: Validates user information using regular expressions.
  *
  * @param {Object} userInfo - User information object containing the following properties:
