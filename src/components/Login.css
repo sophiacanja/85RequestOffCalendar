@@ -1,6 +1,6 @@
 .submit-button{
-    width : 80% ; 
-    display: block;
+    width : 100% ; 
+    display: inline-block;
     margin: 20px auto;
     padding: 10px 20px;
     font-size: 1.2rem;
