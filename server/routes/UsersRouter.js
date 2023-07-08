@@ -212,8 +212,8 @@ usersRouter.put("/updateUser", async (req, res) => {
  */
 usersRouter.delete("/deleteUser", async (req, res) => {
     try {
-        const ID = req.query.employeeID
-        const deletedUser = await UserModel.findOneAndDelete({employeeID: ID});
+        const employeeID = req.query.employeeID
+        const deletedUser = await UserModel.findOneAndDelete({employeeID: employeeID});
 
         if(!deletedUser){
                 return res.status(400).send({

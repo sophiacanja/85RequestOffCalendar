@@ -6,9 +6,9 @@ import { Button } from 'react-bootstrap';
 
 const AdminManagement = () => {
   const [data, setData] = useState([])
+  const [userDeleted, setUserDeleted] = useState("false")
 
   useEffect( () => {
-    
     //defining user data needed for table
     const getUserData = async () => {
       try {
@@ -16,12 +16,12 @@ const AdminManagement = () => {
         const response  = await Axios.get('http://localhost:4000/users/getAllUsers')
         //setting the  useState variable to the array with all employee information from database
         setData(response.data.data)
+    
        
       } catch (err) {
         console.log(err)
       }
     }
-
     getUserData();
   }, []);
 
@@ -47,7 +47,23 @@ const AdminManagement = () => {
   } = useTable({columns, data}); //assigining the columns and data fields we assigned above to use for the table
 
 
+const deleteUser = async(employeeID) => {
+  try{
+    //calling the deleteUser api call to delete employee from database
+    await Axios.delete(`http://localhost:4000/users/deleteUser?employeeID=${employeeID}` )
 
+    //remove deleted row from table
+    setData((prevData) => prevData.filter((row) => row.employeeID !== employeeID));
+
+
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const createUser = async() => {
+  console.log("CREATE BUTTON CLICKED")
+}
 
   return (
     <div className= 'AdminManagementTable'>
@@ -68,21 +84,30 @@ const AdminManagement = () => {
           {rows.map(row => {
             prepareRow(row)
             return (
-              <tr{...row.getRowProps()}>
-                {row.cells.map((cell, index) => (
-                  <td {...cell.getCellProps()}>
+              <tr{...row.getRowProps()} >
+                { row.cells.map((cell, index) => {
+                  //checks if you are in the last column and generates the delete button
+                  if( index === row.cells.length -1 ){
+                    return(
+                      <td {...cell.getCellProps()}>
+                        <Button onClick= { () => deleteUser(row.original.employeeID) } > Delete </Button>
+                      </td>
+                    )
+                  }
+                  return (
+                    //continues to populate table cells with employee info
+                    <td {...cell.getCellProps()}>
                     {cell.render("Cell")}
-                    {index === row.cells.length-1 && (<button> Delete </button>)}
                   </td>
-                ))}
+                  )
+                })}
               </tr>
-              
             )
           })}
         </tbody>
       </table>
       <div className= 'AddEmployee'> 
-        <Button> Add Employee </Button>
+        <Button onClick= {createUser}> Add Employee </Button>
       </div>
     </div>          
   );

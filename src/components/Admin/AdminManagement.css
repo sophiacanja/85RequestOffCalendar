@@ -1,11 +1,4 @@
 
-.AdminManagementTable .AddEmployee {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  
 .AdminManagementTable {
     width: 30%;
     border-collapse: collapse;
@@ -14,6 +7,7 @@
   }
   .AdminManagementTable .title {
     text-align: center;
+    color: #a61a11;
   }
   
   .AdminManagementTable th,
@@ -48,6 +42,12 @@
   
   .AdminManagementTable button:hover {
     background-color: #c71f16;
+  }
+
+  .AdminManagementTable .AddEmployee {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
   }
 
  
