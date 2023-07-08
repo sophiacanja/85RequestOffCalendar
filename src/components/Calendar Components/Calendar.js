@@ -20,8 +20,7 @@ const Calendar = () => {
   const [loadedAllSavedDates, setLoadedAllSavedDates] = useState(false);
   // const [datesRequestStatus, setDatesRequestedStatus] = useState(false); //TODO maybe use this for saying "Loading" when retrieving data...?
   const [savedDatesRequested, setSavedDatesRequested] = useState([]);
-  const [value, setValue] = useState((dayjs('2023-07-14')));
-
+  const [currentlySubmittingDates, setCurrentlySubmittingDates] = useState(false);
 
   useEffect(() => {
     // fetching all dates requested stored in DB
@@ -29,7 +28,7 @@ const Calendar = () => {
     const fetchAllDatesRequested = async () => {
       try {
         const response = await Axios.get(
-          'http://localhost:4000/calendar/getAllRequestsForOneUser?employeeID=77'
+          'http://localhost:4000/calendar/getAllUpcomingRequestsForOneUser?employeeID=77'
         );
         const dates = response.data.data;
         // console.log(dates) //"YYYY-MM-DD" is the main part (at the beginning of each one)
@@ -96,7 +95,6 @@ const Calendar = () => {
 
 
   const handleDateChange = (date) => {
-    setValue(date);
 
     const month = date.toString().slice(8, 11);
     // console.log(date.toString().slice(0,4));
@@ -209,6 +207,7 @@ const Calendar = () => {
   // for submitting all selected dates to MongoDB database
   const handleSubmitSelectedDates = async () => {
     try {
+      setCurrentlySubmittingDates(true);
       const body = {
         firstName: "Sovi",
         lastName: "Sonz",
@@ -228,6 +227,7 @@ const Calendar = () => {
     } catch (err) {
       // console.log(err);
       setSubmitStatus(err);
+      setCurrentlySubmittingDates(false);
       console.log("oops");
     }
   }
@@ -243,20 +243,21 @@ const Calendar = () => {
 
     const inSavedDatesRequested = savedDatesRequested.some((date) => date[1] === formattedDay);
     const inSelectedDates = selectedDates.some((date) => date[1] === formattedDay);
-    // const isChosenDate = selectedDay;
 
-    // if(isChosenDate){
-    //   return (
-    //     <CustomPickersDay
-    //       day={day}
-    //       {...other}
-    //       sx={{
-    //         backgroundColor: 'yellow',
-    //         color: 'black',
-    //       }}
-    //     />
-    //   );
-    // }
+    // render current selected date to green
+    if (formattedDay === selectedDay?.format('MM/DD/YYYY')) {
+      return (
+        <CustomPickersDay
+          day={day}
+          {...other}
+          sx={{
+            backgroundColor: 'green',
+            color: 'white',
+          }}
+        />
+      );
+    }
+
     if (!inSavedDatesRequested && !inSelectedDates) {
       return <CustomPickersDay day={day} {...other} />;
     }
@@ -291,6 +292,9 @@ const Calendar = () => {
   };
 
 
+
+
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="container">
@@ -307,22 +311,13 @@ const Calendar = () => {
           )}
 
         </div>
-        {/* passes in shouldDisableDate functgion() into DateCalendar component for dynamic rendering of each date on the calendar; determines what should be enabled and disabled */}
         <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
-          {/* <ThemeProvider theme={theme}> */}
           <DateCalendar
-            disablePast={'false'}
+            disablePast={true}
             onChange={handleDateChange}
             shouldDisableDate={shouldDisableDate}
             slots={{ day: Day }}
-            slotProps={{
-              day: {
-                selectedDay: value
-              }
-            }}
           />
-          {/* </ThemeProvider> */}
-
           <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
 
         </div>
@@ -335,7 +330,7 @@ const Calendar = () => {
               <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
             ))}
           </div>
-          <button className="submit-button" onClick={handleSubmitSelectedDates}>
+          <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
             Submit
           </button>
           <p style={{ textAlign: "center" }}>{submitStatus}</p>
