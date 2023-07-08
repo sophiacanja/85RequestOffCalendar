@@ -1,0 +1,53 @@
+
+.AdminManagementTable .AddEmployee {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  
+.AdminManagementTable {
+    width: 30%;
+    border-collapse: collapse;
+    margin:0 auto;
+    font-size: 20px;
+  }
+  .AdminManagementTable .title {
+    text-align: center;
+  }
+  
+  .AdminManagementTable th,
+  .AdminManagementTable td {
+    padding: 25px;
+    border: 1px solid #ccc;
+
+  }
+  
+  .AdminManagementTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .AdminManagementTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .AdminManagementTable tr:hover {
+    background-color: #ddd;
+  }
+  
+  .AdminManagementTable button {
+    background-color: #a61a11;
+    color: white;
+    border: none;
+    /* padding: 8px 16px; */
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+  }
+  
+  .AdminManagementTable button:hover {
+    background-color: #c71f16;
+  }
+
+ 

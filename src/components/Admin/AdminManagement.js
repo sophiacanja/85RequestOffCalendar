@@ -1,6 +1,8 @@
 import React, { useEffect, useState} from 'react';
 import { useTable } from 'react-table';
+import "./AdminManagement.css";
 import Axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 const AdminManagement = () => {
   const [data, setData] = useState([])
@@ -30,7 +32,8 @@ const AdminManagement = () => {
     {Header: 'Employee ID', accessor: 'employeeID'},
     {Header: 'First Name', accessor: 'firstName'},
     {Header: 'Last Name', accessor: 'lastName'},
-    {Header: 'Email', accessor: 'email'}
+    {Header: 'Email', accessor: 'email'},
+    {Header: 'Delete'}
     ], []);
 
   
@@ -48,8 +51,9 @@ const AdminManagement = () => {
 
   return (
     <div className= 'AdminManagementTable'>
+      <h1 className= 'title'> Manage Employees </h1>
       <table {...getTableProps()}>
-        <thead>
+        <thead className= 'header'>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(columns => (
@@ -65,20 +69,21 @@ const AdminManagement = () => {
             prepareRow(row)
             return (
               <tr{...row.getRowProps()}>
-                {row.cells.map(cell => (
+                {row.cells.map((cell, index) => (
                   <td {...cell.getCellProps()}>
                     {cell.render("Cell")}
+                    {index === row.cells.length-1 && (<button> Delete </button>)}
                   </td>
                 ))}
-                <button>
-                    Delete
-                </button>
               </tr>
               
             )
           })}
         </tbody>
       </table>
+      <div className= 'AddEmployee'> 
+        <Button> Add Employee </Button>
+      </div>
     </div>          
   );
 };
