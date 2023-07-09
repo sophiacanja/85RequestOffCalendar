@@ -1,36 +1,38 @@
 
-.AdminManagementTable {
-    width: 30%;
+.EmployeeTable {
     border-collapse: collapse;
     margin:0 auto;
     font-size: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
   }
-  .AdminManagementTable .title {
+  .EmployeeTableContainer .title {
     text-align: center;
     color: #a61a11;
   }
   
-  .AdminManagementTable th,
-  .AdminManagementTable td {
+  .EmployeeTable th,
+  .EmployeeTable td {
     padding: 25px;
     border: 1px solid #ccc;
 
   }
   
-  .AdminManagementTable th {
+  .EmployeeTable th {
     background-color: #f2f2f2;
     font-weight: bold;
   }
   
-  .AdminManagementTable tr:nth-child(even) {
+  .EmployeeTable tr:nth-child(even) {
     background-color: #f9f9f9;
   }
   
-  .AdminManagementTable tr:hover {
+  .EmployeeTable tr:hover {
     background-color: #ddd;
   }
   
-  .AdminManagementTable button {
+  .EmployeeTable button {
     background-color: #a61a11;
     color: white;
     border: none;
@@ -40,11 +42,11 @@
     padding: 10px 20px;
   }
   
-  .AdminManagementTable button:hover {
+  .EmployeeTable button:hover {
     background-color: #c71f16;
   }
 
-  .AdminManagementTable .AddEmployee {
+  .EmployeeTable .AddEmployee {
     display: flex;
     justify-content: center;
     margin-top: 20px;

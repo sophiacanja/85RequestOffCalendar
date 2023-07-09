@@ -21,7 +21,7 @@
     "jsonwebtoken": "^9.0.0",
     "lord-icon-element": "^4.1.1",
     "lottie-web": "^5.12.2",
-    "mongoose": "^7.2.2",
+    "mongoose": "^7.3.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
