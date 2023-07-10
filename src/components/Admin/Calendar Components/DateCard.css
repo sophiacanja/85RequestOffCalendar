@@ -1,0 +1,28 @@
+.card {
+    background-color: #FFFFFF;
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.date {
+    font-size: 1.3rem;
+    width: 75%
+}
+
+.trash-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.trash-icon {
+    width: 30px;
+    height: 30px;
+}

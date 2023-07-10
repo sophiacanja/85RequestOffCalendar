@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Form } from "react-bootstrap";
 import Axios from 'axios';
 import Button from "react-bootstrap/Button";
@@ -25,26 +25,27 @@ const Login = () => {
     try {
       //api call to check credentials and create token, using the body empoyeeID and password
       const response = await Axios.post("http://localhost:4000/users/loginAndCreateToken", { employeeID: employeeID, password: password })
-      
+
       //checks if the login credentials were invalid 
       if (!response.data.auth) {
         setAuthenticationStatus(false);
-    
+
       } else {
-  
+
         //stores token in localStorage if api request was valid
         localStorage.setItem("token", response.data.token)  //stores jwt in local storage
-        setAuthenticationStatus(true); 
+        setAuthenticationStatus(true);
 
         //waits 1.5 seconds and will navigate to the home page
         setTimeout(() => {
-          }, 1500);
+        }, 1500);
         window.location.reload()
       }
     } catch (err) {
       console.log(err)
     }
   }
+
 
 
   useEffect(() => {
@@ -54,7 +55,10 @@ const Login = () => {
     } else {
       setAuthenticationStatus("Please enter your login credentials");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
 
 
 
@@ -64,7 +68,7 @@ const Login = () => {
 
   return (
     <div className="Login">
-      <h1  className= "Title"> 85c Employee Request Off Calendar </h1>
+      <h1 className="Title"> 85c Employee Request Off Calendar </h1>
       <Form>
         <Form.Group style={{ marginBottom: "40px", fontSize: 30 }} size="lg" controlId="employeeID">
           <Form.Label>Employee ID </Form.Label>
@@ -83,8 +87,8 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <div className= "login">
-          <Button className = "submit-button" block="true" onClick={login} disabled={!validateForm()} style={{ margin: "20px" }} >
+        <div className="login">
+          <Button className="submit-button" block="true" onClick={login} disabled={!validateForm()} style={{ margin: "20px" }} >
             Login
           </Button>
           {authenticationStatus === true && <div> Success! Redirecting to Home Page</div>}
@@ -92,15 +96,15 @@ const Login = () => {
         </div>
         <div className="forgot-password">
           {/* TODO put in correct /path for href */}
-        <a className= "forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
-      </div>
+          <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+        </div>
       </Form>
       <h2 className="Title">Status: {authenticationStatus}</h2>
       <div className="gif">
-        <img src={catLogo} alt='loading...'/>
+        <img src={catLogo} alt='loading...' />
       </div>
     </div>
-    
+
   )
 };
 
