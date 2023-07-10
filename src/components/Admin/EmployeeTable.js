@@ -6,7 +6,7 @@ import "./AdminManagement.css";
 
 const EmployeeTable= () => {
   const [data, setData] = useState([]);
-  const [adminStatus, setAdminStatus] = useState(false);
+  const [adminStatus, setAdminStatus] = useState([]);
 
 
   useEffect( () => {
@@ -17,7 +17,8 @@ const EmployeeTable= () => {
           const response  = await Axios.get('http://localhost:4000/users/getAllUsers')
           //setting the  useState variable to the array with all employee information from database
           setData(response.data.data)
-          console.log(response.data.data)
+          // console.log(response.data.data)
+          await checkIfAdmin(response.data.data)
         } catch (err) {
           console.log(err)
         }
@@ -25,16 +26,33 @@ const EmployeeTable= () => {
       getUserData();
     }, []);
 
-  const checkIfAdmin = async(employeeID) => {
+  //helper function that creates a string array and stores the admin status of each user ("true" or "false")
+  const checkIfAdmin = async(employeeData) => {
     try{
-      //api call to check if the user is admin
-      const response = await Axios.get(`http://localhost:4000/users/userIsAdmin?employeeID=${employeeID}`)
-      //return true if user is has admin status 
-      if(response.data === "true"){
-        return true
-      }
-      return false
-      
+      //declare array and use the map function to extract and store the admin status of each employee
+      const adminStatusArr = await Promise.all(
+        employeeData.map(async(employee) => {
+          //puts the admin value into the adminStatusArr 
+          return employee.admin
+        })
+      )
+      //sets the useState variable to have the array that defines the employees admin status
+      setAdminStatus(adminStatusArr)
+  
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  //deletes the user with the given employeeID(type:number) from the database and updates the frontend by deleting that table row
+  const deleteUser = async(employeeID) => {
+    try{
+      //calling the deleteUser api call to delete employee from database
+      await Axios.delete(`http://localhost:4000/users/deleteUser?employeeID=${employeeID}` )
+  
+      // Update the data state by removing the deleted employee from the array (this deletes the table row in the front end)
+      setData((prevData) => prevData.filter((employee) => employee.employeeID !== employeeID));
+  
     } catch (err) {
       console.log(err)
     }
@@ -54,16 +72,19 @@ return (
                 </tr>
         </thead>
         <tbody>
-          {data.map(async (employee) => {
-            const isAdmin = await checkIfAdmin(employee.employeeID);
+          {data.map((employee, index) => {
             return(
             <tr key = {employee.employeeID}>
               <td> {employee.employeeID} </td>
               <td> {employee.firstName} </td>
               <td> {employee.lastName} </td>
               <td> {employee.email} </td>
-              <td> <Button > Delete </Button></td>
-              
+              {/* generates delete button for the employees who are not admin */}
+              {!adminStatus.length || adminStatus[index] === "false" ? ( 
+                (<td> <Button onClick = { () => deleteUser(employee.employeeID)} > Delete </Button></td>)
+              ) : (
+                <td> </td>
+              )} 
             </tr>
             )
 })}

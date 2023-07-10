@@ -291,7 +291,7 @@ usersRouter.get("/userIsAdmin", async (req, res) => {
 usersRouter.get("/getAllUsers", async (req, res) => {
     try{
         //accesses all the information from users database
-        const userInfo = await UserModel.find({}, 'firstName lastName email employeeID'); 
+        const userInfo = await UserModel.find({}, 'firstName lastName email employeeID admin'); 
 
         //if database is empty then return error message
         if(userInfo.length === 0){
