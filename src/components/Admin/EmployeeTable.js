@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react';
 import Axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import "./AdminManagement.css"; 
+import "./EmployeeTable.css"; 
 
 const EmployeeTable= () => {
   const [data, setData] = useState([]);
