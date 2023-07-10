@@ -12,15 +12,22 @@ import SavedDateCard from './SavedDateCard';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { styled } from '@mui/material/styles';
 
+import EmployeeCard from './EmployeeCard';
 
 
-const Calendar = () => {
+const AdminCalendar = () => {
   const [submitStatus, setSubmitStatus] = useState("");
   const [selectedDates, setSelectedDates] = useState([]);
   const [loadedAllSavedDates, setLoadedAllSavedDates] = useState(false);
   // const [datesRequestStatus, setDatesRequestedStatus] = useState(false); //TODO maybe use this for saying "Loading" when retrieving data...?
   const [savedDatesRequested, setSavedDatesRequested] = useState([]);
   const [currentlySubmittingDates, setCurrentlySubmittingDates] = useState(false);
+
+  const [currentMode, setCurrentMode] = useState(1); // 1 means admin mode, 0 means regular user mode
+  const [employeesRequestedOff, setEmployeesRequestedOff] = useState([]);
+  const [presentableDate, setPresentableDate] = useState("");
+  const [formattedDate, setFormattedDate] = useState("");
+  const [fetchStatus, setFetchStatus] = useState(false);
 
   useEffect(() => {
     // fetching all dates requested stored in DB
@@ -164,6 +171,83 @@ const Calendar = () => {
   };
 
 
+  const adminHandleDateChange = async (date) => {
+    const month = date.toString().slice(8, 11);
+
+    let presentableDate = "";
+    let formattedDate = ""
+
+    switch (month) {
+      case "Jan":
+        presentableDate = `January ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `01/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Feb":
+        presentableDate = `February ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `02/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Mar":
+        presentableDate = `March ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `03/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Apr":
+        presentableDate = `April ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `04/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "May":
+        presentableDate = `May ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `05/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Jun":
+        presentableDate = `June ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `06/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Jul":
+        presentableDate = `July ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `07/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Aug":
+        presentableDate = `August ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `08/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Sep":
+        presentableDate = `September ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `09/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Oct":
+        presentableDate = `October ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `10/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Nov":
+        presentableDate = `November ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `11/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      case "Dec":
+        presentableDate = `December ${date.toString().slice(5, 7)}, ${date.toString().slice(12, 16)}`;
+        formattedDate = `12/${date.toString().slice(5, 7)}/${date.toString().slice(12, 16)}`
+        break;
+      default:
+        presentableDate = '';
+        formattedDate = '';
+        break;
+    }
+
+    setPresentableDate(presentableDate);
+    setFormattedDate(formattedDate);
+
+    setFetchStatus("Loading");
+
+    try {
+      const response = (await Axios.get(`http://localhost:4000/calendar/getAllRequestsForDate?date=${formattedDate}`)).data.data;
+      setEmployeesRequestedOff(response);
+      setFetchStatus("Done");
+      console.log(response);
+    } catch (err) {
+      setFetchStatus("Error");
+
+    }
+  }
+
   // disables all dates from the same week in MUI calendar (DateCalendar component)
   const shouldDisableDate = (date) => {
     if (!loadedAllSavedDates) { // start with calendar disabled to prevent any bugs when choosing dates
@@ -232,6 +316,14 @@ const Calendar = () => {
     }
   }
 
+  const handleModeChange = () => {
+    setCurrentMode((currentMode + 1) % 2);
+    setSelectedDates([]);
+    setEmployeesRequestedOff([]);
+    setPresentableDate("");
+    setFormattedDate("");
+  }
+
 
   // used for changing backgroundColor of specific dates
   const CustomPickersDay = styled(PickersDay)(() => ({
@@ -257,9 +349,9 @@ const Calendar = () => {
         />
       );
     }
-    
+
     // if ordinary day (not requested nor selected), then render regular
-    if (!inSavedDatesRequested && !inSelectedDates) {
+    if ((!inSavedDatesRequested && !inSelectedDates) || (currentMode === 1)) {
       return <CustomPickersDay day={day} {...other} />;
     }
 
@@ -314,26 +406,97 @@ const Calendar = () => {
         </div>
         <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
           <DateCalendar
-            disablePast={true}
-            onChange={handleDateChange}
-            shouldDisableDate={shouldDisableDate}
+            disablePast={currentMode === 0 ? true : false}
+            onChange={currentMode === 0 ? handleDateChange : adminHandleDateChange}
+            shouldDisableDate={currentMode === 0 ? shouldDisableDate : false}
             slots={{ day: Day }}
           />
-          <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
+          <button
+            style={{
+              display: 'block',
+              margin: '0 auto',
+              backgroundColor: currentMode === 1 ? '#007bff' : '#28a745',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '10px 20px',
+              fontSize: '1.2rem',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s ease',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            }}
+            onClick={handleModeChange}
+          >
+            Currently in {currentMode === 1 ? "Admin Mode" : "User Mode"}
+          </button>
+
+
+
 
         </div>
 
         <div className="section" id="selected-dates">
-          <h1 style={{ textAlign: 'center' }}>Selected Dates</h1>
+          <h1 style={{ textAlign: 'center' }}>{currentMode === 1 ? "Unavailable Employees" : "Selected Dates"}</h1>
 
           <div>
-            {selectedDates.map((date, index) => (
-              <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
-            ))}
+            {(() => {
+              if (currentMode === 0) {// eslint-disable-next-line
+                {/* user mode */ }
+                return (
+                  <>
+                    {selectedDates.map((date, index) => (
+                      <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
+                    ))}
+                  </>
+                )
+              } else { // eslint-disable-next-line
+                {/* admin mode */ }
+                if (fetchStatus === "Loading") {
+                  return (
+                    <>
+                      <img src={require('../../../assets/gifs/loading.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Loading gif" />
+                    </>
+                  )
+                }
+
+                if (fetchStatus === "Error") {
+                  return (
+                    <>
+                      <img src={require('../../../assets/gifs/wrench.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Loading gif" />
+                      <p style={{ textAlign: 'center' }}>There was an error when retrieving data, please try again or contact IT.</p>
+                    </>
+                  )
+                }
+                if (formattedDate.length === 0 || presentableDate === 0) {
+                  return (
+                    <>
+                      <p style={{ textAlign: 'center' }}>Start by selecting a date on the calendar</p>
+                    </>
+                  )
+                }
+                if (employeesRequestedOff.length === 0) {
+                  return (
+                    <>
+                      <p style={{ textAlign: 'center' }}>{presentableDate}</p>
+                      <p style={{ textAlign: 'center' }}>All employees available</p>
+                    </>
+                  )
+                } else {
+                  return (
+                    <>
+                      {employeesRequestedOff.map((entry, index) => (
+                        <EmployeeCard firstName={entry.firstName} lastName={entry.lastName} employeeID={entry.employeeID} />
+                      ))}
+                    </>
+                  )
+                }
+              }
+            })()}
           </div>
-          <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
+          {currentMode === 0 && <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
             Submit
-          </button>
+          </button>}
           <p style={{ textAlign: "center" }}>{submitStatus}</p>
         </div>
       </div>
@@ -341,4 +504,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default AdminCalendar;

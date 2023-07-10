@@ -250,7 +250,7 @@ calendarRequestsRouter.get("/getAllUpcomingRequestsForOneUser", async (req, res)
 
         // Calculate the start of the next week
         const startOfNextWeek = new Date();
-        startOfNextWeek.setDate(currentDate.getDate() + (7 - currentDate.getDay()) + 1); // (month date + (number of days till the next week starts))
+        startOfNextWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay()) + 1); // (month date + (number of days till the next week starts))
         startOfNextWeek.setHours(0, 0, 0, 0);
 
         // Retrieve all requests made by the given employee ID that have dates in the future and are the earliest start of the next week. Also sorts them after retrieval
