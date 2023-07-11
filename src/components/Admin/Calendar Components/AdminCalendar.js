@@ -287,23 +287,29 @@ const AdminCalendar = () => {
     )));
   }
 
-
   // for submitting all selected dates to MongoDB database
   const handleSubmitSelectedDates = async () => {
     try {
       setCurrentlySubmittingDates(true);
-      const body = {
-        firstName: "Sovi",
-        lastName: "Sonz",
-        employeeID: 77,
-        dates: selectedDates.map((date) => date[1])
+      //checks if user is authorized and validates the jwt 
+      const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } })
+      console.log(response)
+
+      //if jwt is expired, reload page
+      if(response.data.auth === false ){
+        window.location.reload() 
+      } else{
+          //if user is authorized, save user info and submit request by calling createRequest api  
+         const body = {
+          firstName: response.data.user.firstName, 
+          lastName: response.data.user.lastName,
+          employeeID: response.data.user.employeeID,
+          dates: selectedDates.map((date) => date[1])
+        }
+        await Axios.post(`http://localhost:4000/calendar/createRequest`, body);
+        setSubmitStatus("Successful! Reloading page...");
       }
-      console.log(body);
-
-      await Axios.post(`http://localhost:4000/calendar/createRequest`, body);
-
-      setSubmitStatus("Successful! Reloading page...");
-
+      
       setTimeout(() => {
         window.location.reload();
       }, 1500);
@@ -478,8 +484,8 @@ const AdminCalendar = () => {
                 if (employeesRequestedOff.length === 0) {
                   return (
                     <>
+                      <p style={{ textAlign: 'center' }}>No requests off for date:</p>
                       <p style={{ textAlign: 'center' }}>{presentableDate}</p>
-                      <p style={{ textAlign: 'center' }}>All employees available</p>
                     </>
                   )
                 } else {
