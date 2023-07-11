@@ -1,0 +1,43 @@
+ /* these variables are for adminManagement.js files */
+ 
+ /* every button has the "btn-primary" class, so we can change all buttons on the page 
+  by specifying this class  to access or override this style, call and each individual button use 
+  [".EmployeeTable button" : delete button, ".AddEmployeeSection button" : addEmployee button, ".submitButton" : submit */
+.btn-primary{
+    background-color: #a61a11;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+}  
+
+.btn-primary:hover
+{
+  background-color: #c71f16;
+}
+
+.AddEmployeeSection  
+{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.AddEmployeeSection {
+    margin-bottom: 20px;
+}
+
+.AddEmployeeSection input {
+    width: 90%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+.AddEmployeeForm {
+    background-color: blue;
+   
+}
+
