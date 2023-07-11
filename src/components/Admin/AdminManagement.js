@@ -1,7 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import Axios from 'axios';
 import EmployeeTable from './EmployeeTable.js'
-import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -14,8 +13,8 @@ const AdminManagement = () => {
     const handleChange = (event) => {
         const name = event.target.name; 
         const value = event.target.value; 
+
         //sets useState var with the key:value pairs of the given event (ex: [firstName] : Sophia)
-    
         if(name === "employeeID") {
             setNewUserData(values => ( 
                 {...values, [name]: Number(value)}) )
@@ -30,9 +29,7 @@ const AdminManagement = () => {
     const handleSubmit = async (event) => {
         try{
             event.preventDefault();
-            // console.log(JSON.stringify(newUserData))
             const response = await Axios.post('http://localhost:4000/users/createUser', newUserData)
-
 
             if(response.data.success){
                 console.log('USER CREATED', response.data.data)
@@ -43,8 +40,7 @@ const AdminManagement = () => {
             }
         } catch (err) {
             console.log(err)
-        }
-        
+        } 
       }
     
 
