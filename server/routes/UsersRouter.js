@@ -112,13 +112,15 @@ usersRouter.post("/createUser", async (req, res) => {
     try {
         const userInfo = req.body;
         const userExists = await UserModel.findOne({ employeeID: userInfo.employeeID });
-        if(userExists){
+        const emailExists = await UserModel.findOne({ email: userInfo.email });
+        if(userExists || emailExists){
             return res.status(400).send({
                 success: false,
-                message: "User already exists"
+                message: "Employee ID or email already in use"
             }); 
         }
 
+        
         // ensures inputs are valid formats
         const regexCheck = await RegexValidation(userInfo);
         if(!regexCheck.success){

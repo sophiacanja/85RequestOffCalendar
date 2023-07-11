@@ -6,6 +6,8 @@
     border: 1px solid #dee2e6;
     border-radius: 4px;
     padding: 10px;
+    justify-content: center;
+    margin-top: 20px;
   }
   .EmployeeTableContainer .title {
     text-align: center;
@@ -32,7 +34,8 @@
     background-color: #ddd;
   }
   
-  .EmployeeTable button {
+  .EmployeeTable button,
+  .AddEmployee button {
     background-color: #a61a11;
     color: white;
     border: none;
@@ -42,14 +45,16 @@
     padding: 10px 20px;
   }
   
-  .EmployeeTable button:hover {
+  .EmployeeTable button:hover,
+  .AddEmployee button:hover  {
     background-color: #c71f16;
   }
 
-  .EmployeeTable .AddEmployee {
-    display: flex;
-    justify-content: center;
+  .AddEmployee {
     margin-top: 20px;
+    text-align: center;
   }
+
+  
 
  
