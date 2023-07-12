@@ -4,6 +4,8 @@ import EmployeeTable from './EmployeeTable.js'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import './EmployeeTable.css';
 import './AdminManagement.css';
 const AdminManagement = () => {
@@ -55,55 +57,65 @@ return (
             <div className= "AddEmployeeSection"> 
                 <Button onClick = { ()=> setAddUser(true)} className="AddEmployeButton"  > Add Employee </Button>
                 {addUser === true && <Form onSubmit={ handleSubmit } className="AddEmployeeForm"> 
-                    <Form.Group className="EmployeeID-textbox" controlId="employeeID">
-                        <Form.Label>Employee ID </Form.Label>
+                    <Form.Group as={Row} className="EmployeeID-textbox" controlId="employeeID">
+                        <Form.Label column sm="10" className="formLabel">Employee ID </Form.Label>
+                        <Col sm="10">
                         <Form.Control 
                             type= "number"
                             name="employeeID"
                             value={ newUserData.employeeID || ''}
                             onChange={ handleAddEmployee }
                         />
+                        </Col>
                     </Form.Group>
 
-                    <Form.Group className="firstName-textbox" controlId="firstName">
-                        <Form.Label>First Name </Form.Label>
+                    <Form.Group as={Row} className="firstName-textbox" controlId="firstName">
+                        <Form.Label column sm="10" className="formLabel">First Name  </Form.Label>
+                        <Col sm="10"> 
                         <Form.Control 
                             type= "text"
                             name="firstName"
                             value={ newUserData.firstName || '' }
                             onChange={ handleAddEmployee }
                         />
+                        </Col>
 
                     </Form.Group>
 
-                    <Form.Group className="lastName-textbox" controlId="lastName">
-                        <Form.Label>Last Name </Form.Label>
+                    <Form.Group as={Row} className="lastName-textbox" controlId="lastName">
+                        <Form.Label column sm="10" className="formLabel">Last Name    </Form.Label>
+                        <Col sm="10">
                         <Form.Control
                             type= "text"
                             name="lastName"
                             value={ newUserData.lastName || ''}
                             onChange={ handleAddEmployee }
                          />
+                         </Col>
                     </Form.Group>
 
-                    <Form.Group className="email-textbox" controlId="email">
-                        <Form.Label>Email </Form.Label>
+                    <Form.Group as={Row} className="email-textbox" controlId="email">
+                        <Form.Label column sm="10" className="formLabel">Email </Form.Label>
+                        <Col sm="10">
                         <Form.Control 
                             type= "text"
                             name="email"
                             value={ newUserData.email || ''}
                             onChange={ handleAddEmployee }
                         />
+                        </Col>
                     </Form.Group>
 
-                    <Form.Group className="password-textbox" controlId="password">
-                        <Form.Label>Password </Form.Label>
+                    <Form.Group as={Row} className="password-textbox" controlId="password">
+                        <Form.Label column sm="10" className="formLabel">Password    </Form.Label>
+                        <Col sm="10">
                         <Form.Control
                             type= "text"
                             name="password"
                             value={ newUserData.password || ''}
                             onChange={ handleAddEmployee }
                         />
+                        </Col>
                     </Form.Group>
                         <Button as= "input" type="submit" className= "submitButton"/> 
                 </Form> }
