@@ -3,7 +3,7 @@
     border-collapse: collapse;
     margin:0 auto;
     font-size: 20px;
-    border: 1px solid #dee2e6;
+    border: 2px solid #dee2e6;
     border-radius: 4px;
     margin-top: 20px;
   }
@@ -24,14 +24,7 @@
     font-weight: bold;
   }
   
-  .EmployeeTable tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .EmployeeTable tr:hover {
-    background-color: #ddd;
-  }
-  
+
   
 
  

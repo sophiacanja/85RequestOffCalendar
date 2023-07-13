@@ -17,51 +17,39 @@
   background-color: #c71f16;
 }
 
-.AddEmployeeSection  
+
+.AddEmployeeForm 
+{
+  border: 2px solid #dee2e6;
+  background-color: #f2f2f2;
+  font-size: 20px;
+}
+
+.FormTitle {
+  text-align: center;
+  color: #a61a11;
+  margin-top: 20px;
+}
+
+/* .AddEmployeButton {
+  margin-top: 30px;
+} */
+
+.row
 {
   margin-top: 20px;
-  text-align: center;
-}
-
-.AddEmployeeSection {
-    margin-bottom: 20px;
-}
-
-.row {
-  display:flex; 
-  padding: 10px;
-}
-
-.formLabel {
-  margin-right: 10px;
-}
-
-
-/* .AddEmployeeSection input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-top: 25px;
-
-  } */
-  
-  /* .AddEmployeeSection {
-    display: inline-block ;
-  } */
-
-.AddEmployeeForm {
-    background-color: blue;
-    
-}
-
-/* .AddEmployeeForm {
-  border-collapse: collapse;
-  margin:0 auto;
-  font-size: 20px;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  margin-top: 20px;
   margin-bottom: 20px;
-  width: 80%;
-} */
+}
+
+.submitButton,
+.AddEmployeButton
+{
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+}
+
+
+
+
+

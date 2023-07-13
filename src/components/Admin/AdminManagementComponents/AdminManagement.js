@@ -52,76 +52,80 @@ const AdminManagement = () => {
     
 
 return ( 
-    <Container className = "AdminManagement" fluid="lg" >
+    <div>
+        <Container className = "EmployeeTableContainer" fluid="lg"> 
             <EmployeeTable />
-            <div className= "AddEmployeeSection"> 
+        </Container>
+
+        <Container className = "AddEmployeeContainer" fluid="lg" >
+
+            <div className="text-center">
                 <Button onClick = { ()=> setAddUser(true)} className="AddEmployeButton"  > Add Employee </Button>
-                {addUser === true && <Form onSubmit={ handleSubmit } className="AddEmployeeForm"> 
-                    <Form.Group as={Row} className="EmployeeID-textbox" controlId="employeeID">
-                        <Form.Label column sm="10" className="formLabel">Employee ID </Form.Label>
-                        <Col sm="10">
-                        <Form.Control 
-                            type= "number"
-                            name="employeeID"
-                            value={ newUserData.employeeID || ''}
-                            onChange={ handleAddEmployee }
-                        />
-                        </Col>
-                    </Form.Group>
+            </div>
 
-                    <Form.Group as={Row} className="firstName-textbox" controlId="firstName">
-                        <Form.Label column sm="10" className="formLabel">First Name  </Form.Label>
-                        <Col sm="10"> 
-                        <Form.Control 
-                            type= "text"
-                            name="firstName"
-                            value={ newUserData.firstName || '' }
-                            onChange={ handleAddEmployee }
-                        />
-                        </Col>
+                {addUser === true && <Form onSubmit={ handleSubmit } className="AddEmployeeForm">
+                    <h1 className="FormTitle"> Create New Employee</h1>
+                    <Row>
+                        <Form.Group as={Col} controlId="firstName">
+                            <Form.Label >First Name  </Form.Label>
+                            <Form.Control 
+                                type= "text"
+                                name="firstName"
+                                value={ newUserData.firstName || '' }
+                                onChange={ handleAddEmployee }
+                            />
+                        </Form.Group>
+                        
+                        <Form.Group as={Col} controlId="lastName">
+                            <Form.Label>Last Name    </Form.Label>
+                            <Form.Control
+                                type= "text"
+                                name="lastName"
+                                value={ newUserData.lastName || ''}
+                                onChange={ handleAddEmployee }
+                            />
+                        </Form.Group>
+                    </Row>
 
-                    </Form.Group>
+                    <Row>
+                        <Form.Group as={Col} className="EmployeeID-textbox" controlId="employeeID">
+                            <Form.Label  className="formLabel">Employee ID / Username</Form.Label>
+                            <Form.Control 
+                                type= "number"
+                                name="employeeID"
+                                value={ newUserData.employeeID || ''}
+                                onChange={ handleAddEmployee }
+                            />
+                        </Form.Group>
 
-                    <Form.Group as={Row} className="lastName-textbox" controlId="lastName">
-                        <Form.Label column sm="10" className="formLabel">Last Name    </Form.Label>
-                        <Col sm="10">
-                        <Form.Control
-                            type= "text"
-                            name="lastName"
-                            value={ newUserData.lastName || ''}
-                            onChange={ handleAddEmployee }
-                         />
-                         </Col>
-                    </Form.Group>
+                        <Form.Group as={Col} className="password-textbox" controlId="password">
+                            <Form.Label className="formLabel">Password    </Form.Label>
+                            <Form.Control
+                                type= "text"
+                                name="password"
+                                value={ newUserData.password || ''}
+                                onChange={ handleAddEmployee }
+                            />
+                        </Form.Group>
+                    </Row>
 
-                    <Form.Group as={Row} className="email-textbox" controlId="email">
-                        <Form.Label column sm="10" className="formLabel">Email </Form.Label>
-                        <Col sm="10">
+                    <Form.Group  className="email-textbox" controlId="email">
+                        <Form.Label  className="formLabel">Email </Form.Label>
                         <Form.Control 
                             type= "text"
                             name="email"
                             value={ newUserData.email || ''}
                             onChange={ handleAddEmployee }
                         />
-                        </Col>
                     </Form.Group>
-
-                    <Form.Group as={Row} className="password-textbox" controlId="password">
-                        <Form.Label column sm="10" className="formLabel">Password    </Form.Label>
-                        <Col sm="10">
-                        <Form.Control
-                            type= "text"
-                            name="password"
-                            value={ newUserData.password || ''}
-                            onChange={ handleAddEmployee }
-                        />
-                        </Col>
-                    </Form.Group>
+                    <div className="text-center">
                         <Button as= "input" type="submit" className= "submitButton"/> 
-                </Form> }
-            </div>
-    </Container>
-)
+                    </div>
+                </Form> }      
+        </Container>
+    </div>
+);
+
 }
 
 export default AdminManagement;
