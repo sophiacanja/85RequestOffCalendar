@@ -9,8 +9,9 @@ import Row from 'react-bootstrap/Row';
 import './EmployeeTable.css';
 import './AdminManagement.css';
 const AdminManagement = () => {
-    const [addUser, setAddUser] = useState(false)
-    const [newUserData, setNewUserData] = useState({})
+    const [addUser, setAddUser] = useState(false);
+    const [newUserData, setNewUserData] = useState({});
+    const [userCreated, setUserCreated] = useState(false);
 
     //handles all the input variables made in the AddEmploye section and sets the useState variable newUserData
     //sets useState var with the key:value pairs of the given event (ex: [firstName] : Sophia)
@@ -40,7 +41,12 @@ const AdminManagement = () => {
 
             if(response.data.success){
                 console.log('USER CREATED', response.data.data)
+                setUserCreated(true)
+                //waits 2 seconds and will reload page with updated user
+                setTimeout(() => {
+                }, 2000);
                 window.location.reload()
+                
             }
             else {
                 console.log("ERROR IN CREATING USER")    
@@ -121,6 +127,7 @@ return (
                     <div className="text-center">
                         <Button as= "input" type="submit" className= "submitButton"/> 
                     </div>
+                    {userCreated && <div> SUCCESS! NEW EMPLOYEE ADDED </div>}
                 </Form> }      
         </Container>
     </div>
