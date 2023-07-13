@@ -44,7 +44,7 @@ const AdminManagement = () => {
                 setUserCreated(true)
                 //waits 2 seconds and will reload page with updated user
                 setTimeout(() => {
-                }, 2000);
+                }, 10000);
                 window.location.reload()
                 
             }
@@ -126,8 +126,9 @@ return (
                     </Form.Group>
                     <div className="text-center">
                         <Button as= "input" type="submit" className= "submitButton"/> 
+                        {userCreated && <div className="SuccessMessage"> SUCCESS! NEW EMPLOYEE ADDED </div>}
                     </div>
-                    {userCreated && <div> SUCCESS! NEW EMPLOYEE ADDED </div>}
+                    
                 </Form> }      
         </Container>
     </div>
