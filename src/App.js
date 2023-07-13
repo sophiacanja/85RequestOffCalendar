@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // components for pages
 import Navbar from './components/Navbar';
@@ -7,7 +8,7 @@ import Login from "./components/Login";
 import Logout from './components/Logout';
 import UpdateAccount from './components/UpdateAccount';
 import AdminHome from './components/Admin/AdminHome';
-import AdminManagement from './components/Admin/AdminManagement';
+import AdminManagement from './components/Admin/AdminManagementComponents/AdminManagement';
 import UnknownPage from './components/UnknownPage';
 import PrivateRouterUser from './components/PrivateRouterUser'
 

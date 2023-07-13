@@ -112,13 +112,15 @@ usersRouter.post("/createUser", async (req, res) => {
     try {
         const userInfo = req.body;
         const userExists = await UserModel.findOne({ employeeID: userInfo.employeeID });
-        if(userExists){
+        const emailExists = await UserModel.findOne({ email: userInfo.email });
+        if(userExists || emailExists){
             return res.status(400).send({
                 success: false,
-                message: "User already exists"
+                message: "Employee ID or email already in use"
             }); 
         }
 
+        
         // ensures inputs are valid formats
         const regexCheck = await RegexValidation(userInfo);
         if(!regexCheck.success){
@@ -212,8 +214,8 @@ usersRouter.put("/updateUser", async (req, res) => {
  */
 usersRouter.delete("/deleteUser", async (req, res) => {
     try {
-        const ID = req.query.employeeID
-        const deletedUser = await UserModel.findOneAndDelete({employeeID: ID});
+        const employeeID = req.query.employeeID
+        const deletedUser = await UserModel.findOneAndDelete({employeeID: employeeID});
 
         if(!deletedUser){
                 return res.status(400).send({
@@ -278,6 +280,46 @@ usersRouter.get("/userIsAdmin", async (req, res) => {
         });
     }
 });
+
+/**
+ * **************************************************** 
+ * getAllUsers: Returns the first name, last name, employee ID, and email of all users in database
+ * @URL http://localhost:4000/users/getAllUsers
+ * 
+ * @params_and_body
+ * - no body needed
+ * ****************************************************  
+ */
+usersRouter.get("/getAllUsers", async (req, res) => {
+    try{
+        //accesses all the information from users database
+        const userInfo = await UserModel.find({}, 'firstName lastName email employeeID admin'); 
+
+        //if database is empty then return error message
+        if(userInfo.length === 0){
+            return res.status(400).send({
+                success: false,
+                message: "Employee database is empty, no users found",
+                data: null
+            })
+        }
+        else{
+            //returns: firstName, lastName, employeeID, email, password, admin status of all users 
+            return res.status(200).send({
+                    success: true,
+                    message: "Successfully returned all user info",
+                    data: userInfo
+                });
+            }
+
+    }catch (err) {
+        return res.status(500).send({
+            error: err
+        });
+    }
+});
+
+
 
 /**
  * RegexValidation: Validates user information using regular expressions.

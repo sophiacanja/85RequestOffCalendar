@@ -1,6 +1,6 @@
-.submit-button{
-    width : 80% ; 
-    display: block;
+/* .submit-button{
+    width : 100% ; 
+    display: inline-block;
     margin: 20px auto;
     padding: 10px 20px;
     font-size: 1.2rem;
@@ -58,7 +58,7 @@
     margin-top: 20px;
     text-align: center;
    
-  }
+  } */
   
   /* .Login .reset-password button {
     background-color: transparent;
@@ -68,18 +68,18 @@
     cursor: pointer;
   } */
   
-  .Login .forgot-password:hover {
+  /* .Login .forgot-password:hover {
     outline: none;
     color: #c71f16;
   }
 
   .Title {
     text-align: center; /* Horizontally center the text */
-  }
+  /* }
   
   .gif {
   
     max-width: 100%;
     margin-left: 20px;
   }
-  
+   */ 
