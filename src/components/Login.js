@@ -4,6 +4,12 @@ import { Form } from "react-bootstrap";
 import Axios from 'axios';
 import Button from "react-bootstrap/Button";
 import catLogo from '../assets/gifs/catLoading.gif';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import cakeImage from '../assets/photos/85Bakery_redVelvet.jfif'
+import Card from 'react-bootstrap/Card';
+
 import "./Login.css";
 
 
@@ -67,42 +73,77 @@ const Login = () => {
   }
 
   return (
-    <div className="Login">
+    <div> 
+    <Container className= "LoginContainer" fluid="lg"> 
+   <Row>
+    <Col> 
+     
+      <Card  className="text-white" class= "card w-100" > 
+        <Card.Img src= {cakeImage} alt= "Card image"/> 
+        <Card.ImgOverlay>
+          <Card.Title> 85c Cake Department Request-Off </Card.Title>
+          <Card.Text>
+            Welcome! This site will help you request the days off you need in the upcoming months.
+            Please login with your employee ID and your password. 
+          </Card.Text>
+        </Card.ImgOverlay>
+      </Card>
+      
+    </Col>
+
+    <Col> 
+    <Container className="LoginForm" fluid="sm">
+    
+      
+     
       <h1 className="Title"> 85c Employee Request Off Calendar </h1>
+     
+
+     
       <Form>
-        <Form.Group style={{ marginBottom: "40px", fontSize: 30 }} size="lg" controlId="employeeID">
-          <Form.Label>Employee ID </Form.Label>
+      {/* <Row md={{ span: 4, offset: 3 }}>  */}
+        
+        <Form.Group controlId="employeeID">
           <Form.Control
             autoFocus
-            type="employee id"
+            placeholder="Employee ID"
+            type="text"
             value={employeeID}
             onChange={(e) => setEmployeeID(e.target.value)}
           />
         </Form.Group>
-        <Form.Group style={{ fontSize: 30 }} size="lg" controlId="password">
-          <Form.Label>Password  </Form.Label>
+
+
+        <Form.Group  controlId="password">
           <Form.Control
-            type="password"
+            type="text"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="login">
+
           <Button className="submit-button" block="true" onClick={login} disabled={!validateForm()} style={{ margin: "20px" }} >
             Login
           </Button>
           {authenticationStatus === true && <div> Success! Redirecting to Home Page</div>}
           {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
-        </div>
+
         <div className="forgot-password">
           {/* TODO put in correct /path for href */}
           <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
         </div>
       </Form>
       <h2 className="Title">Status: {authenticationStatus}</h2>
-      <div className="gif">
+      {/* <div className="gif">
         <img src={catLogo} alt='loading...' />
-      </div>
+      </div> */}
+    </Container>
+
+    </Col>
+    </Row>
+    </Container>
+    
     </div>
 
   )

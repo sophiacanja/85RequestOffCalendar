@@ -83,3 +83,23 @@
     margin-left: 20px;
   }
    */ 
+
+  .LoginContainer {
+    background-color: rgba(245, 210, 210, 0.737);
+  }
+
+  .LoginForm {
+    /* display: inline-block; */
+    font-size: 20px; 
+    /* padding-left: 25px;
+    padding-right: 25px; */
+    margin: 0 auto;
+    margin-top: 20px;
+    background-color: whitesmoke;
+    
+  }
+
+  .card-img {
+    width: 900px;
+    height: 550px;
+    }
