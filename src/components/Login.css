@@ -16,15 +16,6 @@
     background-color: #a61a11;
   }
 
-
-  .Login {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 200px;
-    background-color: #f7f7f7;
-    border-radius: 5px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-  }
   
   .Login form {
     margin-bottom: 20px;
@@ -60,46 +51,40 @@
    
   } */
   
-  /* .Login .reset-password button {
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    text-decoration: underline;
-    cursor: pointer;
-  } */
-  
-  /* .Login .forgot-password:hover {
-    outline: none;
-    color: #c71f16;
-  }
 
-  .Title {
-    text-align: center; /* Horizontally center the text */
-  /* }
-  
-  .gif {
-  
-    max-width: 100%;
-    margin-left: 20px;
-  }
-   */ 
 
   .LoginContainer {
-    background-color: rgba(245, 210, 210, 0.737);
+    background-color: rgb(255, 124, 124);
+    margin-top: 10%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    align-items: center;
+    max-width: 800px;
+    display: flex; 
   }
 
-  .LoginForm {
-    /* display: inline-block; */
+  .LoginFormContainer {
+    display: inline-block;
     font-size: 20px; 
-    /* padding-left: 25px;
-    padding-right: 25px; */
-    margin: 0 auto;
     margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-color: whitesmoke;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
     
   }
 
-  .card-img {
-    width: 900px;
-    height: 550px;
-    }
+  .row {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+
+
+  
+  
+
+  

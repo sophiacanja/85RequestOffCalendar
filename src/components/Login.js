@@ -73,36 +73,20 @@ const Login = () => {
   }
 
   return (
-    <div> 
+    <div className = "loginPage"> 
     <Container className= "LoginContainer" fluid="lg"> 
-   <Row>
-    <Col> 
-     
-      <Card  className="text-white" class= "card w-100" > 
-        <Card.Img src= {cakeImage} alt= "Card image"/> 
-        <Card.ImgOverlay>
-          <Card.Title> 85c Cake Department Request-Off </Card.Title>
-          <Card.Text>
-            Welcome! This site will help you request the days off you need in the upcoming months.
-            Please login with your employee ID and your password. 
-          </Card.Text>
-        </Card.ImgOverlay>
-      </Card>
-      
-    </Col>
-
-    <Col> 
-    <Container className="LoginForm" fluid="sm">
+  
     
-      
+    <Container className="LoginFormContainer" fluid="sm">
+      <Row> 
+      <div className="text-center">  
+      <h1 className="Title"> 85c Login  </h1>
+      </div>
+      </Row>
      
-      <h1 className="Title"> 85c Employee Request Off Calendar </h1>
-     
-
-     
-      <Form>
-      {/* <Row md={{ span: 4, offset: 3 }}>  */}
-        
+      <Form className= "LoginForm" >
+      <Row> 
+       
         <Form.Group controlId="employeeID">
           <Form.Control
             autoFocus
@@ -112,8 +96,9 @@ const Login = () => {
             onChange={(e) => setEmployeeID(e.target.value)}
           />
         </Form.Group>
-
-
+      </Row> 
+        
+        <Row> 
         <Form.Group  controlId="password">
           <Form.Control
             type="text"
@@ -122,28 +107,34 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-
-          <Button className="submit-button" block="true" onClick={login} disabled={!validateForm()} style={{ margin: "20px" }} >
+        </Row>
+       
+        <div className = "text-center">
+       
+          <Button className="login-button" onClick={login} disabled={!validateForm()} >
             Login
           </Button>
           {authenticationStatus === true && <div> Success! Redirecting to Home Page</div>}
           {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
-
+        <Row> 
         <div className="forgot-password">
           {/* TODO put in correct /path for href */}
           <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
         </div>
+        </Row>
+        </div>
       </Form>
-      <h2 className="Title">Status: {authenticationStatus}</h2>
-      {/* <div className="gif">
-        <img src={catLogo} alt='loading...' />
-      </div> */}
-    </Container>
 
-    </Col>
-    </Row>
+      <Row> 
+      <div className="text-center">
+      <div className="StatusMessage">Status: {authenticationStatus}</div>
+      </div>
+      </Row>
+
     </Container>
-    
+   
+    </Container>
+    <footer class="py-5 my-5 bg-dark text-white"> This site helps employees request days off for vacation. We appreciate your time! </footer>
     </div>
 
   )
