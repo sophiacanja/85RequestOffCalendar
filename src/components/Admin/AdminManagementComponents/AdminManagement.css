@@ -25,6 +25,7 @@
   font-size: 20px;
   padding-left: 25px;
   padding-right: 25px;
+  
 }
 
 .FormTitle {
@@ -51,6 +52,10 @@
   font-weight: bold;
   font-size: 30px;
   color: green;
+}
+
+.AddEmployeeContainer {
+  flex-direction: column;
 }
 
 

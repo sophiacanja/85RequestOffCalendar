@@ -134,7 +134,9 @@ const Login = () => {
     </Container>
    
     </Container>
-    <footer class="py-5 my-5 bg-dark text-white"> This site helps employees request days off for vacation. We appreciate your time! </footer>
+    
+    
+    
     </div>
 
   )
