@@ -3,6 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { Form } from "react-bootstrap";
 import Axios from 'axios';
 import Button from "react-bootstrap/Button";
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 import catLogo from '../assets/gifs/catLoading.gif';
 import "./Login.css";
 
