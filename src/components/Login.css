@@ -62,7 +62,7 @@
     max-width: 800px;
     display: flex; 
   }
-
+/* 
   .LoginFormContainer {
     display: inline-block;
     font-size: 20px; 
@@ -75,13 +75,18 @@
     align-items: center;
     max-width: 600px;
     
-  }
+  } */
 
   .row {
     padding-left: 30px;
     padding-right: 30px;
   }
 
+  .SuccessMessage {
+    font-weight: bold;
+    font-size: 25px;
+    color: green;
+  }
  
 
 
