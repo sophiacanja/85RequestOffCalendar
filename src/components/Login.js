@@ -4,10 +4,9 @@ import { Form } from "react-bootstrap";
 import Axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import backgroundCoffeeImage from '../assets/photos/coffeeBackground.webp';
 
-import catLogo from '../assets/gifs/catLoading.gif';
 import "./Login.css";
 
 
@@ -51,7 +50,6 @@ const Login = () => {
   }
 
 
-
   useEffect(() => {
     const state = location.state?.message;
     if (state !== null && state !== undefined) {
@@ -59,10 +57,7 @@ const Login = () => {
     } else {
       setAuthenticationStatus("Please enter your login credentials");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-
+  }, [location.state?.message]);
 
 
 
@@ -71,43 +66,68 @@ const Login = () => {
   }
 
   return (
-    <div className="Login">
-      <h1 className="Title"> 85c Employee Request Off Calendar </h1>
-      <Form>
-        <Form.Group style={{ marginBottom: "40px", fontSize: 30 }} size="lg" controlId="employeeID">
-          <Form.Label>Employee ID </Form.Label>
-          <Form.Control
-            autoFocus
-            type="employee id"
-            value={employeeID}
-            onChange={(e) => setEmployeeID(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group style={{ fontSize: 30 }} size="lg" controlId="password">
-          <Form.Label>Password  </Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <div className="login">
-          <Button className="submit-button" block="true" onClick={login} disabled={!validateForm()} style={{ margin: "20px" }} >
+    <div style= {{ backgroundImage: `url(${backgroundCoffeeImage})`, backgroundRepeat: "no-repeat", 
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+
+    <Container className= "rounded" id="LoginContainer" fluid="lg"> 
+    
+    <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
+      <Row> 
+        <div className="text-center">  
+          <h1 className="Title"> Associate Login  </h1>
+        </div>
+      </Row>
+     
+      <Form className= "rounded"  id="LoginForm ">
+        <Row> 
+          <Form.Group controlId="employeeID">
+            <Form.Control
+              autoFocus
+              placeholder="Employee ID"
+              type="text"
+              value={employeeID}
+              onChange={(e) => setEmployeeID(e.target.value)}
+            />
+          </Form.Group>
+        </Row> 
+        
+        <Row> 
+          <Form.Group  controlId="password">
+            <Form.Control
+              type="text"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+        </Row>
+        
+       
+        <div className = "text-center">
+       
+          <Button className="login-button" onClick={login} disabled={!validateForm()} >
             Login
           </Button>
-          {authenticationStatus === true && <div> Success! Redirecting to Home Page</div>}
+          {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
           {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
-        </div>
-        <div className="forgot-password">
-          {/* TODO put in correct /path for href */}
-          <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+          <Row> 
+            <div className="forgot-password">
+            {/* TODO put in correct /path for href */}
+              <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+            </div>
+          </Row>
         </div>
       </Form>
-      <h2 className="Title">Status: {authenticationStatus}</h2>
-      <div className="gif">
-        <img src={catLogo} alt='loading...' />
-      </div>
-    </div>
+
+      <Row> 
+        <div className="text-center">
+        <div className="StatusMessage">Status: {authenticationStatus}</div>
+        </div>
+      </Row>
+
+    </Container>
+    </Container>
+    </div> 
 
   )
 };

@@ -58,7 +58,7 @@ const AdminManagement = () => {
     
 
 return ( 
-    <div>
+    <div >
         <Container className = "EmployeeTableContainer" fluid="lg"> 
             <EmployeeTable />
         </Container>
