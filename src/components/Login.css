@@ -16,15 +16,6 @@
     background-color: #a61a11;
   }
 
-
-  .Login {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 200px;
-    background-color: #f7f7f7;
-    border-radius: 5px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-  }
   
   .Login form {
     margin-bottom: 20px;
@@ -60,26 +51,56 @@
    
   } */
   
-  /* .Login .reset-password button {
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    text-decoration: underline;
-    cursor: pointer;
-  } */
-  
-  /* .Login .forgot-password:hover {
-    outline: none;
-    color: #c71f16;
+
+
+  #LoginContainer {
+    background-color: rgb(255, 124, 124);
+    margin-top: 80px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    align-items: center;
+    max-width: 800px;
+    display: flex; 
   }
 
-  .Title {
-    text-align: center; /* Horizontally center the text */
-  /* }
-  
-  .gif {
-  
-    max-width: 100%;
-    margin-left: 20px;
+  h1{
+    font-size: 40px;
   }
-   */ 
+/* 
+  .LoginFormContainer {
+    display: inline-block;
+    font-size: 20px; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: whitesmoke;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    
+  } */
+
+  .row {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .SuccessMessage {
+    font-weight: bold;
+    font-size: 20px;
+    color: green;
+  }
+/* 
+  .background {
+    background-image: url('../assets/photos/coffeeBackground.webp');
+  } */
+
+
+ 
+
+
+  
+  
+
+  
