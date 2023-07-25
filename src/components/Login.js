@@ -4,9 +4,8 @@ import { Form } from "react-bootstrap";
 import Axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Card from 'react-bootstrap/Card';
+import backgroundCoffeeImage from '../assets/photos/coffeeBackground.webp';
 
 import "./Login.css";
 
@@ -58,7 +57,7 @@ const Login = () => {
     } else {
       setAuthenticationStatus("Please enter your login credentials");
     }
-  }, []);
+  }, [location.state?.message]);
 
 
 
@@ -67,17 +66,19 @@ const Login = () => {
   }
 
   return (
-    <Container className= "LoginContainer" fluid="lg"> 
-  
+    <div style= {{ backgroundImage: `url(${backgroundCoffeeImage})`, backgroundRepeat: "no-repeat", 
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+
+    <Container className= "rounded" id="LoginContainer" fluid="lg"> 
     
-    <Container className="login form justify-content-center align-items-center align-items-center 100-w 100vh bg-white" id="LoginFormContainer" fluid="sm">
+    <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
       <Row> 
         <div className="text-center">  
-        <h1 className="Title"> 85c Login  </h1>
+          <h1 className="Title"> Associate Login  </h1>
         </div>
       </Row>
      
-      <Form className= "40-w p-5 rounded"  id="LoginForm ">
+      <Form className= "rounded"  id="LoginForm ">
         <Row> 
           <Form.Group controlId="employeeID">
             <Form.Control
@@ -125,9 +126,8 @@ const Login = () => {
       </Row>
 
     </Container>
-   
     </Container>
-    
+    </div> 
 
   )
 };
