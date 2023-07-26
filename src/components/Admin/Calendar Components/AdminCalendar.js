@@ -161,7 +161,7 @@ const AdminCalendar = () => {
         presentableDate = '';
         formattedDate = '';
         break;
-    } 
+    }
 
     if (presentableDate.length !== 0 && formattedDate.length !== 0) {
       setSelectedDates([[presentableDate, formattedDate, date], ...selectedDates]);
@@ -286,7 +286,6 @@ const AdminCalendar = () => {
       prevDate[2] !== date[2]
     )));
   }
-
 
 
   // for submitting all selected dates to MongoDB database

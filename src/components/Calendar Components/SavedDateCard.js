@@ -82,7 +82,7 @@ const SavedDateCard = ({ date, formattedDate }) => {
 
   return (
     <>
-      <div className="card" style={{ marginLeft: '30px', display: 'flex', alignItems: 'center' }}>
+      <div className="card">
         <span className="date">{date}</span>
         <button
           className="trash-button"
@@ -90,7 +90,7 @@ const SavedDateCard = ({ date, formattedDate }) => {
           onMouseLeave={handleMouseLeave}
           onClick={handleDeleteButtonClick}
         >
-          <div ref={animationContainerRef} style={{ width: '30px', height: '30px' }}></div>
+          <div ref={animationContainerRef} style={{  height: '30px' }}></div>
         </button>
       </div>
     </>

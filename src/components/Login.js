@@ -96,7 +96,7 @@ const Login = () => {
         </div>
         <div className="forgot-password">
           {/* TODO put in correct /path for href */}
-          <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+          <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
         </div>
       </Form>
       <h2 className="Title">Status: {authenticationStatus}</h2>

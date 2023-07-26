@@ -9,6 +9,7 @@ import Logout from './components/Logout';
 import UpdateAccount from './components/UpdateAccount';
 import AdminHome from './components/Admin/AdminHome';
 import AdminManagement from './components/Admin/AdminManagementComponents/AdminManagement';
+import ForgotPassword from './components/ForgotPassword';
 import UnknownPage from './components/UnknownPage';
 import PrivateRouterUser from './components/PrivateRouterUser'
 
@@ -55,6 +56,12 @@ function App() {
           <Route path='/adminManagement' element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
               <AdminManagement />
+            </PrivateRouterUser>
+          } />
+
+          <Route path='/forgotPassword' element={
+            <PrivateRouterUser loginNecessary={false} adminNecessary={false}>
+              <ForgotPassword />
             </PrivateRouterUser>
           } />
 
