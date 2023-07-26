@@ -54,7 +54,7 @@ const SelectedDateCard = ({ presentableDate, formattedDate, rawDate, deleteCard 
 
   return (
     <>
-      <div className="card" style={{ marginLeft: '50px', display: 'flex', alignItems: 'center' }}>
+      <div className="card">
         <span className="date">{presentableDate}</span>
         <button
           className="trash-button"
@@ -62,7 +62,7 @@ const SelectedDateCard = ({ presentableDate, formattedDate, rawDate, deleteCard 
           onMouseLeave={handleMouseLeave}
           onClick={handleDeleteButtonClick}
         >
-          <div ref={animationContainerRef} style={{ width: '30px', height: '30px' }}></div>
+          <div ref={animationContainerRef} style={{ height: '30px' }}></div>
         </button>
       </div>
     </>

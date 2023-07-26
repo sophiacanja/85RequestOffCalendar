@@ -54,18 +54,18 @@ const SelectedDateCard = ({ presentableDate, formattedDate, rawDate, deleteCard 
 
   return (
     <>
-      <div className="card" style={{ marginLeft: '30px', display: 'flex', alignItems: 'center' }}>
-        <span className="date">{presentableDate}</span>
-        <button
-          className="trash-button"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleDeleteButtonClick}
-        >
-          <div ref={animationContainerRef} style={{ width: '30px', height: '30px' }}></div>
-        </button>
-      </div>
-    </>
+    <div className="card">
+      <span className="date">{presentableDate}</span>
+      <button
+        className="trash-button"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleDeleteButtonClick}
+      >
+        <div ref={animationContainerRef} style={{ height: '30px' }}></div>
+      </button>
+    </div>
+  </>
   )
 }
 
