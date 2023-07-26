@@ -1,0 +1,36 @@
+.card {
+    background-color: #FFFFFF;
+    align-items: center;
+    display: inline-block;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    width: 70%;
+    margin-left: 60px;
+    white-space: nowrap; /* Add this line */
+    position: relative; /* Add this line */
+}
+
+.date {
+    /* display: inline-block; */
+    font-size: 1.3rem;
+    width: 75%
+}
+
+.trash-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 43px;
+    position: absolute; /* Add this line */
+    right: 0; /* Add this line */
+    top: 50%; /* Optionally, adjust this line to vertically center the trash button */
+    transform: translateY(-50%);  /* Optionally, adjust this line to vertically center the trash button */
+}
+
+.trash-icon {
+    width: 30px;
+    height: 30px;
+}

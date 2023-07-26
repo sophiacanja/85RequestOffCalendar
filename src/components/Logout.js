@@ -1,12 +1,33 @@
-import React from 'react';
+import Button from "react-bootstrap/Button";
+import backgroundBreadImage from "../assets/photos/breadBackground.webp"
+import { Container } from "react-bootstrap";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import './Logout.css'
 
 const Logout = () => {
-  // Component logic and state
+
+  const checkoutUser = async () => {
+    localStorage.token = null; 
+    window.location.reload();
+  }
 
   return (
-    <div>
-        Logout
-    </div>
+    <div style= {{ backgroundImage: `url(${backgroundBreadImage})`, backgroundRepeat: "no-repeat", 
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+
+    <Container className="justify-content-center align-items-center text-center rounded" id="logout"> 
+      <Col> 
+        <Row> 
+         <h1> Are you sure you want to log out? </h1>
+        </Row> 
+
+      <Button block="true" onClick={checkoutUser}> Logout </Button>
+      </Col>
+       
+    </Container>
+
+    </div> 
   );
 };
 

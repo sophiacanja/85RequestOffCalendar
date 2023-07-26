@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
+import Axios from 'axios';
+import EmployeeTable from './EmployeeTable.js'
 
 const AdminManagement = () => {
-  // Component logic and state
-
-  return (
-    <div>
-        Admin Management
+    
+return ( 
+    <div> ADMIN MANAGEMENT
+        <EmployeeTable />
     </div>
-  );
-};
+    
+
+)
+
+}
 
 export default AdminManagement;

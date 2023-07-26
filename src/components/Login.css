@@ -1,0 +1,24 @@
+  #LoginContainer {
+    background-color: rgb(255, 124, 124);
+    margin-top: 80px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    align-items: center;
+    max-width: 800px;
+    display: flex; 
+  }
+
+  h1{
+    font-size: 40px;
+  }
+
+  .row {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .SuccessMessage {
+    font-weight: bold;
+    font-size: 20px;
+    color: green;
+  }
