@@ -113,7 +113,7 @@ const Login = () => {
           <Row> 
             <div className="forgot-password">
             {/* TODO put in correct /path for href */}
-              <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+              <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
             </div>
           </Row>
         </div>

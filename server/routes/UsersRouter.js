@@ -12,12 +12,16 @@ require('dotenv').config(); // for importing environment variables from .env fil
 const supportEmailProvider = process.env.SUPPORT_EMAIL_PROVIDER;
 const supportEmailAddress = process.env.SUPPORT_EMAIL_ADDRESS;
 const supportEmailPassword = process.env.SUPPORT_EMAIL_PASSWORD;
+
+const supportEmailAddressTemp = process.env.SUPPORT_EMAIL_ADDRESS_TEMP;
+const supportEmailPasswordTemp = process.env.SUPPORT_EMAIL_PASSWORD_TEMP;
+
 /* Creating Nodemailer transporter */
 const transporter = nodemailer.createTransport({
     service: supportEmailProvider,
     auth: {
-        user: supportEmailAddress,
-        pass: supportEmailPassword
+        user: supportEmailAddressTemp,
+        pass: supportEmailPasswordTemp
     }
 });
 
@@ -347,29 +351,25 @@ usersRouter.get("/getAllUsers", async (req, res) => {
  * ****************************************************  
  */
 usersRouter.post('/resetPassword', async (req, res) => {
-
-    console.log(supportEmailProvider);
-    console.log(supportEmailAddress);
-    console.log(supportEmailPassword);
-    // try {
-    //     await sendPasswordResetEmail(email, resetToken);
-    //     console.log('Email sent successfully');
-    //     res.json({ message: 'Password reset email sent successfully' });
-    // } catch (error) {
-    //     console.error(error);
-    //     res.status(500).json({ message: 'Failed to send password reset email' });
-    // }
+    try {
+        await sendPasswordResetEmail(supportEmailAddress, "abc123");
+        console.log('Email sent successfully');
+        res.json({ message: 'Password reset email sent successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to send password reset email' });
+    }
 })
 
 // Function to send the password reset email
 async function sendPasswordResetEmail(email, resetToken) {
     // Send the password reset email using Nodemailer
     const mailOptions = {
-      from: '<YOUR_EMAIL_ADDRESS>',
+      from: supportEmailAddressTemp,
       to: email,
       subject: 'Password Reset',
       html: `<p>Click the following link to reset your password: 
-             <a href="http://your-app-url/reset-password/${resetToken}">Reset Password</a></p>`,
+             <a href="http://localhost:3000/reset-password/${resetToken}">Reset Password</a></p>`,
     };
   
     return await transporter.sendMail(mailOptions);
