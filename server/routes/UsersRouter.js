@@ -29,6 +29,8 @@ const transporter = nodemailer.createTransport({
  * @params_and_body
  * - query variable: "x-access-token"
  * 
+ * notes: 
+ *  const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } })
  * **************************************************** 
  */
 
