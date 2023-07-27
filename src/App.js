@@ -22,29 +22,30 @@ function App() {
     <>
 
       <Router>
-        <Navbar />
         <Routes>
           <Route path='/' exact element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
+              <Navbar />
               <Home />
             </PrivateRouterUser>
           } />
           <Route path="/login" element={
             <PrivateRouterUser loginNecessary={false} adminNecessary={false}>
               <Login />
-
             </PrivateRouterUser>
           } />
 
 
           <Route path='/logout' element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
+              <Navbar />
               <Logout />
             </PrivateRouterUser>
           } />
 
           <Route path='/updateAccount' element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
+              <Navbar />
               <UpdateAccount />
             </PrivateRouterUser>
           } />
@@ -52,12 +53,14 @@ function App() {
           <Route path='/adminHome' element={
 
             <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
+              <Navbar />
               <AdminHome />
             </PrivateRouterUser>
           } />
 
           <Route path='/adminManagement' element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
+              <Navbar />
               <AdminManagement />
             </PrivateRouterUser>
           } />
@@ -74,18 +77,18 @@ function App() {
         </Routes>
       </Router>
       <div class="footer" >
-        <footer class="py-5 my-4 bg-dark text-white"> 
-          <Container className= "footerContainer"> 
-            <p style={{textAlign : "center"}}> 
-            This website manages the days off employees request for vacation. We appreciate your time! 
-              <br></br> Developed by : Sophia Canja & Sovial Sonzeu 
+        <footer class="py-5 my-4 bg-dark text-white">
+          <Container className="footerContainer">
+            <p style={{ textAlign: "center" }}>
+              This website manages the days off employees request for vacation. We appreciate your time!
+              <br></br> Developed by : Sophia Canja & Sovial Sonzeu
             </p>
           </Container>
         </footer>
-    </div>
+      </div>
 
 
-   
+
     </>
   );
 }
