@@ -3,12 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { Form } from "react-bootstrap";
 import Axios from 'axios';
 import Button from "react-bootstrap/Button";
-import catLogo from '../assets/gifs/catLoading.gif';
 import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import cakeImage from '../assets/photos/85Bakery_redVelvet.jfif'
-import Card from 'react-bootstrap/Card';
+import backgroundCoffeeImage from '../assets/photos/loginBackground.jpg';
 
 import "./Login.css";
 
@@ -44,14 +41,13 @@ const Login = () => {
 
         //waits 1.5 seconds and will navigate to the home page
         setTimeout(() => {
-        }, 1500);
+        }, 2500);
         window.location.reload()
       }
     } catch (err) {
       console.log(err)
     }
   }
-
 
 
   useEffect(() => {
@@ -61,10 +57,7 @@ const Login = () => {
     } else {
       setAuthenticationStatus("Please enter your login credentials");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-
+  }, [location.state?.message]);
 
 
 
@@ -73,78 +66,81 @@ const Login = () => {
   }
 
   return (
-    <div> 
-    <Container className= "LoginContainer" fluid="lg"> 
-   <Row>
-    <Col> 
-     
-      <Card  className="text-white" class= "card w-100" > 
-        <Card.Img src= {cakeImage} alt= "Card image"/> 
-        <Card.ImgOverlay>
-          <Card.Title> 85c Cake Department Request-Off </Card.Title>
-          <Card.Text>
-            Welcome! This site will help you request the days off you need in the upcoming months.
-            Please login with your employee ID and your password. 
-          </Card.Text>
-        </Card.ImgOverlay>
-      </Card>
-      
-    </Col>
+    // <div style= {{ backgroundImage: `url(${backgroundCoffeeImage})`, backgroundRepeat: "no-repeat", 
+    //   backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+    <div style={{
+      backgroundImage: `url(${backgroundCoffeeImage})`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "auto 100%",
+      height: '100vh',
+      margin: 0,
+      padding: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
+      >.
 
-    <Col> 
-    <Container className="LoginForm" fluid="sm">
+    <Container className= "rounded" id="LoginContainer" fluid="lg"> 
     
-      
+    <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
+      <Row> 
+        <div className="text-center">  
+          <h1 className="Title"> Associate Login  </h1>
+        </div>
+      </Row>
      
-      <h1 className="Title"> 85c Employee Request Off Calendar </h1>
-     
-
-     
-      <Form>
-      {/* <Row md={{ span: 4, offset: 3 }}>  */}
+      <Form className= "rounded"  id="LoginForm ">
+        <Row> 
+          <Form.Group controlId="employeeID">
+            <Form.Control
+              autoFocus
+              placeholder="Employee ID"
+              type="text"
+              value={employeeID}
+              onChange={(e) => setEmployeeID(e.target.value)}
+            />
+          </Form.Group>
+        </Row> 
         
-        <Form.Group controlId="employeeID">
-          <Form.Control
-            autoFocus
-            placeholder="Employee ID"
-            type="text"
-            value={employeeID}
-            onChange={(e) => setEmployeeID(e.target.value)}
-          />
-        </Form.Group>
-
-
-        <Form.Group  controlId="password">
-          <Form.Control
-            type="text"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-
-          <Button className="submit-button" block="true" onClick={login} disabled={!validateForm()} style={{ margin: "20px" }} >
+        <Row> 
+          <Form.Group  controlId="password">
+            <Form.Control
+              type="text"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+        </Row>
+        
+       
+        <div className = "text-center">
+       
+          <Button className="login-button" onClick={login} disabled={!validateForm()} >
             Login
           </Button>
-          {authenticationStatus === true && <div> Success! Redirecting to Home Page</div>}
+          {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
           {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
-
-        <div className="forgot-password">
-          {/* TODO put in correct /path for href */}
-          <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+          <Row> 
+            <div className="forgot-password">
+            {/* TODO put in correct /path for href */}
+              <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+            </div>
+          </Row>
         </div>
       </Form>
-      <h2 className="Title">Status: {authenticationStatus}</h2>
-      {/* <div className="gif">
-        <img src={catLogo} alt='loading...' />
-      </div> */}
-    </Container>
 
-    </Col>
-    </Row>
+      <Row> 
+        <div className="text-center">
+        <div className="StatusMessage">Status: {authenticationStatus}</div>
+        </div>
+      </Row>
+
     </Container>
-    
-    </div>
+    </Container>
+    </div> 
 
   )
 };

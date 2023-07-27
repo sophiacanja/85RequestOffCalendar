@@ -1,106 +1,24 @@
-/* .submit-button{
-    width : 100% ; 
-    display: inline-block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    background-color: #c71f16;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  #LoginContainer {
+    background-color: rgb(255, 124, 124);
+    margin-top: 80px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    align-items: center;
+    max-width: 800px;
+    display: flex; 
   }
 
-  .submit-button:hover {
-    background-color: #a61a11;
+  h1{
+    font-size: 40px;
   }
 
+  .row {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
 
-  .Login {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 200px;
-    background-color: #f7f7f7;
-    border-radius: 5px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-  }
-  
-  .Login form {
-    margin-bottom: 20px;
-  }
-  
-  .Login label {
-    font-size: 18px;
-  }
-  
-  .Login input {
-    width: 90%;
-    padding: 10px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  
-  .Login .error {
-    color: red;
-    margin-bottom: 10px;
-  }
-  
-  .Login .success {
+  .SuccessMessage {
+    font-weight: bold;
+    font-size: 20px;
     color: green;
-    margin-bottom: 10px;
   }
-  
-  .Login .forgot-password {
-    margin-top: 20px;
-    text-align: center;
-   
-  } */
-  
-  /* .Login .reset-password button {
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    text-decoration: underline;
-    cursor: pointer;
-  } */
-  
-  /* .Login .forgot-password:hover {
-    outline: none;
-    color: #c71f16;
-  }
-
-  .Title {
-    text-align: center; /* Horizontally center the text */
-  /* }
-  
-  .gif {
-  
-    max-width: 100%;
-    margin-left: 20px;
-  }
-   */ 
-
-  .LoginContainer {
-    background-color: rgba(245, 210, 210, 0.737);
-  }
-
-  .LoginForm {
-    /* display: inline-block; */
-    font-size: 20px; 
-    /* padding-left: 25px;
-    padding-right: 25px; */
-    margin: 0 auto;
-    margin-top: 20px;
-    background-color: whitesmoke;
-    
-    
-  }
-
-  .card-img {
-    width: 900px;
-    height: 550px;
-    }
