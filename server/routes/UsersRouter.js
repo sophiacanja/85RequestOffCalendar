@@ -97,7 +97,7 @@ usersRouter.post("/loginAndCreateToken", async (req, res) => {
         //if credentials are valid 
         if (success) {
             const id = user.id;
-            console.log(`user id is: ${user.id}`);
+
             //creates jwt using user.id and the secret key
             const token = await jwt.sign({ id }, process.env.JWT_HASH_KEY, {
                 expiresIn: 600, //ten minutes before token expires

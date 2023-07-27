@@ -41,8 +41,8 @@ const Login = () => {
 
         //waits 1.5 seconds and will navigate to the home page
         setTimeout(() => {
-        }, 2500);
         window.location.reload()
+        }, 1500);
       }
     } catch (err) {
       console.log(err)

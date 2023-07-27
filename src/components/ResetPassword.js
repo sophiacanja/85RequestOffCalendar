@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 
 const ResetPassword = () => {
@@ -19,7 +20,7 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
   const [userInfo, setUserInfo] = useState({});
-
+  const navigate = useNavigate();
 
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString);
@@ -29,7 +30,7 @@ const ResetPassword = () => {
     const CheckForValidInstanceToken = async () => {
       try {
         const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": token } });
-        console.log(response);
+        // console.log(response);
 
         if (response.data.message === "Token expired") {
           setAuthStatus("expired");
@@ -56,39 +57,36 @@ const ResetPassword = () => {
     CheckForValidInstanceToken();// eslint-disable-next-line
   }, []);
 
-  const updatePassword = async () => {
 
-  }
-
-//TODO fix this (race condition; keeps printing userInfo first and does not wait for the pw to be updated )
+  //TODO put the rules for valid pw
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevents page from automatically reloading when hitting submit
-    // if (password === secondPassword) {
-      // check for regex, if passes then update password in database
 
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
-        [e.target.name]: password,
-      }));
-      
-      setTimeout(() => {
-        console.log(userInfo);
-      }, 3000);
+
+    if (password === secondPassword) {
+      try {
+        const response = await Axios.put(`http://localhost:4000/users/updateUser?employeeID=${userInfo.employeeID}`, userInfo);
+        console.log(response);
+
+        //waits 1.5 seconds and will navigate to the home page
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
+
+      } catch (err) {
+        console.log(err);
+      }
     }
-  
-  const testSubmit = async (e) => {
-    await updateUserInfo();
-
-    console.log(userInfo);
   }
 
-  const updateUserInfo = async () => {
+
+  const UpdateUserInfoAndPassword = (e) => {
+    setPassword(e.target.value);
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
-      ["password"]: password,
+      "password": e.target.value,
     }));
   }
-
 
 
   return (
@@ -129,7 +127,7 @@ const ResetPassword = () => {
                   <label>Enter New Password:</label>
                   <input
                     type="password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={UpdateUserInfoAndPassword}
                     required
                   />
                   <label>Confirm Password:</label>
@@ -141,7 +139,6 @@ const ResetPassword = () => {
                 </div>
                 <button type="submit">Set New Password</button>
               </form>
-              <button type="submit" onClick={testSubmit}>hello</button>
             </>
           )
         }
