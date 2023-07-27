@@ -87,7 +87,7 @@ const Login = () => {
     <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
       <Row> 
         <div className="text-center">  
-          <h1 className="Title"> Associate Login  </h1>
+          <h2 className="Title"> Associate Login  </h2>
         </div>
       </Row>
      

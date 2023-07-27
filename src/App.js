@@ -13,6 +13,7 @@ import AdminManagement from './components/Admin/AdminManagementComponents/AdminM
 import ForgotPassword from './components/ForgotPassword';
 import UnknownPage from './components/UnknownPage';
 import PrivateRouterUser from './components/PrivateRouterUser'
+import ResetPassword from './components/ResetPassword';
 import './App.css'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -71,11 +72,19 @@ function App() {
             </PrivateRouterUser>
           } />
 
-          {/* //TODO create own route component for forgot password */}
+          <Route path='/resetPassword' element={
+            <PrivateRouterUser loginNecessary={false} adminNecessary={false}>
+              <ResetPassword />
+            </PrivateRouterUser>
+          } />
+
+
 
           <Route path='*' element={<UnknownPage />} />
         </Routes>
       </Router>
+
+
       <div class="footer" >
         <footer class="py-5 my-4 bg-dark text-white">
           <Container className="footerContainer">

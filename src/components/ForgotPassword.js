@@ -12,7 +12,7 @@ const ForgotPassword = () => {
       // const response = await Axios.post('/api/reset-password', { email });
       // const response = "hello";
       // setMessage(response.data.message);
-      const response = await Axios.post("http://localhost:4000/users/resetPassword")
+      const response = await Axios.post("http://localhost:4000/users/resetPassword", { employeeID: employeeID })
       setValidSubmission(true);
     } catch (error) {
       // setMessage(error.response.data.message);

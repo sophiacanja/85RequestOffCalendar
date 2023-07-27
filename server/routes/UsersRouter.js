@@ -42,16 +42,21 @@ usersRouter.get("/isUserAuth", async (req, res) => {
     try {
         const token = req.headers["x-access-token"]
         let objID = null
+
         //checks if token is passed in
         if (!token) {
             return res.json({ auth: false, message: "We need a token" })
         } else {
             //decodes token using the secret key 
-            const decoded = await jwt.verify(token, "51c1fd9fa709c4c4bbbd6ef2d21c68e0ccb4090b3fb1f827b85bed56920778e9")
+            const decoded = await jwt.verify(token, process.env.JWT_HASH_KEY)
             //if token is valid, it stores the obj id
+            // console.log(decoded);
             objID = decoded.id
-            const user = await UserModel.findById(objID)
-            return res.json({ auth: true, message: "CONGRATS", admin: user.admin, user: user })
+            const user = await UserModel.findById(objID);
+            return res.status(200).send({
+                auth: true, message: "CONGRATS", user: user, admin: user.admin
+            })
+            // return res.json({ auth: true, message: "CONGRATS", admin: user.admin, user: user })
         }
     } catch (err) {
         if (err instanceof jwt.TokenExpiredError) {
@@ -91,9 +96,10 @@ usersRouter.post("/loginAndCreateToken", async (req, res) => {
 
         //if credentials are valid 
         if (success) {
-            const id = user.id
+            const id = user.id;
+            console.log(`user id is: ${user.id}`);
             //creates jwt using user.id and the secret key
-            const token = await jwt.sign({ id }, "51c1fd9fa709c4c4bbbd6ef2d21c68e0ccb4090b3fb1f827b85bed56920778e9", {
+            const token = await jwt.sign({ id }, process.env.JWT_HASH_KEY, {
                 expiresIn: 600, //ten minutes before token expires
             })
             //return user information
@@ -352,9 +358,30 @@ usersRouter.get("/getAllUsers", async (req, res) => {
  */
 usersRouter.post('/resetPassword', async (req, res) => {
     try {
-        await sendPasswordResetEmail(supportEmailAddress, "abc123");
+        const empID = req.body.employeeID;
+        const user = await UserModel.findOne({ employeeID: empID });
+
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "Error: invalid employee ID",
+                data: null
+            })
+        }
+
+        const userID = user.id;
+        const userEmail = user.email;
+
+        // console.log(userEmail);
+        const resetToken = await jwt.sign({ id: userID }, process.env.JWT_HASH_KEY, {
+            expiresIn: 3600, //five minutes before token expires (currently an hour)
+        })
+
+        await sendPasswordResetEmail(userEmail, resetToken);
         console.log('Email sent successfully');
-        res.json({ message: 'Password reset email sent successfully' });
+        res.status(200).send({
+            message: 'Password reset email sent successfully'
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Failed to send password reset email' });
@@ -365,15 +392,15 @@ usersRouter.post('/resetPassword', async (req, res) => {
 async function sendPasswordResetEmail(email, resetToken) {
     // Send the password reset email using Nodemailer
     const mailOptions = {
-      from: supportEmailAddressTemp,
-      to: email,
-      subject: 'Password Reset',
-      html: `<p>Click the following link to reset your password: 
-             <a href="http://localhost:3000/reset-password/${resetToken}">Reset Password</a></p>`,
+        from: supportEmailAddressTemp,
+        to: email,
+        subject: 'Password Reset',
+        html: `<p>Click the following link to reset your password: 
+             <a href="http://localhost:3000/resetPassword?instance=${resetToken}">Reset Password</a></p>`,
     };
-  
+
     return await transporter.sendMail(mailOptions);
-  }
+}
 
 
 /**

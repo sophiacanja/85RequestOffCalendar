@@ -398,7 +398,7 @@ const AdminCalendar = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="container">
         <div className="section" id="dates-requested">
-          <h1 style={{ textAlign: 'center' }}>Dates Requested</h1>
+          <h2 style={{ textAlign: 'center' }}>Dates Requested</h2>
           {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
           {/* ternary operator used in the case where the user does not have any requested days off */}
           {savedDatesRequested.length === 0 ? (
@@ -443,7 +443,7 @@ const AdminCalendar = () => {
         </div>
 
         <div className="section" id="selected-dates">
-          <h1 style={{ textAlign: 'center' }}>{currentMode === 1 ? "Unavailable Employees" : "Selected Dates"}</h1>
+          <h2 style={{ textAlign: 'center' }}>{currentMode === 1 ? "Unavailable Employees" : "Selected Dates"}</h2>
 
           <div>
             {(() => {
