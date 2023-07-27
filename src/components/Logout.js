@@ -1,5 +1,5 @@
 import Button from "react-bootstrap/Button";
-import backgroundBreadImage from "../assets/photos/breadBackground.webp"
+import logoutBackground from "../assets/photos/logoutBackground.jpg"
 import { Container } from "react-bootstrap";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -13,7 +13,7 @@ const Logout = () => {
   }
 
   return (
-    <div style= {{ backgroundImage: `url(${backgroundBreadImage})`, backgroundRepeat: "no-repeat", 
+    <div style= {{ backgroundImage: `url(${logoutBackground})`, backgroundRepeat: "no-repeat", 
       backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
 
     <Container className="justify-content-center align-items-center text-center rounded" id="logout"> 

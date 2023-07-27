@@ -5,7 +5,7 @@ import Axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import backgroundCoffeeImage from '../assets/photos/coffeeBackground.webp';
+import backgroundCoffeeImage from '../assets/photos/loginBackground.jpg';
 
 import "./Login.css";
 
@@ -41,7 +41,7 @@ const Login = () => {
 
         //waits 1.5 seconds and will navigate to the home page
         setTimeout(() => {
-        }, 1500);
+        }, 2500);
         window.location.reload()
       }
     } catch (err) {
@@ -66,8 +66,21 @@ const Login = () => {
   }
 
   return (
-    <div style= {{ backgroundImage: `url(${backgroundCoffeeImage})`, backgroundRepeat: "no-repeat", 
-      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+    // <div style= {{ backgroundImage: `url(${backgroundCoffeeImage})`, backgroundRepeat: "no-repeat", 
+    //   backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+    <div style={{
+      backgroundImage: `url(${backgroundCoffeeImage})`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "auto 100%",
+      height: '100vh',
+      margin: 0,
+      padding: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
+      >.
 
     <Container className= "rounded" id="LoginContainer" fluid="lg"> 
     
