@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './ForgotPassword.css';
-import { getWeekYearWithOptions } from 'date-fns/fp';
+import forgotPasswordBackground from "../assets/photos/forgotPasswordBackground.jpg"
 
 const ForgotPassword = () => {
   const [employeeID, setEmployeeID] = useState('');
@@ -17,7 +17,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const response = await Axios.post("http://localhost:4000/users/resetPassword", { employeeID: employeeID })
+      const response = await Axios.post("http://localhost:4000/users/resetPassword", { employeeID: employeeID })
       const userEmail = await Axios.post("http://localhost:4000/users/getUserEmail", {employeeID: employeeID })
       createSuccessMessage(userEmail.data.data)
       
@@ -28,6 +28,7 @@ const ForgotPassword = () => {
     }
   };
 
+  //this method gets the user's email and encrypts it, to be shown with the success message
   const createSuccessMessage = async(userEmail) => {
     setValidSubmission(true);
     try{
@@ -51,7 +52,8 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div>
+    <div style= {{ backgroundImage: `url(${forgotPasswordBackground})`, backgroundRepeat: "no-repeat", 
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
       {(() => {
         if (validSubmission === false) {
           return (
@@ -91,11 +93,11 @@ const ForgotPassword = () => {
               <h2>Successful Submission!</h2>
               </Row>
 
-              <Row> 
-              <p>The email was successfully sent to {encryptedEmail}! <br></br>Please remember to also check your spam folder!</p>
+              <Row id="successDescription"> 
+              <p>The reset link was successfully sent to {encryptedEmail}! <br></br>Please remember to also check your spam folder.</p>
               {message && <div>{message}</div>}
               </Row>
-              
+
             </Container>
             </Container>
           );
