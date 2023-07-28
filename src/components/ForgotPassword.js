@@ -87,8 +87,8 @@ const ForgotPassword = () => {
           );
         } else {
           return (
-            <Container className="rounded" id="ForgotPasswordContainer"> 
-              <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
+            <Container className="rounded" id="SuccessMessageContainer"> 
+              <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="SuccessMessage" fluid="sm">
               <Row> 
               <h2>Successful Submission!</h2>
               </Row>
