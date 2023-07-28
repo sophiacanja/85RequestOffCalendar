@@ -346,6 +346,43 @@ usersRouter.get("/getAllUsers", async (req, res) => {
     }
 });
 
+/**
+ * **************************************************** 
+ * getUser: returns info of one user (used in forgot password feature)
+ * @URL http://localhost:4000/users/getUser
+ * 
+ * @params_and_body
+ * - body needed
+ * ****************************************************  
+ */
+usersRouter.post('/getUserEmail', async (req, res) => {
+    try{
+        const empID = req.body.employeeID;
+        const user = await UserModel.findOne({ employeeID: empID });
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "Error: invalid employee ID",
+                data: null
+            })
+        }
+
+        const userEmail = user.email
+        return res.status(200).send({
+            success: true,
+            message: "Successfully returned employee email",
+            data: userEmail
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: err.message
+          });
+    }
+})
+
 
 /**
  * **************************************************** 
@@ -360,7 +397,7 @@ usersRouter.post('/resetPassword', async (req, res) => {
     try {
         const empID = req.body.employeeID;
         const user = await UserModel.findOne({ employeeID: empID });
-
+        console.log(user)
         if (!user) {
             return res.status(404).send({
                 success: false,
@@ -395,7 +432,7 @@ async function sendPasswordResetEmail(email, resetToken) {
         from: supportEmailAddressTemp,
         to: email,
         subject: 'Password Reset',
-        html: `<p>Click the following link to reset your password: 
+        html: `<p>Click the following link to reset your login password: 
              <a href="http://localhost:3000/resetPassword?instance=${resetToken}">Reset Password</a></p>`,
     };
 
