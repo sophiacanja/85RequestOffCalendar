@@ -18,8 +18,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const response = await Axios.post("http://localhost:4000/users/resetPassword", { employeeID: employeeID })
-      const userEmail = await Axios.post("http://localhost:4000/users/getUserEmail", {employeeID: employeeID })
-      createSuccessMessage(userEmail.data.data)
+      createSuccessMessageAndEncryptEmail(response.data.data)
       
 
     } catch (error) {
@@ -29,7 +28,7 @@ const ForgotPassword = () => {
   };
 
   //this method gets the user's email and encrypts it, to be shown with the success message
-  const createSuccessMessage = async(userEmail) => {
+  const createSuccessMessageAndEncryptEmail = async(userEmail) => {
     setValidSubmission(true);
     try{
       

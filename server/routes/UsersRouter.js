@@ -346,47 +346,10 @@ usersRouter.get("/getAllUsers", async (req, res) => {
     }
 });
 
-/**
- * **************************************************** 
- * getUser: returns info of one user (used in forgot password feature)
- * @URL http://localhost:4000/users/getUser
- * 
- * @params_and_body
- * - body needed
- * ****************************************************  
- */
-usersRouter.post('/getUserEmail', async (req, res) => {
-    try{
-        const empID = req.body.employeeID;
-        const user = await UserModel.findOne({ employeeID: empID });
-        if (!user) {
-            return res.status(404).send({
-                success: false,
-                message: "Error: invalid employee ID",
-                data: null
-            })
-        }
-
-        const userEmail = user.email
-        return res.status(200).send({
-            success: true,
-            message: "Successfully returned employee email",
-            data: userEmail
-        });
-
-    } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: "Internal Server Error",
-            error: err.message
-          });
-    }
-})
-
 
 /**
  * **************************************************** 
- * resetPassword: sends email to valid email address for user to reset password
+ * resetPassword: sends email to valid email address for user to reset password and returns the user's email to the frontend for the success message
  * @URL http://localhost:4000/users/resetPassword
  * 
  * @params_and_body
@@ -417,7 +380,8 @@ usersRouter.post('/resetPassword', async (req, res) => {
         await sendPasswordResetEmail(userEmail, resetToken);
         console.log('Email sent successfully');
         res.status(200).send({
-            message: 'Password reset email sent successfully'
+            message: 'Password reset email sent successfully',
+            data: userEmail
         });
     } catch (error) {
         console.error(error);
