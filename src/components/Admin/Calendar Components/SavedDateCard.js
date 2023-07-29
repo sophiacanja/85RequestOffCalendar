@@ -65,7 +65,7 @@ const SavedDateCard = ({ date, formattedDate }) => {
 
   if (deletionSuccessful && !errorOccurred) {
     return (
-      <div className="card" style={{ marginLeft: '30px', display: 'flex', alignItems: 'center' }}>
+      <div className="card" style={{ marginLeft: '60px', display: 'flex', alignItems: 'center' }}>
         <span className="date">Successfully deleted request for: {date}</span>
       </div>
     )
