@@ -41,8 +41,8 @@ const Login = () => {
 
         //waits 1.5 seconds and will navigate to the home page
         setTimeout(() => {
-        }, 2500);
         window.location.reload()
+        }, 1500);
       }
     } catch (err) {
       console.log(err)
@@ -87,7 +87,7 @@ const Login = () => {
     <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
       <Row> 
         <div className="text-center">  
-          <h1 className="Title"> Associate Login  </h1>
+          <h2 className="Title"> Associate Login  </h2>
         </div>
       </Row>
      
@@ -126,7 +126,7 @@ const Login = () => {
           <Row> 
             <div className="forgot-password">
             {/* TODO put in correct /path for href */}
-              <a className="forgot-password" href="/login" onClick={resetPassword}>Forgot Password?</a>
+              <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
             </div>
           </Row>
         </div>
