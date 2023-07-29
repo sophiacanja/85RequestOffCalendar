@@ -9,7 +9,7 @@
     justify-content: space-between;
     width: 70%;
     margin-left: 60px;
-    white-space: nowrap; /* Add this line */
+    white-space: pre-wrap; 
     position: relative; /* Add this line */
 }
 

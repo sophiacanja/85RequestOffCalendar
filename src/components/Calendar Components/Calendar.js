@@ -27,8 +27,17 @@ const Calendar = () => {
     // TODO change to match the object id or emp id of logged in user
     const fetchAllDatesRequested = async () => {
       try {
+
+        const isAuth = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
+
+        if (isAuth.data.auth === false){ // if user is not authenticated or JWT is expired, no need to do more API calls
+          return
+        }
+
+        const userEmployeeID = isAuth.data.user.employeeID;
+      
         const response = await Axios.get(
-          'http://localhost:4000/calendar/getAllUpcomingRequestsForOneUser?employeeID=77'
+          `http://localhost:4000/calendar/getAllUpcomingRequestsForOneUser?employeeID=${userEmployeeID}`
         );
         const dates = response.data.data;
         // console.log(dates) //"YYYY-MM-DD" is the main part (at the beginning of each one)
