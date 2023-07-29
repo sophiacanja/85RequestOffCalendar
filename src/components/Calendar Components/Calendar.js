@@ -300,7 +300,7 @@ const Calendar = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="container">
         <div className="section" id="dates-requested">
-          <h1 style={{ textAlign: 'center' }}>Dates Requested</h1>
+          <h2 style={{ textAlign: 'center' }}>Dates Requested</h2>
           {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
           {/* ternary operator used in the case where the user does not have any requested days off */}
           {savedDatesRequested.length === 0 ? (
@@ -324,7 +324,7 @@ const Calendar = () => {
         </div>
 
         <div className="section" id="selected-dates">
-          <h1 style={{ textAlign: 'center' }}>Selected Dates</h1>
+          <h2 style={{ textAlign: 'center' }}>Selected Dates</h2>
 
           <div>
             {selectedDates.map((date, index) => (
