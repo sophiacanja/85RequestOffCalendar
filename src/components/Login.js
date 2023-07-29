@@ -132,12 +132,6 @@ const Login = () => {
         </div>
       </Form>
 
-      <Row> 
-        <div className="text-center">
-        <div className="StatusMessage">Status: {authenticationStatus}</div>
-        </div>
-      </Row>
-
     </Container>
     </Container>
     </div> 
