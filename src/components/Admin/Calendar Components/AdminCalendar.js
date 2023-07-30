@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import './Calendar.css';
 import Axios from 'axios';
 import SelectedDateCard from './SelectedDateCard';
+import adminBackground from "../../../assets/photos/adminBackground.jpg"
 
 import SavedDateCard from './SavedDateCard';
 
@@ -403,6 +404,9 @@ const AdminCalendar = () => {
 
 
   return (
+    <div style= {{ backgroundImage: `url(${adminBackground})`, backgroundRepeat: "no-repeat", 
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+      
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="container">
         <div className="section" id="dates-requested">
@@ -515,6 +519,7 @@ const AdminCalendar = () => {
         </div>
       </div>
     </LocalizationProvider>
+    </div>
   );
 };
 
