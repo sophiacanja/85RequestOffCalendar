@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import lottie from 'lottie-web';
 import trashJSON from '../../assets/gifs/trash icon.json';
 import Axios from 'axios';
-import './DateCard.css';
+import './CSS/DateCard.css';
 
 
 const SavedDateCard = ({ date, formattedDate }) => {
