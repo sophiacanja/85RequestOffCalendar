@@ -127,7 +127,6 @@ const Login = () => {
           {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
           <Row> 
             <div className="forgot-password">
-            {/* TODO put in correct /path for href */}
               <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
             </div>
           </Row>

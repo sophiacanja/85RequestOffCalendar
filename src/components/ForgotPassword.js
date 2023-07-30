@@ -36,8 +36,7 @@ const ForgotPassword = () => {
         for(let i = 0; i < userEmail.indexOf("@"); i++){
           if(i === 0 || i === 1 || i === userEmail.indexOf("@")-1) {
             encryptedEmail += userEmail[i]
-          }
-          else {
+          } else {
             encryptedEmail += '*'
           }
           
@@ -57,14 +56,14 @@ const ForgotPassword = () => {
         if (validSubmission === false) {
           return (
             <Container className="rounded" id="ForgotPasswordContainer"> 
-              <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
+              <Container className="justify-content-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
                 <Row> 
-                  <h2>Forgot Password</h2>
+                  <h1>Forgot Password</h1>
                 </Row>
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="4"> Employee ID : </Form.Label>
+                    <Form.Label column sm="4"> Employee ID: </Form.Label>
                       <Col sm="8">
                         <Form.Control 
                           type="Number" 
@@ -76,7 +75,7 @@ const ForgotPassword = () => {
                   </Form.Group>
 
                 <Row> 
-                  <Button type="submit">Reset Password</Button>
+                  <Button className="mb-4" type="submit">Reset Password</Button>
                 </Row>
                 </Form>
 
@@ -89,7 +88,7 @@ const ForgotPassword = () => {
             <Container className="rounded" id="SuccessMessageContainer"> 
               <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="SuccessMessage" fluid="sm">
               <Row> 
-              <h2>Successful Submission!</h2>
+                <h2 id="successMessageTitle">Successful Submission!</h2>
               </Row>
 
               <Row id="successDescription"> 

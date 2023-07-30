@@ -27,6 +27,7 @@ const ResetPassword = () => {
   const [authStatus, setAuthStatus] = useState("");
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
   const [userInfo, setUserInfo] = useState({});
   const navigate = useNavigate();
 
@@ -75,15 +76,19 @@ const ResetPassword = () => {
       try {
         const response = await Axios.put(`http://localhost:4000/users/updateUser?employeeID=${userInfo.employeeID}`, userInfo);
         console.log(response);
+        setPasswordMessage("Success! Redirecting to home page")
 
-        //waits 1.5 seconds and will navigate to the home page
+        //waits 1.5 seconds and will navigate to the login page
         setTimeout(() => {
           navigate('/login');
         }, 1500);
 
       } catch (err) {
         console.log(err);
+        setPasswordMessage("Server Error")
       }
+    } else {
+      setPasswordMessage("Passwords do not match, please try again")
     }
   }
 
@@ -98,77 +103,85 @@ const ResetPassword = () => {
 
 
   return (
-    <div style= {{ backgroundImage: `url(${resetPasswordBackground})`, backgroundRepeat: "no-repeat", 
-      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
-      
-    <Container className="rounded" id="ResetPasswordContainer">
-    <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
-      {(() => {
-        if (stillVerifyingToken === true) {
-          return (
-            <Row> 
-              <h2>Loading...</h2>
-            </Row>
-          )
-        } else if (authStatus === "error") {
-          return (
-            <Row> 
-              <h2>Error</h2>
-            </Row>
-          )
-        } else if (authStatus === "expired") {
-          return (
-            <Row> 
-              <h2>Expired</h2>
-            </Row>
-          )
-        } else if (authStatus === "invalid token") {
-          return (
-            <Row>
-              <h2>Invalid token</h2>
-            </Row>
-          )
-        } else if (authStatus === "success") {
-          return (
-            <Row>
-              <h2>Please enter your new password</h2>
-              <p> Passwords must be a minimum of 8 characters and must contain at least one 
-                numerical digit (0-9), one upper case letter, and one lower case letter </p>
-              <Form onSubmit={handleSubmit}>
-                  <Form.Group as={Row} className="mb-3"> 
+    <div style={{
+      backgroundImage: `url(${resetPasswordBackground})`, backgroundRepeat: "no-repeat",
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0
+    }}>.
+
+      <Container className="rounded" id="ResetPasswordContainer">
+        <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
+          {(() => {
+            if (stillVerifyingToken === true) {
+              return (
+                <Row id="statusMessage">
+                  <h2>Loading...</h2>
+                </Row>
+              )
+            } else if (authStatus === "error") {
+              return (
+                <Row>
+                  <h2>Uh Oh...Something went wrong on our side, please request a new link </h2>
+                </Row>
+              )
+            } else if (authStatus === "expired") {
+              return (
+                <Row id="statusMessage">
+                  <h2>Reset password link expired, please request a new link</h2>
+                </Row>
+              )
+            } else if (authStatus === "invalid token") {
+              return (
+                <Row id="statusMessage">
+                  <h2>Reset password link is invalid, please request a new link</h2>
+                </Row>
+              )
+            } else if (authStatus === "success") {
+              return (
+                <Row>
+                  <h1>Please enter your new password</h1>
+                  <p> Passwords must be a minimum of 8 characters and must contain at least one
+                    numerical digit (0-9), one upper case letter, and one lower case letter </p>
+                  <Form onSubmit={handleSubmit}>
+                    <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm="5"> Enter New Password:</Form.Label>
                       <Col sm="7">
-                      <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        onChange={UpdateUserInfoAndPassword}
-                        required
-                      />
+                        <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          onChange={UpdateUserInfoAndPassword}
+                          required
+                        />
                       </Col>
-                      </Form.Group>
-            
-                  <Form.Group as={Row} className="mb-3"> 
-                    <Form.Label column sm="5">Confirm Password:</Form.Label>
-                    <Col sm="7">
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      onChange={(e) => setSecondPassword(e.target.value)}
-                      required
-                    />
-                    </Col>
-                  </Form.Group>
+                    </Form.Group>
 
-                <Row> 
-                  <Button type="submit">Set New Password</Button>
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label column sm="5">Confirm Password:</Form.Label>
+                      <Col sm="7">
+                        <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          onChange={(e) => setSecondPassword(e.target.value)}
+                          required
+                        />
+                      </Col>
+                    </Form.Group>
+
+                    <Row >
+                      <Button type="submit">Set New Password</Button>
+                    </Row>
+                  </Form>
                 </Row>
-                </Form>
-            </Row>
-          )
-        }
-      })() /* IIFE immediately invoked function expression */}
-    </Container>
-    </Container>
+              )
+            }
+          })() /* IIFE immediately invoked function expression */}
+          <div id="statusMessage"> 
+            {passwordMessage}
+          </div>
+          <Row className="mb-4">
+            <a id="redirectToHome" href="/login">Return to Login Page</a>
+          </Row>
+        </Container>
+      </Container>
     </div>
   )
 };
