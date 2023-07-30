@@ -5,6 +5,7 @@ import Axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import backgroundCoffeeImage from '../assets/photos/loginBackground.jpg';
 
 import "./Login.css";
@@ -66,13 +67,11 @@ const Login = () => {
   }
 
   return (
-    // <div style= {{ backgroundImage: `url(${backgroundCoffeeImage})`, backgroundRepeat: "no-repeat", 
-    //   backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
-    <div style={{
+   <div style={{
       backgroundImage: `url(${backgroundCoffeeImage})`,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
-      backgroundSize: "auto 100%",
+      backgroundSize: "cover",
       height: '100vh',
       margin: 0,
       padding: 0,
@@ -87,38 +86,41 @@ const Login = () => {
     <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
       <Row> 
         <div className="text-center">  
-          <h2 className="Title"> Associate Login  </h2>
+          <h1 className="Title"> Associate Login  </h1>
         </div>
       </Row>
      
-      <Form className= "rounded"  id="LoginForm ">
-        <Row> 
-          <Form.Group controlId="employeeID">
-            <Form.Control
-              autoFocus
-              placeholder="Employee ID"
-              type="text"
-              value={employeeID}
-              onChange={(e) => setEmployeeID(e.target.value)}
-            />
+      <Form className= "rounded justify-content-center"  id="LoginForm ">
+          <Form.Group as={Row} controlId="employeeID">
+            <Form.Label column="4"> Employee ID: </Form.Label>
+              <Col sm ="8">
+                <Form.Control
+                  autoFocus
+                  placeholder="Employee ID"
+                  name="Employee ID:"
+                  type="text"
+                  value={employeeID}
+                  onChange={(e) => setEmployeeID(e.target.value)}
+                />
+              </Col>
           </Form.Group>
-        </Row> 
         
-        <Row> 
-          <Form.Group  controlId="password">
-            <Form.Control
-              type="text"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <Form.Group as={Row} className="mb-3" controlId="password">
+            <Form.Label column="4"> Password: </Form.Label> 
+              <Col sm="8"> 
+                <Form.Control
+                  type="text"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Col>
           </Form.Group>
-        </Row>
-        
+
        
-        <div className = "text-center">
+        <div className = "text-center mb-5">
        
-          <Button className="login-button" onClick={login} disabled={!validateForm()} >
+          <Button as={Row} className="login-button text-white" onClick={login} disabled={!validateForm()} >
             Login
           </Button>
           {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
