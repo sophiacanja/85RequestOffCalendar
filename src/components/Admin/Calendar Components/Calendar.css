@@ -36,3 +36,13 @@
   cursor: not-allowed;
   /* Change cursor to indicate it's not clickable */
 }
+
+.AdminHomeContainer {
+  border-radius: 10%;
+  background-color: white;
+  padding-bottom: 5px;
+  /* overflow-y: scroll; */
+  /* max-width: 260px; */
+  max-height: 720px;
+  overflow-y: scroll;
+}
