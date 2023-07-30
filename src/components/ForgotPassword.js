@@ -36,8 +36,7 @@ const ForgotPassword = () => {
         for(let i = 0; i < userEmail.indexOf("@"); i++){
           if(i === 0 || i === 1 || i === userEmail.indexOf("@")-1) {
             encryptedEmail += userEmail[i]
-          }
-          else {
+          } else {
             encryptedEmail += '*'
           }
           
@@ -89,7 +88,7 @@ const ForgotPassword = () => {
             <Container className="rounded" id="SuccessMessageContainer"> 
               <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="SuccessMessage" fluid="sm">
               <Row> 
-              <h2>Successful Submission!</h2>
+                <h2 id="successMessageTitle">Successful Submission!</h2>
               </Row>
 
               <Row id="successDescription"> 
