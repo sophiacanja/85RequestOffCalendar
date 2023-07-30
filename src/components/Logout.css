@@ -6,13 +6,12 @@
     padding-left: 50px;
     padding-right: 50px;
     align-items: center;
-    max-height: 200px;
-    max-width: 670px;
+    margin-top: 400px;
     display: flex; 
 }
 
 h1 {
-    color: black;
-    font-size: 25px; 
+    color: rgb(255, 124, 124);
+    font-size: 40px; 
 }
 
