@@ -1,8 +1,7 @@
 import React from 'react';
-import AdminCalendar from './Calendar Components/AdminCalendar';
+import AdminCalendar from './AdminCalendarComponents/AdminCalendar';
 
 const AdminHome = () => {
-  // Component logic and state
 
   return (
     <div>

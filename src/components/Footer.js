@@ -7,7 +7,7 @@ const Footer = ({ page }) => {
     if(page === "adminManagement"){
         return (
             <div className="footerAdminManagement" >
-            <footer class="py-4 my-4 bg-dark text-white">
+            <footer class="pb-3 my-4 bg-dark text-white">
               <Container className="footerContainer">
                 <p style={{ textAlign: "center" }}>
                   This website manages the days off employees request for vacation. We appreciate your time!
@@ -22,7 +22,7 @@ const Footer = ({ page }) => {
 
     return (
         <div className="footer" >
-        <footer class="py-4 my-4 bg-dark text-white">
+        <footer class="pb-3 my-4 bg-dark text-white">
           <Container className="footerContainer">
             <p style={{ textAlign: "center" }}>
               This website manages the days off employees request for vacation. We appreciate your time!

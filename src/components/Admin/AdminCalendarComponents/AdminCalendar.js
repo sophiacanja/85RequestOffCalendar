@@ -3,16 +3,17 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import './Calendar.css';
 import Axios from 'axios';
-import SelectedDateCard from './SelectedDateCard';
-
-import SavedDateCard from './SavedDateCard';
-
+import SelectedDateCard from '../../Calendar Components/SelectedDateCard';
+import adminBackground from "../../../assets/photos/adminBackground.jpg"
+import SavedDateCard from '../../Calendar Components/SavedDateCard';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { styled } from '@mui/material/styles';
-
 import EmployeeCard from './EmployeeCard';
+import { Container } from 'react-bootstrap';
+import Button from "react-bootstrap/Button";
+
+import '../../Calendar Components/CSS/MainPage.css'
 
 
 const AdminCalendar = () => {
@@ -36,12 +37,12 @@ const AdminCalendar = () => {
       try {
         const isAuth = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
 
-        if (isAuth.data.auth === false){ // if user is not authenticated or JWT is expired, no need to do more API calls
+        if (isAuth.data.auth === false) { // if user is not authenticated or JWT is expired, no need to do more API calls
           return
         }
 
         const userEmployeeID = isAuth.data.user.employeeID;
-      
+
         const response = await Axios.get(
           `http://localhost:4000/calendar/getAllUpcomingRequestsForOneUser?employeeID=${userEmployeeID}`
         );
@@ -304,12 +305,12 @@ const AdminCalendar = () => {
       console.log(response)
 
       //if jwt is expired, reload page
-      if(response.data.auth === false ){
-        window.location.reload() 
-      } else{
-          //if user is authorized, save user info and submit request by calling createRequest api  
-         const body = {
-          firstName: response.data.user.firstName, 
+      if (response.data.auth === false) {
+        window.location.reload()
+      } else {
+        //if user is authorized, save user info and submit request by calling createRequest api  
+        const body = {
+          firstName: response.data.user.firstName,
           lastName: response.data.user.lastName,
           employeeID: response.data.user.employeeID,
           dates: selectedDates.map((date) => date[1])
@@ -317,7 +318,7 @@ const AdminCalendar = () => {
         await Axios.post(`http://localhost:4000/calendar/createRequest`, body);
         setSubmitStatus("Successful! Reloading page...");
       }
-      
+
       setTimeout(() => {
         window.location.reload();
       }, 1500);
@@ -403,118 +404,126 @@ const AdminCalendar = () => {
 
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="container">
-        <div className="section" id="dates-requested">
-          <h2 style={{ textAlign: 'center' }}>Dates Requested</h2>
-          {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
-          {/* ternary operator used in the case where the user does not have any requested days off */}
-          {savedDatesRequested.length === 0 ? (
-            <p style={{ textAlign: "center" }}>You do not have any requested days off</p>
-          ) : (
-            savedDatesRequested.map((date, index) => (
-              <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
-            ))
-          )}
+    <div style={{
+      backgroundImage: `url(${adminBackground})`, backgroundRepeat: "no-repeat",
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0
+    }}>.
+      <Container className="AdminHomeContainer">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div className="SectionsInThirds">
+              <h2 id="dates-requested" style={{ textAlign: 'center' }}>Dates Requested</h2>
+              <div className="ScrollableContainer">
 
-        </div>
-        <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
-          <DateCalendar
-            disablePast={currentMode === 0 ? true : false}
-            onChange={currentMode === 0 ? handleDateChange : adminHandleDateChange}
-            shouldDisableDate={currentMode === 0 ? shouldDisableDate : false}
-            slots={{ day: Day }}
-          />
-          <button
-            style={{
-              display: 'block',
-              margin: '0 auto',
-              backgroundColor: currentMode === 1 ? '#007bff' : '#28a745',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              padding: '10px 20px',
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'background-color 0.3s ease',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            }}
-            onClick={handleModeChange}
-          >
-            Currently in {currentMode === 1 ? "Admin Mode" : "User Mode"}
-          </button>
+                {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
+                {/* ternary operator used in the case where the user does not have any requested days off */}
+                {savedDatesRequested.length === 0 ? (
 
+                  <p style={{ textAlign: "center" }}>You do not have any requested days off</p>
 
+                ) : (
+                  savedDatesRequested.map((date, index) => (
+                    <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
+                  ))
+                )}
 
+              </div>
+            </div>
+            <div className="calendarSection" style={{ zoom: '1.4' }} id="calendar-part">
+              <DateCalendar
+                disablePast={currentMode === 0 ? true : false}
+                onChange={currentMode === 0 ? handleDateChange : adminHandleDateChange}
+                shouldDisableDate={currentMode === 0 ? shouldDisableDate : false}
+                slots={{ day: Day }}
+              />
+              <button
+                style={{
+                  display: 'block',
+                  margin: '0 auto',
+                  backgroundColor: currentMode === 1 ? '#007bff' : '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '10px 20px',
+                  fontSize: '1.2rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.3s ease',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                }}
+                onClick={handleModeChange}
+              >
+                Currently in {currentMode === 1 ? "Admin Mode" : "User Mode"}
+              </button>
+            </div>
 
-        </div>
+            <div className="SectionsInThirds">
+              <h2 id="unavailable-employees" style={{ textAlign: 'center' }}>{currentMode === 1 ? "Unavailable Employees" : "Selected Dates"}</h2>
+                <div className="ScrollableContainer">
+                  <div>
+                    {(() => {
+                      if (currentMode === 0) {// eslint-disable-next-line
+                        {/* user mode */ }
+                        return (
+                          <>
+                            {selectedDates.map((date, index) => (
+                              <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
+                            ))}
+                          </>
+                        )
+                      } else { // eslint-disable-next-line
+                        {/* admin mode */ }
+                        if (fetchStatus === "Loading") {
+                          return (
+                            <>
+                              <img src={require('../../../assets/gifs/loading.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Loading gif" />
+                            </>
+                          )
+                        }
 
-        <div className="section" id="selected-dates">
-          <h2 style={{ textAlign: 'center' }}>{currentMode === 1 ? "Unavailable Employees" : "Selected Dates"}</h2>
+                        if (fetchStatus === "Error") {
+                          return (
+                            <>
+                              <img src={require('../../../assets/gifs/wrench.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Loading gif" />
+                              <p style={{ textAlign: 'center' }}>There was an error when retrieving data, please try again or contact IT.</p>
+                            </>
+                          )
+                        }
+                        if (formattedDate.length === 0 || presentableDate === 0) {
+                          return (
+                            <>
+                              <p style={{ textAlign: 'center' }}>Start by selecting a date on the calendar</p>
+                            </>
+                          )
+                        }
+                        if (employeesRequestedOff.length === 0) {
+                          return (
+                            <>
+                              <p style={{ textAlign: 'center' }}>No requests off for date:</p>
+                              <p style={{ textAlign: 'center' }}>{presentableDate}</p>
+                            </>
+                          )
+                        } else {
+                          return (
+                            <>
+                              {employeesRequestedOff.map((entry, index) => (
+                                <EmployeeCard firstName={entry.firstName} lastName={entry.lastName} employeeID={entry.employeeID} />
+                              ))}
+                            </>
+                          )
+                        }
+                      }
+                    })()}
+                  </div>
+                  {currentMode === 0 && <Button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
+                    Submit
+                  </Button>}
+                  <p style={{ textAlign: "center" }}>{submitStatus}</p>
+                </div>
+            </div>
+        </LocalizationProvider>
+      </Container >
+    </div >
 
-          <div>
-            {(() => {
-              if (currentMode === 0) {// eslint-disable-next-line
-                {/* user mode */ }
-                return (
-                  <>
-                    {selectedDates.map((date, index) => (
-                      <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
-                    ))}
-                  </>
-                )
-              } else { // eslint-disable-next-line
-                {/* admin mode */ }
-                if (fetchStatus === "Loading") {
-                  return (
-                    <>
-                      <img src={require('../../../assets/gifs/loading.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Loading gif" />
-                    </>
-                  )
-                }
-
-                if (fetchStatus === "Error") {
-                  return (
-                    <>
-                      <img src={require('../../../assets/gifs/wrench.gif')} style={{ display: 'block', margin: '0 auto', width: '25%' }} alt="Loading gif" />
-                      <p style={{ textAlign: 'center' }}>There was an error when retrieving data, please try again or contact IT.</p>
-                    </>
-                  )
-                }
-                if (formattedDate.length === 0 || presentableDate === 0) {
-                  return (
-                    <>
-                      <p style={{ textAlign: 'center' }}>Start by selecting a date on the calendar</p>
-                    </>
-                  )
-                }
-                if (employeesRequestedOff.length === 0) {
-                  return (
-                    <>
-                      <p style={{ textAlign: 'center' }}>No requests off for date:</p>
-                      <p style={{ textAlign: 'center' }}>{presentableDate}</p>
-                    </>
-                  )
-                } else {
-                  return (
-                    <>
-                      {employeesRequestedOff.map((entry, index) => (
-                        <EmployeeCard firstName={entry.firstName} lastName={entry.lastName} employeeID={entry.employeeID} />
-                      ))}
-                    </>
-                  )
-                }
-              }
-            })()}
-          </div>
-          {currentMode === 0 && <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
-            Submit
-          </button>}
-          <p style={{ textAlign: "center" }}>{submitStatus}</p>
-        </div>
-      </div>
-    </LocalizationProvider>
   );
 };
 

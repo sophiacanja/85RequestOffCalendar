@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import './DateCard.css';
+import './CSS/DateCard.css';
 import lottie from 'lottie-web';
 import trashJSON from '../../assets/gifs/trash icon.json';
 

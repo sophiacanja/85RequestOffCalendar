@@ -3,15 +3,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import './Calendar.css';
 import Axios from 'axios';
 import SelectedDateCard from './SelectedDateCard';
-
 import SavedDateCard from './SavedDateCard';
-
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { styled } from '@mui/material/styles';
+import { Container } from 'react-bootstrap';
+import adminBackground from "../../assets/photos/adminBackground.jpg"
 
+import './CSS/MainPage.css';
 
 
 const Calendar = () => {
@@ -30,12 +30,12 @@ const Calendar = () => {
 
         const isAuth = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
 
-        if (isAuth.data.auth === false){ // if user is not authenticated or JWT is expired, no need to do more API calls
+        if (isAuth.data.auth === false) { // if user is not authenticated or JWT is expired, no need to do more API calls
           return
         }
 
         const userEmployeeID = isAuth.data.user.employeeID;
-      
+
         const response = await Axios.get(
           `http://localhost:4000/calendar/getAllUpcomingRequestsForOneUser?employeeID=${userEmployeeID}`
         );
@@ -266,7 +266,7 @@ const Calendar = () => {
         />
       );
     }
-    
+
     // if ordinary day (not requested nor selected), then render regular
     if (!inSavedDatesRequested && !inSelectedDates) {
       return <CustomPickersDay day={day} {...other} />;
@@ -306,48 +306,63 @@ const Calendar = () => {
 
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="container">
-        <div className="section" id="dates-requested">
-          <h2 style={{ textAlign: 'center' }}>Dates Requested</h2>
-          {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
-          {/* ternary operator used in the case where the user does not have any requested days off */}
-          {savedDatesRequested.length === 0 ? (
-            <p style={{ textAlign: "center" }}>You do not have any requested days off</p>
-          ) : (
-            savedDatesRequested.map((date, index) => (
-              <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
-            ))
-          )}
+    <div style={{
+      backgroundImage: `url(${adminBackground})`, backgroundRepeat: "no-repeat",
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0
+    }}>.
+      <Container className="AdminHomeContainer">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div className="SectionsInThirds">
+              <h2 id="dates-requested" style={{ textAlign: 'center' }}>Dates Requested</h2>
+              {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
+              {/* ternary operator used in the case where the user does not have any requested days off */}
+              <div className="ScrollableContainer">
 
-        </div>
-        <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
-          <DateCalendar
-            disablePast={true}
-            onChange={handleDateChange}
-            shouldDisableDate={shouldDisableDate}
-            slots={{ day: Day }}
-          />
-          <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
+                {savedDatesRequested.length === 0 ? (
+                  <p style={{ textAlign: "center" }}>You do not have any requested days off</p>
+                ) : (
+                  savedDatesRequested.map((date, index) => (
+                    <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
+                  ))
+                )}
 
-        </div>
+              </div>
+            </div>
 
-        <div className="section" id="selected-dates">
-          <h2 style={{ textAlign: 'center' }}>Selected Dates</h2>
 
-          <div>
-            {selectedDates.map((date, index) => (
-              <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
-            ))}
-          </div>
-          <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
-            Submit
-          </button>
-          <p style={{ textAlign: "center" }}>{submitStatus}</p>
-        </div>
-      </div>
-    </LocalizationProvider>
+            {/* Calendar Section */}
+            <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
+              <DateCalendar
+                disablePast={true}
+                onChange={handleDateChange}
+                shouldDisableDate={shouldDisableDate}
+                slots={{ day: Day }}
+              />
+              <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
+
+            </div>
+
+            <div className="SectionsInThirds">
+              <div className="section">
+                <h2 id="selected-dates" style={{ textAlign: 'center' }}>Selected Dates</h2>
+                <div className="ScrollableContainer">
+                  <div>
+                    {selectedDates.map((date, index) => (
+                      <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
+                    ))}
+                  </div>
+                  <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
+                    Submit
+                  </button>
+                  <p style={{ textAlign: "center" }}>{submitStatus}</p>
+                </div>
+              </div>
+            </div>
+        </LocalizationProvider>
+      </Container>
+    </div>
   );
 };
+
 
 export default Calendar;

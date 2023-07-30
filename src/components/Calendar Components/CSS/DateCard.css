@@ -6,7 +6,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding-left: 2px;
     padding-top: 13px;
-    /* padding-bottom: 30px; */
+    padding-bottom: 13px;
     margin-bottom: 30px;
     justify-content: space-between;
     width: 80%;
@@ -14,7 +14,6 @@
     white-space: pre-wrap;
     /* max-height: 60px; */
     position: relative;
-    /* Add this line */
 }
 
 .EmployeeCard {
@@ -25,20 +24,19 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding-left: 2px;
     /* padding-bottom: 30px; */
-    margin-bottom: 30px;
+    margin-bottom: 130px;
     justify-content: space-between;
     width: 80%;
     margin-left: 40px;
     white-space: pre-wrap;
     /* max-height: 60px; */
     position: relative;
-    /* Add this line */
 }
 
 .date {
     /* display: inline-block; */
     font-size: 1.3rem;
-    width: 75%
+    width: 75%;
 }
 
 .trash-button {
