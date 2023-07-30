@@ -1,6 +1,5 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Container from 'react-bootstrap/Container';
 
 // components for pages
 import Navbar from './components/Navbar';
@@ -13,6 +12,8 @@ import AdminManagement from './components/Admin/AdminManagementComponents/AdminM
 import ForgotPassword from './components/ForgotPassword';
 import UnknownPage from './components/UnknownPage';
 import PrivateRouterUser from './components/PrivateRouterUser'
+import ResetPassword from './components/ResetPassword';
+import Footer from './components/Footer';
 import './App.css'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -27,11 +28,13 @@ function App() {
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
               <Navbar />
               <Home />
+              <Footer />
             </PrivateRouterUser>
           } />
           <Route path="/login" element={
             <PrivateRouterUser loginNecessary={false} adminNecessary={false}>
               <Login />
+              <Footer />
             </PrivateRouterUser>
           } />
 
@@ -40,6 +43,7 @@ function App() {
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
               <Navbar />
               <Logout />
+              <Footer />
             </PrivateRouterUser>
           } />
 
@@ -47,6 +51,7 @@ function App() {
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
               <Navbar />
               <UpdateAccount />
+              <Footer />
             </PrivateRouterUser>
           } />
 
@@ -55,6 +60,7 @@ function App() {
             <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
               <Navbar />
               <AdminHome />
+              <Footer />
             </PrivateRouterUser>
           } />
 
@@ -62,32 +68,34 @@ function App() {
             <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
               <Navbar />
               <AdminManagement />
+              <Footer page="adminManagement" />
             </PrivateRouterUser>
           } />
 
           <Route path='/forgotPassword' element={
             <PrivateRouterUser loginNecessary={false} adminNecessary={false}>
               <ForgotPassword />
+              <Footer />
             </PrivateRouterUser>
           } />
 
-          {/* //TODO create own route component for forgot password */}
+          <Route path='/resetPassword' element={
+            <PrivateRouterUser loginNecessary={false} adminNecessary={false}>
+              <ResetPassword />
+              <Footer />
+            </PrivateRouterUser>
+          } />
 
-          <Route path='*' element={<UnknownPage />} />
+
+
+          <Route path='*' element={
+            <>
+              <UnknownPage />
+              <Footer />
+            </>
+          } />
         </Routes>
       </Router>
-      <div class="footer" >
-        <footer class="py-5 my-4 bg-dark text-white">
-          <Container className="footerContainer">
-            <p style={{ textAlign: "center" }}>
-              This website manages the days off employees request for vacation. We appreciate your time!
-              <br></br> Developed by : Sophia Canja & Sovial Sonzeu
-            </p>
-          </Container>
-        </footer>
-      </div>
-
-
 
     </>
   );

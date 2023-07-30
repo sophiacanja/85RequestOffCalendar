@@ -15,16 +15,17 @@ const Logout = () => {
   return (
     <div style= {{ backgroundImage: `url(${logoutBackground})`, backgroundRepeat: "no-repeat", 
       backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+    <Container className="rounded" id="logout">
+      <Container className="justify-content-center align-items-center text-center  bg-white rounded"> 
+        <Col> 
+          <Row className="mb-4"> 
+          <h1> Are you sure you want to log out? </h1>
+          </Row> 
 
-    <Container className="justify-content-center align-items-center text-center rounded" id="logout"> 
-      <Col> 
-        <Row> 
-         <h1> Are you sure you want to log out? </h1>
-        </Row> 
+        <Button className="mb-4" block="true" onClick={checkoutUser}> Logout </Button>
 
-      <Button block="true" onClick={checkoutUser}> Logout </Button>
-      </Col>
-       
+        </Col>
+      </Container>
     </Container>
 
     </div> 

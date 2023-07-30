@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import adminManagementBackground from "../../../assets/photos/adminManagementBackground.jpg"
 import './EmployeeTable.css';
 import './AdminManagement.css';
 const AdminManagement = () => {
@@ -58,14 +59,16 @@ const AdminManagement = () => {
     
 
 return ( 
-    <div >
+    <div style= {{ backgroundImage: `url(${adminManagementBackground})`, backgroundRepeat: "no-repeat", 
+      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+      
         <Container className = "EmployeeTableContainer" fluid="lg"> 
             <EmployeeTable />
         </Container>
 
         <Container className = "AddEmployeeContainer" fluid="lg" >
 
-            <div className="text-center">
+            <div className="text-center bg-white">
                 <Button onClick = { ()=> setAddUser(true)} className="AddEmployeButton"  > Add Employee </Button>
             </div>
 
@@ -116,13 +119,17 @@ return (
                     </Row>
 
                     <Form.Group  className="email-textbox" controlId="email">
+                        <Row> 
                         <Form.Label  className="formLabel">Email </Form.Label>
+                        <Col sm ="6"> 
                         <Form.Control 
                             type= "text"
                             name="email"
                             value={ newUserData.email || ''}
                             onChange={ handleAddEmployee }
                         />
+                        </Col>
+                        </Row>
                     </Form.Group>
                     <div className="text-center">
                         <Button as= "input" type="submit" className= "submitButton"/> 

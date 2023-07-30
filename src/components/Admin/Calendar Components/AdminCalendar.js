@@ -34,8 +34,16 @@ const AdminCalendar = () => {
     // TODO change to match the object id or emp id of logged in user
     const fetchAllDatesRequested = async () => {
       try {
+        const isAuth = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
+
+        if (isAuth.data.auth === false){ // if user is not authenticated or JWT is expired, no need to do more API calls
+          return
+        }
+
+        const userEmployeeID = isAuth.data.user.employeeID;
+      
         const response = await Axios.get(
-          'http://localhost:4000/calendar/getAllUpcomingRequestsForOneUser?employeeID=77'
+          `http://localhost:4000/calendar/getAllUpcomingRequestsForOneUser?employeeID=${userEmployeeID}`
         );
         const dates = response.data.data;
         // console.log(dates) //"YYYY-MM-DD" is the main part (at the beginning of each one)
@@ -398,7 +406,7 @@ const AdminCalendar = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="container">
         <div className="section" id="dates-requested">
-          <h1 style={{ textAlign: 'center' }}>Dates Requested</h1>
+          <h2 style={{ textAlign: 'center' }}>Dates Requested</h2>
           {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
           {/* ternary operator used in the case where the user does not have any requested days off */}
           {savedDatesRequested.length === 0 ? (
@@ -443,7 +451,7 @@ const AdminCalendar = () => {
         </div>
 
         <div className="section" id="selected-dates">
-          <h1 style={{ textAlign: 'center' }}>{currentMode === 1 ? "Unavailable Employees" : "Selected Dates"}</h1>
+          <h2 style={{ textAlign: 'center' }}>{currentMode === 1 ? "Unavailable Employees" : "Selected Dates"}</h2>
 
           <div>
             {(() => {

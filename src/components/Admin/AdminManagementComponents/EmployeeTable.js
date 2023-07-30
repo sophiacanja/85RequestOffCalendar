@@ -59,7 +59,7 @@ const EmployeeTable= () => {
   }
 
 return (
-    <div className= "EmployeeTableContainer">
+    <div className= "EmployeeTableContainer bg-white">
     <h1 className = "title">Manage Employees</h1> 
     <Table className= "EmployeeTable" striped hover bordered={true}>
         <thead>
