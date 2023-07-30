@@ -4,17 +4,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import Axios from 'axios';
-import SelectedDateCard from './SelectedDateCard';
+import SelectedDateCard from '../../Calendar Components/SelectedDateCard';
 import adminBackground from "../../../assets/photos/adminBackground.jpg"
-import SavedDateCard from './SavedDateCard';
+import SavedDateCard from '../../Calendar Components/SavedDateCard';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { styled } from '@mui/material/styles';
 import EmployeeCard from './EmployeeCard';
 import { Container } from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 
-// import '../../Calendar Components/CSS/MainPage.css';
-
+import '../../Calendar Components/CSS/MainPage.css'
 
 
 const AdminCalendar = () => {
@@ -411,7 +410,6 @@ const AdminCalendar = () => {
     }}>.
       <Container className="AdminHomeContainer">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div className="container">
             <div className="SectionsInThirds">
               <h2 id="dates-requested" style={{ textAlign: 'center' }}>Dates Requested</h2>
               <div className="ScrollableContainer">
@@ -430,7 +428,7 @@ const AdminCalendar = () => {
 
               </div>
             </div>
-            <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
+            <div className="calendarSection" style={{ zoom: '1.4' }} id="calendar-part">
               <DateCalendar
                 disablePast={currentMode === 0 ? true : false}
                 onChange={currentMode === 0 ? handleDateChange : adminHandleDateChange}
@@ -522,7 +520,6 @@ const AdminCalendar = () => {
                   <p style={{ textAlign: "center" }}>{submitStatus}</p>
                 </div>
             </div>
-          </div>
         </LocalizationProvider>
       </Container >
     </div >

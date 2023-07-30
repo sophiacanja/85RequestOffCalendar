@@ -11,9 +11,7 @@ import { styled } from '@mui/material/styles';
 import { Container } from 'react-bootstrap';
 import adminBackground from "../../assets/photos/adminBackground.jpg"
 
-import '../Admin/Calendar Components/Calendar.css';
-// import '../Admin/Calendar Components/Calendar.css';
-// import './CSS/MainPage.css';
+import './CSS/MainPage.css';
 
 
 const Calendar = () => {
@@ -314,7 +312,6 @@ const Calendar = () => {
     }}>.
       <Container className="AdminHomeContainer">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div className="container">
             <div className="SectionsInThirds">
               <h2 id="dates-requested" style={{ textAlign: 'center' }}>Dates Requested</h2>
               {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
@@ -346,8 +343,8 @@ const Calendar = () => {
             </div>
 
             <div className="SectionsInThirds">
-              <div className="section" id="selected-dates">
-                <h2 style={{ textAlign: 'center' }}>Selected Dates</h2>
+              <div className="section">
+                <h2 id="selected-dates" style={{ textAlign: 'center' }}>Selected Dates</h2>
                 <div className="ScrollableContainer">
                   <div>
                     {selectedDates.map((date, index) => (
@@ -361,8 +358,6 @@ const Calendar = () => {
                 </div>
               </div>
             </div>
-          </div>
-
         </LocalizationProvider>
       </Container>
     </div>
