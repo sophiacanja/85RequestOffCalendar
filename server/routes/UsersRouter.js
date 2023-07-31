@@ -437,34 +437,34 @@ const RegexValidation = async (userInfo) => {
     if (userInfo.firstName.length <= 0 || !nameRegex.test(userInfo.firstName)) {
         return {
             success: false,
-            message: "invalid first name"
+            message: "Invalid first name"
         };
     }
 
     if (userInfo.lastName.length <= 0 || !nameRegex.test(userInfo.lastName)) {
         return {
             success: false,
-            message: "invalid last name"
+            message: "Invalid last name"
         };
     }
 
     if (userInfo.email.length <= 0 || !emailRegex.test(userInfo.email)) {
         return {
             success: false,
-            message: "invalid email"
+            message: "Invalid email"
         };
     }
 
     if (userInfo.password.length <= 0 || !passwordRegex.test(userInfo.password)) {
         return {
             success: false,
-            message: "invalid password, must contain at least one digit, one lowercase letter, one uppercase letter, and minimum length of 8 characters"
+            message: "Invalid password, must contain at least one digit, one lowercase letter, one uppercase letter, and minimum length of 8 characters"
         };
     }
 
     return {
         success: true,
-        message: "successful"
+        message: "Successful"
     };
 };
 

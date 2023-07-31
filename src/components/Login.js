@@ -72,7 +72,7 @@ const Login = () => {
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
       backgroundSize: "cover",
-      height: '100vh',
+      height: '90vh',
       margin: 0,
       padding: 0,
       display: 'flex',
@@ -109,7 +109,7 @@ const Login = () => {
             <Form.Label column="4"> Password: </Form.Label> 
               <Col sm="8"> 
                 <Form.Control
-                  type="text"
+                  type="password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

@@ -105,7 +105,7 @@ const ResetPassword = () => {
   return (
     <div style={{
       backgroundImage: `url(${resetPasswordBackground})`, backgroundRepeat: "no-repeat",
-      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0
+      backgroundSize: "cover", height: '90vh', margin: 0, padding: 0
     }}>.
 
       <Container className="rounded" id="ResetPasswordContainer">
