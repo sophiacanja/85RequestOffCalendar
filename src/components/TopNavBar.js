@@ -40,19 +40,25 @@ const TopNavBar = () => {
 
   if (dataLoaded === false) {
     return (
-      <p>Authenticating account permissions, please wait.</p>
+      <div className='navbar justify-content-center'>
+        <p>Authenticating account permissions, please wait.</p>
+      </div>
     )
   }
 
   if (errorPresent === true) {
     return (
-      <p>Server error, please try again later</p>
+      <div className='navbar justify-content-center'>
+        <p>Server error, please try again later</p>
+      </div >
     )
   }
 
   if (isLoggedIn === false) {
     return (
-      <p>Please refresh the page and re-login</p>
+      <div className='navbar justify-content-center'>
+        <p>Please refresh the page and re-login</p>
+      </div>
     )
   }
 
