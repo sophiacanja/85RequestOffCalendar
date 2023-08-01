@@ -29,8 +29,9 @@
  .FormTitle {
    text-align: center;
    color: #a61a11;
-   margin-top: 20px;
-   font-size: 3px;
+   margin-top: 2px;
+   font-size: 30px;
+   font-weight: bold;
  }
 
 
