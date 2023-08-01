@@ -2,7 +2,7 @@
 
 .navbar {
   /* background-color: rgb(255, 124, 124); */
-  background-color: white;
+  background-color: rgb(216, 214, 214);
   height: 80px;
   display: flex;
   justify-content: flex-start;
