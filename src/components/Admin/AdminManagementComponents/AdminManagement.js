@@ -98,7 +98,7 @@ const AdminManagement = () => {
 
                 <Container className="AddEmployeeContainer" fluid="lg" >
                     <Form onSubmit={handleSubmit} className="AddEmployeeForm">
-                        <h1 className="FormTitle"> Create New Employee</h1>
+                        <h1 className="FormTitle">Create New Employee</h1>
 
                         <Form.Group className="mt-3" controlId="input">
                             <Form.Label >First Name  </Form.Label>

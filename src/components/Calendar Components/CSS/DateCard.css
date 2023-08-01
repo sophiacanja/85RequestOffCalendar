@@ -37,6 +37,7 @@
     /* display: inline-block; */
     font-size: 1.3rem;
     width: 75%;
+    margin-left: 15px;
 }
 
 .trash-button {

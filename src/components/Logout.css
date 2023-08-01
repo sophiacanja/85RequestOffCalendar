@@ -6,12 +6,11 @@
     padding-left: 50px;
     padding-right: 50px;
     align-items: center;
-    margin-top: 400px;
-    display: flex; 
+    margin-top: 200px;
+    display: flex;
 }
 
 h1 {
     color: #a61a11;
-    font-size: 40px; 
+    font-size: 40px;
 }
-

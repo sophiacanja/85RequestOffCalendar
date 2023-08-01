@@ -2,7 +2,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // components for pages
-import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from "./components/Login";
 import Logout from './components/Logout';
@@ -14,6 +13,8 @@ import UnknownPage from './components/UnknownPage';
 import PrivateRouterUser from './components/PrivateRouterUser'
 import ResetPassword from './components/ResetPassword';
 import Footer from './components/Footer';
+import TopNavBar from './components/TopNavBar';
+
 import './App.css'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -26,7 +27,7 @@ function App() {
         <Routes>
           <Route path='/' exact element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
-              <Navbar />
+              <TopNavBar />
               <Home />
               <Footer />
             </PrivateRouterUser>
@@ -41,7 +42,7 @@ function App() {
 
           <Route path='/logout' element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
-              <Navbar />
+              <TopNavBar />
               <Logout />
               <Footer />
             </PrivateRouterUser>
@@ -49,7 +50,7 @@ function App() {
 
           <Route path='/updateAccount' element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={false}>
-              <Navbar />
+              <TopNavBar />
               <UpdateAccount />
               <Footer />
             </PrivateRouterUser>
@@ -58,7 +59,7 @@ function App() {
           <Route path='/adminHome' element={
 
             <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
-              <Navbar />
+              <TopNavBar />
               <AdminHome />
               <Footer />
             </PrivateRouterUser>
@@ -66,7 +67,7 @@ function App() {
 
           <Route path='/adminManagement' element={
             <PrivateRouterUser loginNecessary={true} adminNecessary={true}>
-              <Navbar />
+              <TopNavBar />
               <AdminManagement />
               <Footer page="adminManagement" />
             </PrivateRouterUser>
