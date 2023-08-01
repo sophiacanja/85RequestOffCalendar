@@ -10,7 +10,7 @@ import forgotPasswordBackground from "../assets/photos/forgotPasswordBackground.
 
 const ForgotPassword = () => {
   const [employeeID, setEmployeeID] = useState('');
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
   const [validSubmission, setValidSubmission] = useState(false);
   const [encryptedEmail, setEncryptedEmail] = useState('')
 
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
 
   return (
     <div style= {{ backgroundImage: `url(${forgotPasswordBackground})`, backgroundRepeat: "no-repeat", 
-      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
+      backgroundSize: "cover", height: '90vh', margin: 0, padding: 0}}>.
       {(() => {
         if (validSubmission === false) {
           return (
@@ -79,7 +79,7 @@ const ForgotPassword = () => {
                 </Row>
                 </Form>
 
-                {message && <div>{message}</div>}
+                {/* {message && <div>{message}</div>} */}
               </Container>
             </Container>
           );
@@ -93,7 +93,7 @@ const ForgotPassword = () => {
 
               <Row id="successDescription"> 
               <p>The reset link was successfully sent to {encryptedEmail}! <br></br>Please remember to also check your spam folder.</p>
-              {message && <div>{message}</div>}
+              {/* {message && <div>{message}</div>} */}
               </Row>
 
             </Container>

@@ -1,60 +1,75 @@
  /* these variables are for adminManagement.js files */
- 
+
  /* every button has the "btn-primary" class, so we can change all buttons on the page 
   by specifying this class  to access or override this style, call and each individual button use 
   [".EmployeeTable button" : delete button, ".AddEmployeeSection button" : addEmployee button, ".submitButton" : submit */
-.btn-primary{
-    background-color: #a61a11;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 10px 20px;
-}  
+ .btn-primary {
+   background-color: #a61a11;
+   color: white;
+   border: none;
+   cursor: pointer;
+   font-size: 1.2rem;
+   padding: 10px 20px;
+ }
 
-.btn-primary:hover
-{
-  background-color: #c71f16;
-}
-
-
-.AddEmployeeForm 
-{
-  border: 2px solid #dee2e6;
-  background-color: #f2f2f2;
-  font-size: 20px;
-  padding-left: 25px;
-  padding-right: 25px;
-  
-}
-
-.FormTitle {
-  text-align: center;
-  color: #a61a11;
-  margin-top: 20px;
-}
-
-.row
-{
-  margin-top: 20px;
-}
-
-.submitButton,
-.AddEmployeButton
-{
-  margin-top: 30px;
-  margin-bottom: 30px;
-
-}
-
-.SuccessMessage {
-  font-weight: bold;
-  font-size: 30px;
-  color: green;
-}
+ .btn-primary:hover {
+   background-color: #c71f16;
+ }
 
 
+ .AddEmployeeForm {
+   border: 2px solid #dee2e6;
+   background-color: #f2f2f2;
+   font-size: 20px;
+   padding-left: 25px;
+   padding-right: 25px;
+
+ }
+
+ .FormTitle {
+   text-align: center;
+   color: #a61a11;
+   margin-top: 20px;
+   font-size: 3px;
+ }
 
 
+ .submitButton,
+ .AddEmployeButton {
+   margin-top: 30px;
+   margin-bottom: 30px;
+
+ }
+
+ .SuccessMessage {
+   font-weight: bold;
+   font-size: 30px;
+   color: green;
+ }
+
+ .AdminManagementContainer {
+   display: flex;
+   margin-top: 40px;
+   border-radius: 4%;
+   background-color: rgb(167, 156, 133);
+   padding-bottom: 35px;
+   padding-top: 35px;
+   max-height: 680px;
+ }
 
 
+ .ManageEmployeesContainer {
+   flex: 70%;
+   max-height: 600px;
+   overflow-y: scroll;
+ }
+
+ .AddEmployeeContainer {
+   flex: 30%;
+   max-height: 600px;
+   overflow-y: scroll;
+ }
+
+ #input {
+  padding-bottom: 10px;
+ }
