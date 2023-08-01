@@ -42,7 +42,7 @@ const Login = () => {
 
         //waits 1.5 seconds and will navigate to the home page
         setTimeout(() => {
-        window.location.reload()
+          window.location.reload()
         }, 1500);
       }
     } catch (err) {
@@ -67,7 +67,7 @@ const Login = () => {
   }
 
   return (
-   <div style={{
+    <div style={{
       backgroundImage: `url(${backgroundCoffeeImage})`,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
@@ -79,21 +79,21 @@ const Login = () => {
       alignItems: 'center',
       justifyContent: 'center'
     }}
-      >.
+    >.
 
-    <Container className= "rounded" id="LoginContainer" fluid="lg"> 
-    
-    <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
-      <Row> 
-        <div className="text-center">  
-          <h1 className="Title"> Associate Login  </h1>
-        </div>
-      </Row>
-     
-      <Form className= "rounded justify-content-center"  id="LoginForm ">
-          <Form.Group as={Row} controlId="employeeID">
-            <Form.Label column="4"> Employee ID: </Form.Label>
-              <Col sm ="8">
+      <Container className="rounded" id="LoginContainer" fluid="lg">
+
+        <Container className="login form justify-content-center align-items-center align-items-center w-90 bg-white rounded" id="LoginFormContainer" fluid="lg">
+          <Row>
+            <div className="text-center">
+              <h1 className="Title"> Associate Login  </h1>
+            </div>
+          </Row>
+
+          <Form className="rounded justify-content-center" id="LoginForm ">
+            <Form.Group as={Row} controlId="employeeID">
+              <Form.Label column="4"> Employee ID: </Form.Label>
+              <Col sm="8">
                 <Form.Control
                   autoFocus
                   placeholder="Employee ID"
@@ -103,11 +103,11 @@ const Login = () => {
                   onChange={(e) => setEmployeeID(e.target.value)}
                 />
               </Col>
-          </Form.Group>
-        
-          <Form.Group as={Row} className="mb-3" controlId="password">
-            <Form.Label column="4"> Password: </Form.Label> 
-              <Col sm="8"> 
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3" controlId="password">
+              <Form.Label column="4"> Password: </Form.Label>
+              <Col sm="8">
                 <Form.Control
                   type="password"
                   placeholder="Password"
@@ -115,27 +115,27 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Col>
-          </Form.Group>
+            </Form.Group>
 
-       
-        <div className = "text-center mb-5">
-       
-          <Button as={Row} className="login-button text-white" onClick={login} disabled={!validateForm()} >
-            Login
-          </Button>
-          {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
-          {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
-          <Row> 
-            <div className="forgot-password">
-              <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
+
+            <div className="text-center mb-5">
+
+              <Button as={Row} className="login-button text-white" onClick={login} disabled={!validateForm()} >
+                Login
+              </Button>
+              {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
+              {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
+              <Row>
+                <div className="forgot-password">
+                  <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
+                </div>
+              </Row>
             </div>
-          </Row>
-        </div>
-      </Form>
+          </Form>
 
-    </Container>
-    </Container>
-    </div> 
+        </Container>
+      </Container>
+    </div>
 
   )
 };

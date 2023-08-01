@@ -8,27 +8,29 @@ import './Logout.css'
 const Logout = () => {
 
   const checkoutUser = async () => {
-    localStorage.token = null; 
+    localStorage.token = null;
     window.location.reload();
   }
 
   return (
-    <div style= {{ backgroundImage: `url(${logoutBackground})`, backgroundRepeat: "no-repeat", 
-      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0}}>.
-    <Container className="rounded" id="logout">
-      <Container className="justify-content-center align-items-center text-center  bg-white rounded"> 
-        <Col> 
-          <Row className="mb-4"> 
-          <h1> Are you sure you want to log out? </h1>
-          </Row> 
+    <div style={{
+      backgroundImage: `url(${logoutBackground})`, backgroundRepeat: "no-repeat",
+      backgroundSize: "cover", height: '90vh', margin: 0, padding: 0
+    }}>.
+      <Container className="rounded" id="logout">
+        <Container className="justify-content-center align-items-center text-center  bg-white rounded">
+          <Col>
+            <Row className="mb-4">
+              <h1> Are you sure you want to log out? </h1>
+            </Row>
 
-        <Button className="mb-4" block="true" onClick={checkoutUser}> Logout </Button>
+            <Button className="mb-4" block="true" onClick={checkoutUser}> Logout </Button>
 
-        </Col>
+          </Col>
+        </Container>
       </Container>
-    </Container>
 
-    </div> 
+    </div>
   );
 };
 
