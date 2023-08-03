@@ -1,7 +1,5 @@
 ## Website Walkthrough and Screenshots
-
-
-https://github.com/sophiacanja/85RequestOffCalendar/assets/94957224/6b3a91d4-5c24-4a02-9d6a-0dd1723c3560
+https://github.com/sophiacanja/85RequestOffCalendar/assets/94957224/d6a81a0e-98c8-4b97-8696-cc8248aa819c
 
 ![login](./images/login.png)
 ![user home](./images/userHome.png)
