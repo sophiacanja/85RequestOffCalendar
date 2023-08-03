@@ -123,7 +123,7 @@ const Login = () => {
             </Form.Group>
 
 
-            <div className="text-center mb-5">
+            <div className="text-center mb-3">
             
               <Button 
                 as="input"

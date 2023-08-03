@@ -65,8 +65,8 @@ const ForgotPassword = () => {
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="4"> Employee ID: </Form.Label>
-                    <Col sm="8">
+                    <Form.Label column="5"> Employee ID: </Form.Label>
+                    <Col sm="7">
                       <Form.Control
                         type="Number"
                         placeholder="Employee ID"

@@ -20,7 +20,7 @@ const Logout = () => {
       <Container className="rounded" id="logout">
         <Container className="justify-content-center align-items-center text-center  bg-white rounded">
           <Col>
-            <Row className="mb-4">
+            <Row>
               <h1> Are you sure you want to log out? </h1>
             </Row>
 
