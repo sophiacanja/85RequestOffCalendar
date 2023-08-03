@@ -17,8 +17,10 @@
   .row {
     padding-left: 80px;
     padding-right: 80px;
+    padding-bottom: 5px;
     font-size: 20px;
-    color: #black;
+    color: black;
+    font-family: Palatino, URW Palladio L, serif;
   }
 
 
@@ -26,4 +28,16 @@
     font-weight: bold;
     font-size: 20px;
     color: green;
+    font-family: Palatino, URW Palladio L, serif;
+  }
+
+  .FailMessage {
+    font-family: Palatino, URW Palladio L, serif;
+    font-size: 20px;
+    color: darkred;
+  }
+
+  .forgot-password {
+    margin-top: 20px;
+    font-family: Palatino, URW Palladio L, serif;
   }

@@ -178,7 +178,7 @@ const ResetPassword = () => {
             {passwordMessage}
           </div>
           <Row className="mb-4">
-            <a id="redirectToHome" href="/login">Redirecting to login page...</a>
+            <a id="redirectToHome" href="/login">Return to login page</a>
           </Row>
         </Container>
       </Container>

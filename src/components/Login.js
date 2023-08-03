@@ -19,14 +19,19 @@ const Login = () => {
   const location = useLocation();
 
   //function that checks that email and passowrd isn't blank
-  function validateForm() {
+  const validateForm = () => {
     return employeeID.length > 0 && password.length > 0;
   }
 
 
   //login: Calls the login api request to verify credentials and creates a JWT. Frontend stores the token into localStorage and sets setLoginSuccess to true*
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
     try {
+      if(/^\d+$/.test(employeeID) === false){
+        setAuthenticationStatus(false);
+        return;
+      }
       //api call to check credentials and create token, using the body empoyeeID and password
       const response = await Axios.post("http://localhost:4000/users/loginAndCreateToken", { employeeID: employeeID, password: password })
 
@@ -90,10 +95,10 @@ const Login = () => {
             </div>
           </Row>
 
-          <Form className="rounded justify-content-center" id="LoginForm ">
+          <Form onSubmit={login} className="rounded justify-content-center" id="LoginForm ">
             <Form.Group as={Row} controlId="employeeID">
-              <Form.Label column="4"> Employee ID: </Form.Label>
-              <Col sm="8">
+              <Form.Label column="5"> Employee ID: </Form.Label>
+              <Col sm="7">
                 <Form.Control
                   autoFocus
                   placeholder="Employee ID"
@@ -106,8 +111,8 @@ const Login = () => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3" controlId="password">
-              <Form.Label column="4"> Password: </Form.Label>
-              <Col sm="8">
+              <Form.Label column="5"> Password: </Form.Label>
+              <Col sm="7">
                 <Form.Control
                   type="password"
                   placeholder="Password"
@@ -119,12 +124,18 @@ const Login = () => {
 
 
             <div className="text-center mb-5">
-
-              <Button as={Row} className="login-button text-white" onClick={login} disabled={!validateForm()} >
-                Login
-              </Button>
+            
+              <Button 
+                as="input"
+                className="login-button text-white mb-3" 
+                type="submit"
+                value="Login"
+                ame="Login"
+                disabled={!validateForm()}
+              />
+          
               {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
-              {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
+              {authenticationStatus === false && <div className="FailMessage"> Incorrect credentials, please login again</div>}
               <Row>
                 <div className="forgot-password">
                   <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>

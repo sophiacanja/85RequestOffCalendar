@@ -21,10 +21,10 @@
     align-items: center;
     display: inline-block;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     padding-left: 2px;
     /* padding-bottom: 30px; */
-    margin-bottom: 130px;
+    margin-bottom: 30px;
     justify-content: space-between;
     width: 80%;
     margin-left: 40px;
