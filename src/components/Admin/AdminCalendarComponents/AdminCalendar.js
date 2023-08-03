@@ -302,7 +302,7 @@ const AdminCalendar = () => {
       setCurrentlySubmittingDates(true);
       //checks if user is authorized and validates the jwt 
       const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } })
-      console.log(response)
+      // console.log(response)
 
       //if jwt is expired, reload page
       if (response.data.auth === false) {

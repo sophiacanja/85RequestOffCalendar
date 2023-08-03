@@ -216,14 +216,24 @@ const Calendar = () => {
   // for submitting all selected dates to MongoDB database
   const handleSubmitSelectedDates = async () => {
     try {
+      const isAuth = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
+      // console.log(isAuth.data.auth);
+
+      if (isAuth.data.auth === false) {
+        setSubmitStatus('Session timed out, please re-login.');
+        setCurrentlySubmittingDates(true);
+        return
+      }
+
       setCurrentlySubmittingDates(true);
+
       const body = {
-        firstName: "Sovi",
-        lastName: "Sonz",
-        employeeID: 77,
+        firstName: isAuth.data.user.firstName,
+        lastName: isAuth.data.user.lastName,
+        employeeID: isAuth.data.user.employeeID,
         dates: selectedDates.map((date) => date[1])
       }
-      console.log(body);
+      // console.log(body);
 
       await Axios.post(`http://localhost:4000/calendar/createRequest`, body);
 
@@ -312,52 +322,52 @@ const Calendar = () => {
     }}>.
       <Container className="AdminHomeContainer">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="SectionsInThirds">
-              <h2 id="dates-requested" style={{ textAlign: 'center' }}>Dates Requested</h2>
-              {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
-              {/* ternary operator used in the case where the user does not have any requested days off */}
+          <div className="SectionsInThirds">
+            <h2 id="dates-requested" style={{ textAlign: 'center' }}>Dates Requested</h2>
+            {/* //TODO also add the prompt for when the backend does not work (probably should use useState to help with this) */}
+            {/* ternary operator used in the case where the user does not have any requested days off */}
+            <div className="ScrollableContainer">
+
+              {savedDatesRequested.length === 0 ? (
+                <p style={{ textAlign: "center" }}>You do not have any requested days off</p>
+              ) : (
+                savedDatesRequested.map((date, index) => (
+                  <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
+                ))
+              )}
+
+            </div>
+          </div>
+
+
+          {/* Calendar Section */}
+          <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
+            <DateCalendar
+              disablePast={true}
+              onChange={handleDateChange}
+              shouldDisableDate={shouldDisableDate}
+              slots={{ day: Day }}
+            />
+            <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
+
+          </div>
+
+          <div className="SectionsInThirds">
+            <div className="section">
+              <h2 id="selected-dates" style={{ textAlign: 'center' }}>Selected Dates</h2>
               <div className="ScrollableContainer">
-
-                {savedDatesRequested.length === 0 ? (
-                  <p style={{ textAlign: "center" }}>You do not have any requested days off</p>
-                ) : (
-                  savedDatesRequested.map((date, index) => (
-                    <SavedDateCard key={index} date={date[0]} formattedDate={date[1]} />
-                  ))
-                )}
-
-              </div>
-            </div>
-
-
-            {/* Calendar Section */}
-            <div className="section" style={{ zoom: '1.4' }} id="calendar-part">
-              <DateCalendar
-                disablePast={true}
-                onChange={handleDateChange}
-                shouldDisableDate={shouldDisableDate}
-                slots={{ day: Day }}
-              />
-              <p style={{ textAlign: 'center' }}>Select the dates you would like to request off</p>
-
-            </div>
-
-            <div className="SectionsInThirds">
-              <div className="section">
-                <h2 id="selected-dates" style={{ textAlign: 'center' }}>Selected Dates</h2>
-                <div className="ScrollableContainer">
-                  <div>
-                    {selectedDates.map((date, index) => (
-                      <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
-                    ))}
-                  </div>
-                  <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
-                    Submit
-                  </button>
-                  <p style={{ textAlign: "center" }}>{submitStatus}</p>
+                <div>
+                  {selectedDates.map((date, index) => (
+                    <SelectedDateCard key={index} presentableDate={date[0]} formattedDate={date[1]} rawDate={date[2]} deleteCard={handleDeleteSelectedDate} />
+                  ))}
                 </div>
+                <button className="submit-button" onClick={handleSubmitSelectedDates} disabled={selectedDates.length === 0 || currentlySubmittingDates === true}>
+                  Submit
+                </button>
+                <p style={{ textAlign: "center" }}>{submitStatus}</p>
               </div>
             </div>
+          </div>
         </LocalizationProvider>
       </Container>
     </div>

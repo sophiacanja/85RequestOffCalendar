@@ -10,6 +10,7 @@ const SavedDateCard = ({ date, formattedDate }) => {
   const animationInstanceRef = useRef(null);
   const [deletionSuccessful, setDeletionSuccessful] = useState(false);
   const [errorOccurred, setErrorOccurred] = useState(false);
+
   useEffect(() => {
     const animationContainer = animationContainerRef.current;
 
@@ -51,8 +52,15 @@ const SavedDateCard = ({ date, formattedDate }) => {
   //http://localhost:4000/calendar/deleteRequest?empID=<ID>&date=<date (mm/dd/yyyy)>
   const handleDeleteButtonClick = async () => {
     try {
-      //TODO change empID for current user instead (currently is set for specific user)
-      await Axios.delete(`http://localhost:4000/calendar/deleteRequest?empID=77&date=${formattedDate}`);
+      const isAuth = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
+
+      if(isAuth.data.auth === false){
+        setErrorOccurred(true);
+      }
+
+      const empID = isAuth.data.user.employeeID;
+
+      await Axios.delete(`http://localhost:4000/calendar/deleteRequest?empID=${empID}&date=${formattedDate}`);
       setDeletionSuccessful(true);
       setErrorOccurred(false);
     } catch (err) {

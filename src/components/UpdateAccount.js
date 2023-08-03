@@ -103,8 +103,8 @@ const UpdateAccount = () => {
   */
 
 
-  const handleSubmit = async () => {
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       setShowSubmitButton(false);
       const body = {
@@ -115,7 +115,7 @@ const UpdateAccount = () => {
         employeeID: employeeID
       }
       const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
-      console.log(response.data.auth === false);
+      // console.log(response.data.auth === false);
       if (response.data.auth === false) {
         const message = "Session timed out, please re-login";
         console.log("here");

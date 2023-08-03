@@ -77,7 +77,13 @@ const PrivateRouterUser = ({ children, loginNecessary, adminNecessary }) => {
   }
 
   if (!loginNecessary) { // edge case for login page
-    return !isLoggedIn ? children : <Navigate to="/" />;
+    if(isLoggedIn && isAdmin){
+      return <Navigate to="/adminHome" />
+    } else if (!isLoggedIn){
+      return children;
+    } else {
+      return <Navigate to="/" />
+    }
   }
 }
 

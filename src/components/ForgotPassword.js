@@ -97,7 +97,7 @@ const ForgotPassword = () => {
                 <Row id="successDescription">
                   <p>The reset link was successfully sent to {encryptedEmail}! <br></br>Please remember to also check your spam folder.</p>
                   {/* {message && <div>{message}</div>} */}
-                  <a id="redirectToHome" href="/login">Return to Login Page</a>
+                  <a className="mb-3" id="redirectToHome" href="/login">Return to Login Page</a>
                 </Row>
 
               </Container>
