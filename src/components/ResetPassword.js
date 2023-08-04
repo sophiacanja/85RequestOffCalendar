@@ -105,11 +105,11 @@ const ResetPassword = () => {
   return (
     <div style={{
       backgroundImage: `url(${resetPasswordBackground})`, backgroundRepeat: "no-repeat",
-      backgroundSize: "cover", height: '100vh', margin: 0, padding: 0
+      backgroundSize: "cover", height: '90vh', margin: 0, padding: 0
     }}>.
 
       <Container className="rounded" id="ResetPasswordContainer">
-        <Container className="justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
+        <Container className="justify-content-center align-items-center align-items-center bg-white rounded" id="LoginFormContainer" fluid="sm">
           {(() => {
             if (stillVerifyingToken === true) {
               return (
@@ -166,7 +166,7 @@ const ResetPassword = () => {
                       </Col>
                     </Form.Group>
 
-                    <Row >
+                    <Row className="mb-3">
                       <Button type="submit">Set New Password</Button>
                     </Row>
                   </Form>
@@ -178,7 +178,7 @@ const ResetPassword = () => {
             {passwordMessage}
           </div>
           <Row className="mb-4">
-            <a id="redirectToHome" href="/login">Return to Login Page</a>
+            <a id="redirectToHome" href="/login">Return to login page</a>
           </Row>
         </Container>
       </Container>

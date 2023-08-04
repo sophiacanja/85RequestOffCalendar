@@ -1,10 +1,3 @@
-.container {
-  display: flex;
-}
-
-.section {
-  flex: 0 0 33%;
-}
 
 .calendarSection {
   flex: 0 0 33%;
@@ -13,6 +6,7 @@
 
 .submit-button {
   display: block;
+  
   margin: 20px auto;
   padding: 10px 20px;
   font-size: 1.2rem;
@@ -33,4 +27,34 @@
   /* Reduce opacity for disabled state */
   cursor: not-allowed;
   /* Change cursor to indicate it's not clickable */
+}
+
+.AdminHomeContainer {
+  display: flex;
+  margin-top: 40px;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 50px;
+  padding-top: 20px;
+  max-height: 600px;
+  font-family: "Palatino, URW Palladio L, serif";
+}
+
+.ScrollableContainer {
+  max-height: 500px;
+  overflow-y: scroll;  
+  flex: 33%;
+}
+
+.SectionsInThirds {
+  flex: 33%;
+}
+
+#dates-requested,
+#unavailable-employees,
+#selected-dates {
+  color: #a61a11;
+  padding-bottom: 20px;
+  font-weight: bold;
+  padding-top: 10px;
 }

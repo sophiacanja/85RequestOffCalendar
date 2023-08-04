@@ -1,28 +1,43 @@
   #LoginContainer {
-    background-color: rgb(255, 124, 124);
-    padding-top: 50px;
-    padding-bottom: 50px;
+    background-color: rgb(167, 156, 133);
+    padding-top: 20px;
+    padding-bottom: 20px;
     align-items: center;
-    max-width: 800px;
-    display: flex; 
+    width: 40%;
+    display: flex;
   }
 
   h1 {
     font-size: 40px;
     color: #a61a11;
+    padding-bottom: 20px;
   }
 
 
   .row {
     padding-left: 80px;
     padding-right: 80px;
+    padding-bottom: 5px;
     font-size: 20px;
-    color: #a61a11;
+    color: black;
+    font-family: Palatino, URW Palladio L, serif;
   }
 
- 
+
   .SuccessMessage {
     font-weight: bold;
     font-size: 20px;
     color: green;
+    font-family: Palatino, URW Palladio L, serif;
+  }
+
+  .FailMessage {
+    font-family: Palatino, URW Palladio L, serif;
+    font-size: 20px;
+    color: darkred;
+  }
+
+  .forgot-password {
+    margin-top: 20px;
+    font-family: Palatino, URW Palladio L, serif;
   }

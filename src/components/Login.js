@@ -19,14 +19,19 @@ const Login = () => {
   const location = useLocation();
 
   //function that checks that email and passowrd isn't blank
-  function validateForm() {
+  const validateForm = () => {
     return employeeID.length > 0 && password.length > 0;
   }
 
 
   //login: Calls the login api request to verify credentials and creates a JWT. Frontend stores the token into localStorage and sets setLoginSuccess to true*
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
     try {
+      if(/^\d+$/.test(employeeID) === false){
+        setAuthenticationStatus(false);
+        return;
+      }
       //api call to check credentials and create token, using the body empoyeeID and password
       const response = await Axios.post("http://localhost:4000/users/loginAndCreateToken", { employeeID: employeeID, password: password })
 
@@ -42,7 +47,7 @@ const Login = () => {
 
         //waits 1.5 seconds and will navigate to the home page
         setTimeout(() => {
-        window.location.reload()
+          window.location.reload()
         }, 1500);
       }
     } catch (err) {
@@ -67,33 +72,33 @@ const Login = () => {
   }
 
   return (
-   <div style={{
+    <div style={{
       backgroundImage: `url(${backgroundCoffeeImage})`,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
       backgroundSize: "cover",
-      height: '100vh',
+      height: '90vh',
       margin: 0,
       padding: 0,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
     }}
-      >.
+    >.
 
-    <Container className= "rounded" id="LoginContainer" fluid="lg"> 
-    
-    <Container className="login form justify-content-center align-items-center align-items-center w-75 bg-white rounded" id="LoginFormContainer" fluid="sm">
-      <Row> 
-        <div className="text-center">  
-          <h1 className="Title"> Associate Login  </h1>
-        </div>
-      </Row>
-     
-      <Form className= "rounded justify-content-center"  id="LoginForm ">
-          <Form.Group as={Row} controlId="employeeID">
-            <Form.Label column="4"> Employee ID: </Form.Label>
-              <Col sm ="8">
+      <Container className="rounded" id="LoginContainer" fluid="lg">
+
+        <Container className="login form justify-content-center align-items-center align-items-center w-90 bg-white rounded" id="LoginFormContainer" fluid="lg">
+          <Row>
+            <div className="text-center">
+              <h1 className="Title"> Associate Login  </h1>
+            </div>
+          </Row>
+
+          <Form onSubmit={login} className="rounded justify-content-center" id="LoginForm ">
+            <Form.Group as={Row} controlId="employeeID">
+              <Form.Label column="5"> Employee ID: </Form.Label>
+              <Col sm="7">
                 <Form.Control
                   autoFocus
                   placeholder="Employee ID"
@@ -103,39 +108,45 @@ const Login = () => {
                   onChange={(e) => setEmployeeID(e.target.value)}
                 />
               </Col>
-          </Form.Group>
-        
-          <Form.Group as={Row} className="mb-3" controlId="password">
-            <Form.Label column="4"> Password: </Form.Label> 
-              <Col sm="8"> 
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3" controlId="password">
+              <Form.Label column="5"> Password: </Form.Label>
+              <Col sm="7">
                 <Form.Control
-                  type="text"
+                  type="password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Col>
-          </Form.Group>
+            </Form.Group>
 
-       
-        <div className = "text-center mb-5">
-       
-          <Button as={Row} className="login-button text-white" onClick={login} disabled={!validateForm()} >
-            Login
-          </Button>
-          {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
-          {authenticationStatus === false && <div> Incorrect credentials, please login again</div>}
-          <Row> 
-            <div className="forgot-password">
-              <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
+
+            <div className="text-center mb-3">
+            
+              <Button 
+                as="input"
+                className="login-button text-white mb-3" 
+                type="submit"
+                value="Login"
+                ame="Login"
+                disabled={!validateForm()}
+              />
+          
+              {authenticationStatus === true && <div className="SuccessMessage"> Success! Redirecting to Home Page</div>}
+              {authenticationStatus === false && <div className="FailMessage"> Incorrect credentials, please login again</div>}
+              <Row>
+                <div className="forgot-password">
+                  <a className="forgot-password" href="/forgotPassword" onClick={resetPassword}>Forgot Password?</a>
+                </div>
+              </Row>
             </div>
-          </Row>
-        </div>
-      </Form>
+          </Form>
 
-    </Container>
-    </Container>
-    </div> 
+        </Container>
+      </Container>
+    </div>
 
   )
 };

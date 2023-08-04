@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import updateAccountBackground from "../assets/photos/adminManagementBackground.jpg"
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
+import './UpdateAccount.css';
 
 const UpdateAccount = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("stringG123");
-  const [originalFirstName, setOriginalFirstName] = useState("");
-  const [originalLastName, setOriginalLastName] = useState("");
-  const [originalEmail, setOriginalEmail] = useState("");
-  const [originalPassword, setOriginalPassword] = useState("");
   const [employeeID, setEmployeeID] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showSubmitButton, setShowSubmitButton] = useState(true);
+  const [formStatusMessage, setFormStatusMessage] = useState("Please fill out all the fields");
+  const [formValid, setFormValid] = useState(false);
 
-  const [submitMessage, setSubmitMessage] = useState("");
+  
 
   const navigate = useNavigate();
 
@@ -25,13 +33,10 @@ const UpdateAccount = () => {
         const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
 
         console.log(response.data);
-        setOriginalEmail(response.data.user.email);
         setEmail(response.data.user.email);
-        setOriginalPassword(response.data.user.password);
         setPassword(response.data.user.password);
-        setOriginalFirstName(response.data.user.firstName);
+        setConfirmPassword(response.data.user.password);
         setFirstName(response.data.user.firstName);
-        setOriginalLastName(response.data.user.lastName);
         setLastName(response.data.user.lastName);
         setEmployeeID(response.data.user.employeeID);
 
@@ -48,9 +53,28 @@ const UpdateAccount = () => {
     // It can be used to clean up any resources, event listeners, etc.
     return () => {
       // Perform cleanup here if needed
-
     };
   }, []); // Dependency array: Leave empty if the effect should only run once (on mount)
+
+
+  useEffect(() => {
+    const validateForm = () => {
+      if (firstName.length !== 0 && lastName.length !== 0 && email.length !== 0 && password.length !== 0 && confirmPassword.length !== 0 && password === confirmPassword) {
+        setFormValid(true);
+        setFormStatusMessage("");
+      } else {
+        setFormValid(false)
+
+        if (firstName.length === 0 || lastName.length === 0 || email.length === 0 || password.length === 0 || confirmPassword.length === 0) {
+          setFormStatusMessage("Please fill out all the fields");
+        } else if (password !== confirmPassword) {
+          setFormStatusMessage("Please make sure both passwords match");
+        }
+      }
+    }
+
+    validateForm();
+  }, [firstName, lastName, email, password, confirmPassword]);
 
 
 
@@ -79,9 +103,10 @@ const UpdateAccount = () => {
   */
 
 
-  const handleSubmit = async () => {
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
+      setShowSubmitButton(false);
       const body = {
         firstName: firstName,
         lastName: lastName,
@@ -90,112 +115,127 @@ const UpdateAccount = () => {
         employeeID: employeeID
       }
       const response = await Axios.get("http://localhost:4000/users/isUserAuth", { headers: { "x-access-token": localStorage.getItem("token") } });
-      console.log(response.data.auth === false);
-      if(response.data.auth === false){
+      // console.log(response.data.auth === false);
+      if (response.data.auth === false) {
         const message = "Session timed out, please re-login";
         console.log("here");
         navigate('/login', { state: { message } });
         return;
-        
+
       }
       await Axios.put(`http://localhost:4000/users/updateUser?employeeID=${employeeID}`, body);
 
-      setSubmitMessage("Your information has been updated, resetting page!");
-
+      setFormStatusMessage("Success! Reloading page...");
+      
       setTimeout(() => {
         window.location.reload()
       }, 1500);
 
     } catch (err) {
       console.log(err);
+      setShowSubmitButton(true);
     }
   }
 
 
   // reverts input boxes back to original information
+  /* 
   const handleRevertInfo = () => {
     setFirstName(originalFirstName);
     setLastName(originalLastName);
     setEmail(originalEmail);
     setPassword(originalPassword);
   }
-
+  */
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '30px' }}>
-      <div style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', marginBottom: '1rem' }}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ padding: '0.5rem', width: '300px' }}
-        />
-      </div>
-      <div style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', marginBottom: '1rem' }}>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ padding: '0.5rem', width: '300px' }}
-        />
-      </div>
-      <div style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', marginBottom: '1rem' }}>
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          style={{ padding: '0.5rem', width: '300px' }}
-        />
-      </div>
-      <div style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', marginBottom: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          style={{ padding: '0.5rem', width: '300px' }}
-        />
-      </div>
-      <button
-        style={{
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          padding: '10px 20px',
-          cursor: 'pointer',
-          fontSize: '16px',
-        }}
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+    <div style={{
+      backgroundImage: `url(${updateAccountBackground})`, backgroundRepeat: "no-repeat",
+      backgroundSize: "cover", height: '90vh', margin: 0, padding: 0
+    }}>.
+      <Container id="updateAccountContainer">
+        <Form onSubmit={handleSubmit}>
+        <Row> 
+          <h1 className="FormTitle mb-4 mt-4">Update Account Information</h1>
 
-      <button
-        style={{
-          backgroundColor: '#808080',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          padding: '10px 20px',
-          cursor: 'pointer',
-          fontSize: '16px',
-          marginTop: '30px'
-        }}
-        onClick={handleRevertInfo}
-      >
-        Revert
-      </button>
+          <Form.Group as={Col} className="EmployeeID-textbox mt-3" controlId="input">
+            <Form.Label className="formLabel">Employee ID</Form.Label>
+            <Form.Control
+              plaintext readOnly defaultValue={employeeID}
+            />
+          </Form.Group>
+        
 
-      <h1 style={{ textAlign: 'center' }}>{submitMessage}</h1>
+          <Form.Group as={Col}className="mt-3" controlId="input">
+            <Form.Label className="formLabel">First Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="firstName"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mt-3" controlId="input">
+            <Form.Label className="formLabel">Last Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="lastName"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+            />
+          </Form.Group>
+          </Row>
+
+          <Row> 
+          <Form.Group as={Col} className="email-textbox mt-3" controlId="input">
+            <Form.Label className="formLabel">Email</Form.Label>
+            <Form.Control
+              type="text"
+              name="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} className="password-textbox mt-3" controlId="input">
+            <Form.Label className="formLabel">Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} className="password-textbox mt-3" controlId="input">
+            <Form.Label className="formLabel">Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="confirm-password"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+            />
+          </Form.Group>
+          </Row>
+
+          <h3 style={{ marginTop: '25px', fontSize: "20px", textAlign: 'center', color: 'blue' }}>
+            {formStatusMessage}
+          </h3>
+
+          {showSubmitButton && <div className="text-center">
+            <Button
+              as="input"
+              type="submit"
+              className="submitButton"
+              disabled={formValid === false}
+            />
+          </div>}
+        </Form>
+      </Container>
     </div>
-
-
-
   );
+
 };
 
 export default UpdateAccount;
